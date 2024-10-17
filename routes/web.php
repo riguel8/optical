@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientController;
+
 
 // Default Route for Pages
 
@@ -24,6 +26,8 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');;
+    Route::get('/client/dashboard', [ClientController::class, 'index'])->name('client.dashboard');
+
     // Route::get('/dashboard', [DashboardController::class, 'index']);
     // Route::get('/patients', [PatientController::class, 'index']);
     // Route::get('/appointments', [AppointmentController::class, 'index']);
@@ -51,6 +55,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Route::get('/edit', [PatientController::class, 'edit'])->name('patients.edit');
 // Route::delete('/patients/delete', [PatientController::class, 'delete'])->name('patients.delete');
 // Route::get('/patients/{any}', [PatientController::class, 'view'])->where('any', '.*');
+
+// Client Routes
+
+Route::get('/client/appointments', [ClientController::class, 'appointments'])->name('client.appointments');
+Route::get('/client/eyewears', [ClientController::class, 'eyewears'])->name('client.eyewears');
 
 // // Appointments Routes
 // Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
@@ -89,3 +98,5 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
+
+

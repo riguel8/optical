@@ -43,7 +43,7 @@ class RegistrationController extends Controller
         if ($user) {
             Auth::login($user);
     
-            return redirect()->route('dashboard')->with('status', 'Registration successful!');
+            return redirect()->route('client/dashboard')->with('status', 'Registration successful!');
         } else {
             return back()->withErrors(['registration' => 'Registration failed']);
         }
@@ -70,6 +70,6 @@ class RegistrationController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('client/dashboard', absolute: false));
     }
 }
