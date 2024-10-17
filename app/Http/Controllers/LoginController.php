@@ -32,7 +32,7 @@ class LoginController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
     
-        // Query the user by username
+        // Query the user by email
         $user = User::where('email', $email)->first();
     
         if ($user) {
@@ -44,12 +44,17 @@ class LoginController extends Controller
                 Session::put('email', $user->email);
                 Session::put('id', $user->id);
     
-                // Check the user type and redirect accordingly
-                if ($user->usertype === 'admin') {
-                    return redirect()->route('admin/dashboard');
-                } else {
-                    // Handle other user types as necessary
-                    return redirect()->route('eyewears.index'); // Example for 'client'
+                switch ($user->usertype) {
+                    case 'admin':
+                        return redirect()->route('admin.dashboard');
+                    case 'client':
+                        return redirect()->route('client.dashboard');
+                    case 'staff':
+                        return redirect()->route('staff.dashboard');
+                    case 'doctor':
+                        return redirect()->route('doctor.dashboard');
+                    default:
+                        return redirect()->route('default.route'); 
                 }
             } else {
                 return back()->withErrors(['password' => 'Invalid Credentials'])->withInput();
@@ -59,7 +64,6 @@ class LoginController extends Controller
         }
     }
     
-
     // Logout the user
     public function logout()
     {

@@ -1,12 +1,12 @@
 <?php
- 
+
 namespace App\Http\Middleware;
- 
+
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
- 
+
 class Admin
 {
     /**
@@ -16,10 +16,21 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->usertype != 'admin') {
-            return redirect('dashboard');
+        if (!Auth::check()) {
+            return redirect('login'); 
         }
- 
-        return $next($request);
+
+        switch (Auth::user()->usertype) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'client':
+                return redirect()->route('client.dashboard');
+            case 'staff':
+                return redirect()->route('staff.dashboard');
+            case 'doctor':
+                return redirect()->route('doctor.dashboard');
+            default:
+                return redirect('dashboard');
+        }
     }
 }
