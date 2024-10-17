@@ -24,6 +24,11 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');;
+    // Route::get('/dashboard', [DashboardController::class, 'index']);
+    // Route::get('/patients', [PatientController::class, 'index']);
+    // Route::get('/appointments', [AppointmentController::class, 'index']);
+    // Route::get('/eyewears', [EyewearController::class, 'index']);
+
 });
 
 // // Dashboard Routes
