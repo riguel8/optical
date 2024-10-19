@@ -1,7 +1,9 @@
 @include('template.header')
+
+<header class="topheader py-0 sticky-top" id="top">
 <div class="landingpage">
-    <div class="main-wrapper">
-        <header class="topheader py-3" id="top">
+    <div class="main-wrapper" id="home">
+        <header class="topheader py-0 sticky-top" id="top">
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light ps-0">
                     <a class="navbar-brand logo-img" href="{{ url('/') }}">
@@ -17,6 +19,15 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link scroll-link" href="#about">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll-link" href="#eyewears">Eyewears</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll-link" href="#services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll-link" href="#ophthalmologist">Ophthalmologist</a>
                             </li>
                             <li class="nav-item ms-3 mt-2 mt-md-0">
                                 <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
@@ -51,7 +62,7 @@
         <!-- Carousel End -->
 
         <!-- About Section -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl py-5" id="about">
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
@@ -83,7 +94,7 @@
 
         <!-- Service Start -->
         <div class="container-xxl py-5" style="background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;">
-            <div class="container">
+            <div class="container" id="services">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <h6 class="section-title text-center text-white text-uppercase">Our Services</h6> -->
                     <h1 class="mb-5 text-white">Explore Our <span class="text-warning text-uppercase">Services</span></h1>
@@ -168,6 +179,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>            
+      
 
 @include('template.footer')
+</header>

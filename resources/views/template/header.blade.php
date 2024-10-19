@@ -26,5 +26,19 @@
             max-width: 150px;
             height: auto;
         }
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            background-color: #fff; /* Keep the background white */
+            width: 100%; /* Ensure it covers the full width */
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
+
