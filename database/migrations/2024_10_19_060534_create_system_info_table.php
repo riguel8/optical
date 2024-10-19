@@ -17,18 +17,11 @@ return new class extends Migration
             $table->string('name'); 
             $table->text('description'); 
             $table->string('address'); 
-            $table->string('image1')->nullable(); 
-            $table->string('image2')->nullable();
-            $table->string('image3')->nullable(); 
-            $table->string('image4')->nullable(); 
+            $table->string('image')->nullable(); 
 
-            // Fields for Services
             $table->string('service_name'); 
             $table->text('service_description'); 
-
-            // Fields for Home (Carousel)
-            $table->string('carousel_image1')->nullable(); 
-            $table->string('carousel_image2')->nullable(); 
+            $table->string('carousel_image')->nullable(); 
 
             $table->timestamps();
         });
