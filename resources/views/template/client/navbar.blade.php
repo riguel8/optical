@@ -46,13 +46,13 @@
                         <h5>{{ session('usertype') }}</h5>
                     </div>
                 </div>
-                <hr class="m-0">
+                <!-- <hr class="m-0">
                 <a class="dropdown-item" href="#">
                     <iconify-icon class="me-2" icon="iconamoon:profile-circle-fill" width="20" height="20"></iconify-icon> My Profile
                 </a>
                 <a class="dropdown-item" href="#">
                     <iconify-icon class="me-2" icon="material-symbols:settings" width="20" height="20"></iconify-icon>Settings
-                </a>
+                </a> -->
                 <hr class="m-0">
                 <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -70,6 +70,6 @@
     <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="#">My Profile</a>
         <a class="dropdown-item" href="#">Settings</a>
-        <a class="dropdown-item" href="{{ url('landingpage') }}">Logout</a>
+        <a class="dropdown-item" href="{{ url('logout') }}">Logout</a>
     </div>
 </div>
