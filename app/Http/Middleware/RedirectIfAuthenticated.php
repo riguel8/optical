@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
-class Admin
+class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -16,21 +16,17 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
-            return redirect('login'); 
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            // Check user role and redirect accordingly
+            if ($user->usertype === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->usertype === 'client') {
+                return redirect()->route('client.dashboard');
+            }
         }
 
-        switch (Auth::user()->usertype) {
-            case 'admin':
-                return redirect()->route('admin.dashboard');
-            case 'client':
-                return redirect()->route('client.dashboard');
-            case 'staff':
-                return redirect()->route('staff.dashboard');
-            case 'doctor':
-                return redirect()->route('doctor.dashboard');
-            default:
-                return redirect('dashboard');
-        }
+        return $next($request);
     }
 }

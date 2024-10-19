@@ -30,30 +30,17 @@ class AuthenticatedSessionController extends Controller
                 return redirect('client/dashboard');
             case 'staff':
                 return redirect('staff/dashboard');
-            case 'doctor':
-                return redirect('doctor/dashboard');
+            case 'optal':
+                return redirect('optal/dashboard');
             default:
-                return redirect()->intended(route('dashboard'));
+                return redirect()->intended(route('/'));
         }
     }
-
 
     public function create(): View
     {
         return view('auth.login');
     }
-
-    /**
-     * Handle an incoming authentication request.
-     */
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->intended(route('dashboard', absolute: false));
-    // }
 
     /**
      * Destroy an authenticated session.
