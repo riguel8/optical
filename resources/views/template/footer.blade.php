@@ -90,7 +90,6 @@
     const carouselItems = carousel.querySelectorAll('.carousel-item');
     const paginationContainer = document.querySelector('.swiper-pagination');
 
-    // Create pagination bullets based on the number of slides
     carouselItems.forEach((item, index) => {
         const bullet = document.createElement('span');
         bullet.classList.add('swiper-pagination-bullet');
@@ -101,14 +100,12 @@
         }
         paginationContainer.appendChild(bullet);
 
-        // Add click event to navigate to the specific slide when bullet is clicked
         bullet.addEventListener('click', () => {
             const bootstrapCarousel = new bootstrap.Carousel(carousel);
             bootstrapCarousel.to(index);
         });
     });
 
-    // Function to update the active bullet when the slide changes
     const updateActiveBullet = () => {
         const activeIndex = [...carouselItems].findIndex((item) => item.classList.contains('active'));
         const bullets = paginationContainer.querySelectorAll('.swiper-pagination-bullet');
@@ -119,7 +116,6 @@
         }
     };
 
-    // Listen for the slide change event
     carousel.addEventListener('slid.bs.carousel', updateActiveBullet);
 });
 

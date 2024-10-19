@@ -33,9 +33,9 @@
             position: sticky;
             top: 0;
             z-index: 1030;
-            background-color: #fff; /* Keep the background white */
-            width: 100%; /* Ensure it covers the full width */
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+            background-color: #fff; 
+            width: 100%; 
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
         }
 
 
@@ -44,19 +44,19 @@
         }
 
         .productset {
-        max-height: 400px; /* Adjust this value for the desired card height */
-        overflow: hidden; /* Ensures any overflow is hidden */
-        text-align: center; /* Center the text */
+        max-height: 400px; 
+        overflow: hidden; 
+        text-align: center; 
     }
 
     .productsetimg img {
-        max-height: 300px; /* Adjust this value for the desired image height */
-        object-fit: cover; /* Ensures the image covers the space without stretching */
-        width: 100%; /* Ensures the image takes full width of the container */
+        max-height: 300px; 
+        object-fit: cover; 
+        width: 100%; 
     }
 
     .productsetcontent {
-        padding: 10px; /* Adjust padding as necessary */
+        padding: 10px; 
     }
 
     .swiper-pagination {
