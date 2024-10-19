@@ -21,7 +21,7 @@
                                 <a class="nav-link scroll-link" href="#about">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link scroll-link" href="#eyewears">Eyewears</a>
+                                <a class="nav-link scroll-link" href="#eyewears">Eyewear</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link scroll-link" href="#services">Services</a>
@@ -156,8 +156,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            
+                           
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="productset flex-fill text-center">
                                     <div class="productsetimg">

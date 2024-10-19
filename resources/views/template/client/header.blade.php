@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/material/materialdesignicons.css')}}">
 
     <!-- FontAwesome and Icons -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
@@ -30,6 +31,70 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
+    <style>
+        .productset {
+            max-height: 200; 
+            overflow: hidden; 
+            text-align: center; 
+        }
+
+        .productsetimg img {
+            max-height: 150px; 
+            object-fit: cover; 
+            width: 100%; 
+        }
+
+        .productsetcontent {
+            padding: 10px; 
+        }
+
+        .filter-sidebar {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .filter-link {
+            color: #637381;
+            text-decoration: none;
+        }
+
+        .filter-link:hover {
+            color: #1b2850;
+        }
+
+        .filter-toggle {
+            cursor: pointer;
+            color: black;
+        }
+
+        .filter-toggle:hover {
+            color: #1b2850;
+        }
+
+        .filter-group .filter-toggle {
+            cursor: pointer;
+        }
+
+        .filter-group .toggle-symbol {
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .filter-group .collapse.show + .filter-toggle .toggle-symbol {
+            transform: rotate(45deg);
+        }
+        .collapse {
+            display: none;
+        }
+
+        .collapse.show {
+            display: block;
+        }
+
+    </style>
 </head>
 <body>
     <div id="global-loader">

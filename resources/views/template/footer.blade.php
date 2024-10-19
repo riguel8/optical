@@ -39,7 +39,7 @@
 
     <!-- Copyright -->
     <div class="text-center p-3">
-        <p>&copy; 2024 SoftDev, BSIT-3A. All Rights Reserved.</p>
+        <p>&copy; 2024 SoftDev, BSIT-4A. All Rights Reserved.</p>
     </div>
 </footer>
 

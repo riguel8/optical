@@ -193,10 +193,44 @@ $(document).ready(function() {
 </script>
 
 <script>
-$(document).ready(function() {
-    // Similar AJAX requests for handling patient forms and deletion
-});
+    // Restore filter state from local storage on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.filter-group').forEach(function (group) {
+            const toggle = group.querySelector('.filter-toggle');
+            const collapseElement = group.querySelector('.collapse');
+            const symbol = toggle.querySelector('.toggle-symbol');
+            const filterId = collapseElement.id;
+
+            // Check local storage for the state of this filter
+            const isExpanded = localStorage.getItem(filterId) === 'true';
+
+            if (isExpanded) {
+                collapseElement.classList.add('show');
+                symbol.textContent = '-';
+            } else {
+                collapseElement.classList.remove('show');
+                symbol.textContent = '+';
+            }
+
+            // Set up the click event listener for toggling
+            toggle.addEventListener('click', function () {
+                const isCurrentlyExpanded = collapseElement.classList.contains('show');
+
+                // Toggle the state
+                if (isCurrentlyExpanded) {
+                    collapseElement.classList.remove('show');
+                    symbol.textContent = '+';
+                    localStorage.setItem(filterId, 'false');
+                } else {
+                    collapseElement.classList.add('show');
+                    symbol.textContent = '-';
+                    localStorage.setItem(filterId, 'true');
+                }
+            });
+        });
+    });
 </script>
+
 
 </body>
 </html>
