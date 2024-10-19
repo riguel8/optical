@@ -14,14 +14,6 @@ return new class extends Migration
         Schema::create('system_info', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name'); 
-            $table->text('description'); 
-            $table->string('address'); 
-            $table->string('image')->nullable(); 
-
-            $table->string('service_name'); 
-            $table->text('service_description'); 
-            $table->string('carousel_image')->nullable(); 
 
             $table->timestamps();
         });

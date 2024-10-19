@@ -68,6 +68,60 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+
+<script>
+    document.querySelectorAll('.scroll-link').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+        target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+});
+
+</script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const carousel = document.querySelector('#eyewearCarousel');
+    const carouselItems = carousel.querySelectorAll('.carousel-item');
+    const paginationContainer = document.querySelector('.swiper-pagination');
+
+    carouselItems.forEach((item, index) => {
+        const bullet = document.createElement('span');
+        bullet.classList.add('swiper-pagination-bullet');
+        bullet.setAttribute('data-bullet-index', index);
+        bullet.setAttribute('aria-label', `Go to slide ${index + 1}`);
+        if (index === 0) {
+            bullet.classList.add('swiper-pagination-bullet-active');
+        }
+        paginationContainer.appendChild(bullet);
+
+        bullet.addEventListener('click', () => {
+            const bootstrapCarousel = new bootstrap.Carousel(carousel);
+            bootstrapCarousel.to(index);
+        });
+    });
+
+    const updateActiveBullet = () => {
+        const activeIndex = [...carouselItems].findIndex((item) => item.classList.contains('active'));
+        const bullets = paginationContainer.querySelectorAll('.swiper-pagination-bullet');
+
+        bullets.forEach((bullet) => bullet.classList.remove('swiper-pagination-bullet-active'));
+        if (bullets[activeIndex]) {
+            bullets[activeIndex].classList.add('swiper-pagination-bullet-active');
+        }
+    };
+
+    carousel.addEventListener('slid.bs.carousel', updateActiveBullet);
+});
+
+
+</script>
+
 </body>
 </html>
 

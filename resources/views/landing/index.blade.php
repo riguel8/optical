@@ -1,7 +1,9 @@
 @include('template.header')
+
+<header class="topheader py-0 sticky-top" id="top">
 <div class="landingpage">
-    <div class="main-wrapper">
-        <header class="topheader py-3" id="top">
+    <div class="main-wrapper" id="home">
+        <header class="topheader py-0 sticky-top" id="top">
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light ps-0">
                     <a class="navbar-brand logo-img" href="{{ url('/') }}">
@@ -17,6 +19,15 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link scroll-link" href="#about">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll-link" href="#eyewears">Eyewears</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll-link" href="#services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link scroll-link" href="#ophthalmologist">Ophthalmologist</a>
                             </li>
                             <li class="nav-item ms-3 mt-2 mt-md-0">
                                 <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
@@ -51,7 +62,7 @@
         <!-- Carousel End -->
 
         <!-- About Section -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl py-5" id="about">
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
@@ -81,9 +92,115 @@
             </div>
         </div>
 
+
+        <div class="container-xxl py-4" id="eyewears">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-5 text-black">EYEWEARS</h1>
+            </div>
+            
+            <!-- Start of the carousel -->
+            <div id="eyewearCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="productset flex-fill text-center">
+                                    <div class="productsetimg">
+                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
+                                    </div>
+                                    <div class="productsetcontent">
+                                        <h4>Delin Instyle Eyeglasses</h4>
+                                        <h6>₱1,599.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="productset flex-fill text-center">
+                                    <div class="productsetimg">
+                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
+                                    </div>
+                                    <div class="productsetcontent">
+                                        <h4>Delin Instyle Eyeglasses</h4>
+                                        <h6>₱1,599.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="productset flex-fill text-center">
+                                    <div class="productsetimg">
+                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
+                                    </div>
+                                    <div class="productsetcontent">
+                                        <h4>Delin Instyle Eyeglasses</h4>
+                                        <h6>₱1,599.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="row justify-content-center">
+                            
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="productset flex-fill text-center">
+                                    <div class="productsetimg">
+                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
+                                    </div>
+                                    <div class="productsetcontent">
+                                        <h4>Delin Instyle Eyeglasses</h4>
+                                        <h6>₱1,599.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="productset flex-fill text-center">
+                                    <div class="productsetimg">
+                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
+                                    </div>
+                                    <div class="productsetcontent">
+                                        <h4>Delin Instyle Eyeglasses</h4>
+                                        <h6>₱1,599.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="productset flex-fill text-center">
+                                    <div class="productsetimg">
+                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
+                                    </div>
+                                    <div class="productsetcontent">
+                                        <h4>Delin Instyle Eyeglasses</h4>
+                                        <h6>₱1,599.00</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>&nbsp;
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>    
+                <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"></div>            
+            </div>
+        </div>
+
         <!-- Service Start -->
         <div class="container-xxl py-5" style="background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;">
-            <div class="container">
+            <div class="container" id="services">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <h6 class="section-title text-center text-white text-uppercase">Our Services</h6> -->
                     <h1 class="mb-5 text-white">Explore Our <span class="text-warning text-uppercase">Services</span></h1>
@@ -168,6 +285,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>            
+      
 
 @include('template.footer')
+</header>

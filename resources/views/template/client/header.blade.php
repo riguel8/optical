@@ -39,10 +39,10 @@
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left active">
-                <a href="{{ url('admin/dashboard') }}" class="logo">
+                <a href="{{ url('dashboard') }}" class="logo">
                     <img src="{{ asset('assets/img/Dlogo.png') }}" alt="">
                 </a>
-                <a href="{{ url('admin/dashboard') }}" class="logo-small">
+                <a href="{{ url('dashboard') }}" class="logo-small">
                     <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
                 </a>
                 <a id="toggle_btn" href=""></a>
