@@ -42,6 +42,10 @@
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 
+
+<!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
+
+
 <script>
 $(document).ready(function() {
     // Event listeners for PDF, Excel, and Print buttons
