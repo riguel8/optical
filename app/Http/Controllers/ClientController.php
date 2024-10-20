@@ -17,6 +17,11 @@ class ClientController extends Controller
         return view('client.appointments');
     }
 
+    public function account_details()
+    {
+        return view('client.account_details');
+    }
+
     public function eyewears(Request $request)
     {
         $brand = $request->input('brand');

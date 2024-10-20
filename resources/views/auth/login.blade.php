@@ -25,7 +25,7 @@
                                     @csrf
                                    
                                     <div class="col-md-12">
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating mb-2">
                                             <input id="email" type="email" name="email" placeholder="Email" class="form-control" required autofocus value="{{ old('Email') }}" />
                                             <label for="email">Email Address</label>
                                         </div>

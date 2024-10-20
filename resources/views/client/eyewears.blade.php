@@ -107,8 +107,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="productset flex-fill text-center">
                                 <div class="productsetimg">
-                                    <img src="{{ asset('/storage/eyewears/' . $product) }}" alt="Eyewear" class="img-fluid">
-
+                                    <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" class="img-fluid">
                                 </div>
                                 <div class="productsetcontent">
                                     <h4>{{ $product->Brand }}&nbsp;{{ $product->Model }}</h4>
