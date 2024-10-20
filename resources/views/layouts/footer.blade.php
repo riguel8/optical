@@ -1,3 +1,4 @@
+
     <!-- JavaScript files -->
     <script src="{{ asset('assets/landing/js/app.dark.init.js') }}"></script>
     <script src="{{ asset('assets/landing/libs/js/jquery.min.js') }}"></script>

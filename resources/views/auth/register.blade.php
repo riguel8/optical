@@ -41,27 +41,27 @@
 									@enderror									
 								</div>
 
+								<div class="col-md-12">										
+									<div class="form-floating mb-2 input-icon">											
+										<input type="password" class="form-control" id="password"  placeholder="Enter password" name="password" required />
+										<!-- <i class="fa fa-eye-slash"></i> -->
+										<label for="password">Password</label>                                               
+									</div>	
+									@error('password')
+										<div class="text-danger mb-3">{{ $message }}</div>
+									@enderror									
+								</div>
 
-									<div class="col-md-12">										
-										<div class="form-floating mb-2">											
-											<input id="password" type="password" class="form-control" placeholder="Enter password" name="password" required />
-											<label for="password">Password</label>                                               
-										</div>	
-										@error('password')
-									    	<div class="text-danger mb-3">{{ $message }}</div>
-										@enderror									
-									</div>
-
-
-									<div class="col-md-12">										
-										<div class="form-floating mb-4">											
-											<input id="password_confirmation" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" required />
-											<label for="password_confirmation">Confirm password</label>  
-										</div>	
-										@error('password_confirmation')
-									    	<div class="text-danger mb-2">{{ $message }}</div>
-										@enderror									
-									</div>
+								<div class="col-md-12">										
+									<div class="form-floating mb-4 input-icon">											
+										<input type="password"  id="password_confirmation" class="form-control"  placeholder="Confirm password" name="password_confirmation" required />
+										<!-- <i class="fa fa-eye-slash"></i> -->
+										<label for="password_confirmation">Confirm password</label>                                                
+									</div>	
+									@error('password_confirmation')
+									    <div class="text-danger mb-2">{{ $message }}</div>
+									@enderror										
+								</div>
 								
 								<button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign Up</button>
 
