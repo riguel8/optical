@@ -17,7 +17,7 @@
 							<div class="card-body p-5">
 								<a href="{{ route('landing') }}" class="text-nowrap logo-img text-center d-flex align-items-center justify-content-center mb-5 w-100">
 									<b class="logo-icon">
-										<img src="./assets/landing/images/DELINlogo.png" alt="homepage" class="dark-logo" />
+										<img src="{{ asset('./assets/landing/images/DELINlogo.png')}}" alt="homepage" class="dark-logo" />
 									</b>
 								</a>
 
@@ -54,7 +54,7 @@
 
 
 									<div class="col-md-12">										
-										<div class="form-floating mb-2">											
+										<div class="form-floating mb-4">											
 											<input id="password_confirmation" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" required />
 											<label for="password_confirmation">Confirm password</label>  
 										</div>	

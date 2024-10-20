@@ -40,13 +40,13 @@
 
         <!-- Carousel Start -->
         <div class="container-fluid p-0 mb-5">
-            <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="w-100" src="{{ asset('assets/img/carousel1.jpg') }}" alt="Image" style="max-height: 400px;">
+                        <img class="w-100" src="{{ asset('assets/img/carousel1.jpg') }}" alt="Image" style="max-height: 450px;">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 img-small-height" src="{{ asset('assets/img/carousel2.jpg') }}" alt="Image" style="max-height: 400px;">
+                        <img class="w-100 img-small-height" src="{{ asset('assets/img/carousel2.jpg') }}" alt="Image" style="max-height: 450px;">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
@@ -62,11 +62,11 @@
         <!-- Carousel End -->
 
         <!-- About Section -->
-        <div class="container-xxl py-5" id="about">
+        <div class="container-xxl py-5 section-padding" id="about" style="scroll-margin-top: 60px;">
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
-                        <h6 class="section-title text-start text-warning text-uppercase">About</h6>
+                        <h2 class="section-title text-start text-warning text-uppercase"><strong>About</strong></h2>
                         <h1 class="mb-4">Welcome to Delin Optical</h1>
                         <p class="mb-4">Computerized eye examination. 30 years in providing good quality eyecare in the province of Bukidnon.</p>
                         <p><strong>Address: 2nd Level Robinsons Place Valencia, Sayre Highway, Brgy. Hagkol, Valencia City, Bukidnon, Philippines</strong></p>
@@ -92,96 +92,44 @@
             </div>
         </div>
 
-
-        <div class="container-xxl py-4" id="eyewears">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h1 class="mb-5 text-black">EYEWEARS</h1>
-            </div>
-            
+        <div class="container-xl py-5 section-padding" id="eyewears" style="scroll-margin-top: 60px;">
+            <div class="text-aligin-left wow fadeInUp" data-wow-delay="0.1s">
+                <h2 class="text-warning"><strong>EYEWEAR</strong></h2>
+                <h5>Elevate your vision, enhance your style.</h5>
+            </div> 
             <!-- Start of the carousel -->
             <div id="eyewearCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="productset flex-fill text-center">
-                                    <div class="productsetimg">
-                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
-                                    </div>
-                                    <div class="productsetcontent">
-                                        <h4>Delin Instyle Eyeglasses</h4>
-                                        <h6>₱1,599.00</h6>
-                                    </div>
-                                </div>
+                @if(isset($groupedByBrand) && $groupedByBrand->count())
+                    @foreach($groupedByBrand as $brand => $products)
+                        @foreach($products->chunk(4) as $chunkedProducts)
+                        <div class="carousel-item @if($loop->parent->first && $loop->first) active @endif">
+                            <div class="text-center mb-2">
+                                <h3 class="brand-caption" style="text-transform:uppercase"><strong>{{ $brand }}</strong></h3>
                             </div>
-
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="productset flex-fill text-center">
-                                    <div class="productsetimg">
-                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
-                                    </div>
-                                    <div class="productsetcontent">
-                                        <h4>Delin Instyle Eyeglasses</h4>
-                                        <h6>₱1,599.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-
-                           
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="productset flex-fill text-center">
-                                    <div class="productsetimg">
-                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
-                                    </div>
-                                    <div class="productsetcontent">
-                                        <h4>Delin Instyle Eyeglasses</h4>
-                                        <h6>₱1,599.00</h6>
+                            <div class="row justify-content-center">
+                                @foreach($chunkedProducts as $product)
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="productset flex-fill text-center">
+                                        <div class="productsetimg">
+                                            <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" class="img-fluid">
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h4>{{ $product->Brand }} {{ $product->Model }}</h4>
+                                            <h6>₱{{ number_format($product->Price, 2) }}</h6>
+                                        </div>
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
+                        @endforeach
+                    @endforeach
+                @else
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h5 class="mb-5">No product available.</h5>
                     </div>
-
-                    <div class="carousel-item">
-                        <div class="row justify-content-center">
-                            
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="productset flex-fill text-center">
-                                    <div class="productsetimg">
-                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
-                                    </div>
-                                    <div class="productsetcontent">
-                                        <h4>Delin Instyle Eyeglasses</h4>
-                                        <h6>₱1,599.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="productset flex-fill text-center">
-                                    <div class="productsetimg">
-                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
-                                    </div>
-                                    <div class="productsetcontent">
-                                        <h4>Delin Instyle Eyeglasses</h4>
-                                        <h6>₱1,599.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="productset flex-fill text-center">
-                                    <div class="productsetimg">
-                                        <img src="assets/img/eyewears/delin.jpg" alt="Delin Instyle Eyeglasses" class="img-fluid">
-                                    </div>
-                                    <div class="productsetcontent">
-                                        <h4>Delin Instyle Eyeglasses</h4>
-                                        <h6>₱1,599.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                @endif
                 </div>&nbsp;
 
                 <!-- Carousel Controls -->
@@ -192,17 +140,18 @@
                 <button class="carousel-control-next" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
-                </button>    
-                <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"></div>            
-            </div>
+                </button>
+                <!-- Swiper Pagination -->
+            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"></div>
+            </div> 
         </div>
 
         <!-- Service Start -->
-        <div class="container-xxl py-5" style="background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;">
-            <div class="container" id="services">
+        <div class="container-xxl py-5 section-padding" id="services" style="scroll-margin-top: 130px; background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;" >
+            <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <h6 class="section-title text-center text-white text-uppercase">Our Services</h6> -->
-                    <h1 class="mb-5 text-white">Explore Our <span class="text-warning text-uppercase">Services</span></h1>
+                    <h1 class="mb-4 text-white">Explore Our <span class="text-warning text-uppercase"><strong>Services</strong></span></h1>
                 </div>
                 <div class="row g-4 justify-content-center">
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
