@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -31,7 +30,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -39,18 +38,13 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'usertype' => 'client', 
+            'usertype' => 'client',
         ]);
 
         event(new Registered($user));
 
-
-        if ($user) {
-            Auth::login($user);
-    
-            return redirect()->route('dashboard')->with('status', 'Registration successful!');
-        } else {
-            return back()->withErrors(['registration' => 'Registration failed']);
-        }
+        Auth::login($user);
+        session(['name' => $user->name, 'usertype' => $user->usertype]);
+        return redirect()->route('client.dashboard')->with('status', 'Registration successful!');
     }
 }

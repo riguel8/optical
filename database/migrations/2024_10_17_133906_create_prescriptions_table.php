@@ -13,9 +13,9 @@ return new class extends Migration
     {
         if (!Schema::hasTable('prescriptions')) {
             Schema::create('prescriptions', function (Blueprint $table) {
-                $table->bigIncrements('PrescriptionID')->unsigned();
-                $table->unsignedBigInteger('PatientID')->nullable();
-                $table->unsignedBigInteger('DoctorID')->nullable();
+                $table->id('PrescriptionID');
+                $table->foreignId('PatientID')->references('patientID')->on('patients')->onDelete('cascade');
+                $table->foreignId('DoctorID')->nullable();
                 $table->date('PrescriptionDate')->nullable();
                 $table->text('PrescriptionDetails')->nullable();
                 $table->timestamps();

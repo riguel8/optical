@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Eyewear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -22,6 +24,32 @@ class ClientController extends Controller
         return view('client.account_details');
     }
 
+    public function updateAccount(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'You need to be logged in.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|confirmed|min:8',
+        ]);
+
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = $request->input('password');
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        // $user->save();
+
+        return redirect()->route('client.account_details')->with('status', 'Account details updated successfully!');
+    }
     public function eyewears(Request $request)
     {
         $brand = $request->input('brand');

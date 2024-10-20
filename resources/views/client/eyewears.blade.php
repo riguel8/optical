@@ -100,7 +100,7 @@
                 <div class="row eyewear-products mt-3">
                     @if($eyewearProducts->isEmpty())
                         <div class="col-12">
-                            <p>No products found with the selected filters.</p>
+                            <p>No products found.</p>
                         </div>
                     @else
                         @foreach($eyewearProducts as $product)
