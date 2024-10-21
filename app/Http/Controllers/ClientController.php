@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Eyewear;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,36 +20,48 @@ class ClientController extends Controller
         return view('client.appointments');
     }
 
+    // public function account_details()
+    // {
+    //     return view('client.account_details');
+    // }
     public function account_details()
     {
-        return view('client.account_details');
+        $user = Auth::user(); 
+        $title = 'My Account';
+
+        return view('client.account_details', compact('user', 'title'));
     }
 
     public function updateAccount(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
         $user = Auth::user();
 
         if (!$user) {
-            return redirect()->route('login')->with('error', 'You need to be logged in.');
+            return redirect()->back()->with('error', 'User not found.');
         }
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|confirmed|min:8',
-        ]);
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->input('password'));
         }
 
-        // $user->save();
+        if ($user->save()) {
+            session([
+                'name' => $user->name,
+            ]);
 
-        return redirect()->route('client.account_details')->with('status', 'Account details updated successfully!');
+            return redirect()->route('client.account_details')->with('success', 'Account updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update account');
+        }
     }
     public function eyewears(Request $request)
     {

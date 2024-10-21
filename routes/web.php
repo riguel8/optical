@@ -23,7 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
      Route::get('/client/appointments', [ClientController::class, 'appointments'])->name('client.appointments');
      Route::get('/client/eyewears', [ClientController::class, 'eyewears'])->name('client.eyewears');
      Route::get('/client/account_details', [ClientController::class, 'account_details'])->name('client.account_details');
-     Route::get('/client/account_details/updateAccount', [ClientController::class, 'updateAccount'])->name('client.client.updateAccount');
+     Route::put('/client/account_details', [ClientController::class, 'updateAccount'])->name('client.updateAccount');
+    
 });
 
 
