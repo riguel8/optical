@@ -30,6 +30,11 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+
+
+    <!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
+    {{-- <link href="{{ asset('assets/formodal/bootstrap.min.css') }}" rel="stylesheet"> --}}
+
 </head>
 <body>
     <div id="global-loader">

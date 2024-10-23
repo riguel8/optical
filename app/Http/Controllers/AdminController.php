@@ -30,4 +30,21 @@ class AdminController extends Controller
     {
         return view('admin.eyewears');
     }
+
+
+    //Adding New Appointment (Modal)
+
+    public function add(Request $request)
+    {
+    $request->validate([
+        'patient_name' => 'required|string|max:255',
+        'email' => 'required|email',
+        'address' => 'required|string',
+        'contact' => 'required|string',
+        'age' => 'required|integer',
+        'appointment_date' => 'required|date',
+    ]);
+    AppointmentModel::create($request->all());
+    return redirect()->back()->with('success', 'Appointment created successfully!');
+    }
 }
