@@ -2,11 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
-
 
 // Default Route for Pages
 Route::get('/', [PagesController::class, 'index'])->name('landing');

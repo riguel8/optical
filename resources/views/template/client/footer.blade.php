@@ -5,6 +5,32 @@
     </div>
 </footer>
 
+<!-- FullCalendar JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js"></script>
+
+<script>
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('appointment-calendar');
+    var calendar = new Calendar(calendarEl, {
+        plugins: [ dayGridPlugin ],
+        initialView: 'dayGridMonth',
+        selectable: true,
+        select: function(info) {
+            var selectedDate = info.startStr; // Format: YYYY-MM-DD
+            $('#selected-date').text(selectedDate);
+        }
+    });
+    calendar.render();
+});
+
+</script>
+
+
+
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -41,6 +67,8 @@
 <script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
+
+
 
 <script>
 $(document).ready(function() {
