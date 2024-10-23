@@ -12,10 +12,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
-    <!-- FullCalendar CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.css" rel="stylesheet" />
-
     <!-- Additional CSS -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/alertify/alertify.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
@@ -99,38 +95,6 @@
         }
 
     </style>
-    <Style>
-        #appointment-calendar {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#time-slots {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-}
-
-.time-slot {
-    background-color: #f0f0f0;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-    cursor: pointer;
-}
-
-.time-slot:hover {
-    background-color: #e0e0e0;
-}
-
-.time-slot.active {
-    background-color: #00C6F0;
-    color: #fff;
-}
-
-    </Style>
 </head>
 <body>
     <div id="global-loader">
