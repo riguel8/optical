@@ -44,6 +44,8 @@
 
 
 <!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
+{{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
+
 
 
 <script>

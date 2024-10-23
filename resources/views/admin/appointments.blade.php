@@ -11,9 +11,9 @@
                         <h6>Appointment Lists</h6>
                     </div>
                     <div class="page-btn">
-                        <a href="" class="btn btn-added">
-                            <iconify-icon icon="Add" width="36" height="36"></iconify-icon>Add Appointment
-                        </a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">
+                            Add New Appointment
+                        </button>
                     </div>
                 </div>
         
@@ -89,6 +89,61 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <!-- Modal Part (Adding new Appointment) -->
+
+        <div class="modal fade" id="newAppointmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New Appointment</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+          
+                <!-- Modal Body with Form -->
+                <div class="modal-body">
+                  <form action="{{ route('appointments.add') }}" method="POST">
+                    @csrf
+                    <!-- Information section -->
+                    <div class="mb-3">
+                      <label for="patientName" class="form-label">Patient Name</label>
+                      <input type="text" class="form-control" id="patientName" name="patient_name" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="address" class="form-label">Address</label>
+                      <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="contact" class="form-label">Contact</label>
+                      <input type="text" class="form-control" id="contact" name="contact" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="age" class="form-label">Age</label>
+                      <input type="number" class="form-control" id="age" name="age" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="appointmentDate" class="form-label">Set Date</label>
+                      <input type="date" class="form-control" id="appointmentDate" name="appointment_date" required>
+                    </div>
+          
+                    <!-- Modal Footer with Submit and Cancel buttons -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         
 
 
