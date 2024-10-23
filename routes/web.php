@@ -15,6 +15,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
      Route::get('/admin/patients', [AdminController::class, 'index'])->name('admin.patients');;
      Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');;
      Route::get('/admin/eyewears', [AdminController::class, 'index'])->name('admin.eyewears');;
+
+    //Admin Modal
+    Route::post('/appointments', [AdminController::class, 'add'])->name('appointments.add');
+
+
  
      // Client
      Route::get('/client/dashboard', [ClientController::class, 'index'])->name('client.dashboard');
