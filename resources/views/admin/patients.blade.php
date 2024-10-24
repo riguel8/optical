@@ -11,11 +11,9 @@
                         <h4>Patients</h4>
                         <h6>Patient Lists</h6>
                     </div>
-                    <div class="page-btn">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">
-                            Add Patient
-                        </button>
-                    </div>
+                        <div class="page-btn">
+                            <a data-bs-target="#add" data-bs-toggle="modal" class="btn btn-added"><img src="{{ asset("assets/img/icons/plus.svg")}}" alt="img">Add Patient</a>
+                        </div>
                 </div>
         
                 <div class="card">
@@ -111,8 +109,6 @@
             </div>
         </div>
 
-
-
 <style>
     .text-red {
     color: red;
@@ -120,6 +116,5 @@
 </style>
 
 
-
-
 @include('template.admin.footer')
+</header>

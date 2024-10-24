@@ -70,7 +70,7 @@
                         <h1 class="mb-4">Welcome to Delin Optical</h1>
                         <p class="mb-4">Computerized eye examination. 30 years in providing good quality eyecare in the province of Bukidnon.</p>
                         <p><strong>Address: 2nd Level Robinsons Place Valencia, Sayre Highway, Brgy. Hagkol, Valencia City, Bukidnon, Philippines</strong></p>
-                        <a id="contactUsBtn" class="btn btn-outline-primary py-3 px-5 mt-2" href="#" data-bs-toggle="modal" data-bs-target="#chatbotModal">Contact Us</a>
+                        <a id="contactUsBtn" class="btn btn-outline-primary py-3 px-5 mt-2" data-bs-toggle="modal" data-bs-target="#chatbotModal">Contact Us</a>
                     </div>
                     <div class="col-lg-6">
                         <div class="row g-3">
@@ -195,46 +195,6 @@
         </div>
         <!-- Service End -->
 
-        <!-- Add Modals here -->
-        <!-- Add Appointment Modal -->
-        <div class="modal fade" role="dialog" tabindex="-1" id="add">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Book an Appointment</h4>
-                        <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="appointmentDate" class="form-label">Appointment Date</label>
-                                        <input type="date" class="form-control" name="appointment_date" id="appointmentDate" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="appointmentTime" class="form-label">Appointment Time</label>
-                                        <input type="time" class="form-control" name="appointment_time" id="appointmentTime" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control" name="description" id="description" rows="4" required></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button>
-                                <button class="btn btn-primary" type="submit">Add Appointment</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>            
-      
 
 @include('template.footer')
 </header>

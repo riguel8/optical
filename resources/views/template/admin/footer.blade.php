@@ -5,6 +5,18 @@
     </div>
 </footer>
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Hide the loader when the DOM is fully loaded
+        const loader = document.getElementById('global-loader');
+        if (loader) {
+            loader.style.display = 'none'; // Hide the loader
+        }
+    });
+</script>
+
+
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -16,11 +28,15 @@
 <script src="{{ asset('assets/js/bs-init.js') }}"></script>
 <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
-<!-- Plugins -->
-<script src="{{ asset('assets/plugins/flot/jquery.flot.js') }}"></script>
-<script src="{{ asset('assets/plugins/flot/jquery.flot.fillbetween.js') }}"></script>
-<script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
-<script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
+<!-- External Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="{{ asset('assets/js/moment.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/script.js') }}"></script>
 
 <!-- Commented out scripts -->
 <!-- <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script> -->
@@ -32,21 +48,14 @@
 <script src="{{ asset('assets/js/buttons.print.min.js') }}"></script>
 <!-- <script src="{{ asset('assets/js/listTable.js') }}"></script> -->
 
-<!-- External Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-
+<!-- Plugins -->
+<script src="{{ asset('assets/plugins/flot/jquery.flot.js') }}"></script>
+<script src="{{ asset('assets/plugins/flot/jquery.flot.fillbetween.js') }}"></script>
+<script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
+<script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
 
 <!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
 {{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
-
-
 
 <script>
 $(document).ready(function() {
