@@ -12,7 +12,7 @@ Route::get('/', [PagesController::class, 'index'])->name('landing');
 Route::middleware(['auth', 'verified'])->group(function () {
      // Admin
      Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');;
-     Route::get('/admin/patients', [AdminController::class, 'index'])->name('admin.patients');;
+     Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');;
      Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');;
      Route::get('/admin/eyewears', [AdminController::class, 'index'])->name('admin.eyewears');;
 
