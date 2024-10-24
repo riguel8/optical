@@ -47,4 +47,20 @@ class AdminController extends Controller
     AppointmentModel::create($request->all());
     return redirect()->back()->with('success', 'Appointment created successfully!');
     }
+
+
+
+
+
+    // ######### Patients Controller ######## //
+    public function patients()
+    {
+        $patients = PatientModel::with('prescription')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        return view('admin.patients', compact('patients'));
+    }
+    
+
 }

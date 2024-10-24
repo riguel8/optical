@@ -23,4 +23,9 @@ class UserModel extends Model
     {
         return $this->hasMany(AppointmentModel::class, 'StaffID');
     }
+
+    public function prescription()
+    {
+        return $this->hasMany(PrescriptionModel::class,'DoctorID');
+    }
 }
