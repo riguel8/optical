@@ -26,4 +26,10 @@ class PatientModel extends Model
     }
 
 
+    public function prescription()
+    {
+        return $this->belongsTo(PrescriptionModel::class, 'PatientID');
+    }
+
+
 }
