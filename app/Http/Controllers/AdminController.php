@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\AppointmentModel;
 use App\Models\PatientModel;
+use Illuminate\Http\Request;
 use App\Models\UserModel;
 
 
