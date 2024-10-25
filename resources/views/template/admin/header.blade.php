@@ -1,221 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Delin Optical</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Delin Optical</title>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="{{ asset('assets/img/Dlogo-small.png') }}" type="image/x-icon">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/Dlogo-small.png') }}" type="image/x-icon">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
-  <!-- Additional CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/plugins/alertify/alertify.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- Additional CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
 
-  <!-- FontAwesome and Icons -->
-  <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/icons/pe7/pe-icon-7.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
+    <!-- FontAwesome and Icons -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/icons/pe7/pe-icon-7.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-
-
-  <!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
-  {{-- <link href="{{ asset('assets/formodal/bootstrap.min.css') }}" rel="stylesheet"> --}}
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
 </head>
 <body>
-    <head>
-  <div id="global-loader">
-    <div class="whirly-loader"> </div>
-  </div>
+    <div id="global-loader">
+        <div class="whirly-loader"></div>
+    </div>
 
-  <div class="main-wrapper">
-    <div class="header">
-      <div class="header-left active">
-        <a href="{{ url('admin/dashboard') }}" class="logo">
-          <img src="{{ asset('assets/img/Dlogo.png') }}" alt="">
-        </a>
-        <a href="{{ url('admin/dashboard') }}" class="logo-small">
-          <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
-        </a>
-        <a id="toggle_btn" href=""></a>
-      </div>
-
-<!-- Appointment modal -->
-      <div class="modal fade" id="newAppointmentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">New Appointment</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left active">
+                <a href="{{ url('admin/dashboard') }}" class="logo">
+                    <img src="{{ asset('assets/img/Dlogo.png') }}" alt="">
+                </a>
+                <a href="{{ url('admin/dashboard') }}" class="logo-small">
+                    <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
+                </a>
+                <a id="toggle_btn" href=""></a>
             </div>
 
-            <div class="modal-body">
-              <form action="{{ route('appointments.add') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                  <label for="patientName" class="form-label">Patient Name</label>
-                  <input type="text" class="form-control" id="patientName" name="patient_name" required>
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                <div class="mb-3">
-                  <label for="address" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="address" name="address" required>
-                </div>
-                <div class="mb-3">
-                  <label for="contact" class="form-label">Contact</label>
-                  <input type="text" class="form-control" id="contact" name="contact" required>
-                </div>
-                <div class="mb-3">
-                  <label for="age" class="form-label">Age</label>
-                  <input type="number" class="form-control" id="age" name="age" required>
-                </div>
-                <div class="mb-3">
-                  <label for="appointmentDate" class="form-label">Set Date</label>
-                  <input type="date" class="form-control" id="appointmentDate" name="appointment_date" required>
-                </div>
+            @include('template.admin.navbar')
+            @include('template.admin.sidebar')
+            @yield('content')
 
+<!-- jQuery and Bootstrap -->
+<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- Additional JS -->
+<script src="{{ asset('assets/js/feather.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/bs-init.js') }}"></script>
+<script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
+<!-- External Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="{{ asset('assets/js/moment.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/script.js') }}"></script>
 
-      <!-- Admin add patient modal -->
+<!-- Commented out scripts -->
+<!-- <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script> -->
+<script src="{{ asset('assets/js/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/js/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/js/vfs_fonts.js') }}"></script>
+<script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/js/buttons.print.min.js') }}"></script>
+<!-- <script src="{{ asset('assets/js/listTable.js') }}"></script> -->
 
-      <div class="modal fade" id="add" tabindex="-1" aria-labelledby="add" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Patients</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Patients Name</strong></label>
-                                    <input class="form-control" type="text" placeholder="Enter Patients Name" name="complete_name" required="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Age</strong></label>
-                                    <input class="form-control" type="text" placeholder="Enter Age" name="age" required="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                    <div class="mb-3 custom-select">
-                                        <label class="form-label"><strong>Prescription</strong></label>
-                                        <div class="select-wrapper">
-                                            <select name="prescription" class="form-control">
-                                                <option value="" disabled selected>Select Prescription</option>
-                                                <option value="(OD) Right Eye">(OD) Right Eye</option>
-                                                <option value="(OS) Left Eye">(OS) Left Eye</option>
-                                                <option value="(OU) Both Eyes">(OU) Both Eyes</option>
-                                            </select>
-                                            <span class="arrow"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            <div class="col-md-6">
-                                <div class="mb-3 custom-select">
-                                    <label class="form-label"><strong>Gender</strong></label>
-                                    <div class="select-wrapper">
-                                        <select name="gender" class="form-control">
-                                            <option value="" disabled selected>Select Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                        <span class="arrow"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3 custom-select">
-                                    <label class="form-label"><strong>Lens</strong></label>
-                                    <div class="select-wrapper">
-                                        <select name="lens" class="form-control">
-                                            <option value="" disabled selected>Select Lens</option>
-                                            <option value="SINGLE VISION">SINGLE VISION</option>
-                                            <option value="DOUBLE VISION">DOUBLE VISION</option>
-                                            <option value="PROGRESSIVE">PROGRESSIVE</option>
-                                            <option value="NEAR VISION">NEAR VISION</option>
-                                        </select>
-                                        <span class="arrow"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Frame</strong></label>
-                                    <input class="form-control" type="text" placeholder="Enter Frame" name="frame" required="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Price</strong></label>
-                                    <input class="form-control" type="number" placeholder="Enter Price" name="price" required="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Date</strong></label>
-                                    <input type="datetime-local" class="form-control" name="date" required="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Contact Number</strong></label>
-                                    <input class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required="">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label"><strong>Address</strong></label>
-                                    <input class="form-control" type="address" placeholder="Enter address" name="address" required="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-end">
-                            <button class="btn btn-sm btn-primary " type="submit">Save</button>
-                            <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Plugins -->
+<script src="{{ asset('assets/plugins/flot/jquery.flot.js') }}"></script>
+<script src="{{ asset('assets/plugins/flot/jquery.flot.fillbetween.js') }}"></script>
+<script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
+<script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
 
+<!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
+{{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
+
+<script>
+$(document).ready(function() {
+    // Event listeners for PDF, Excel, and Print buttons
+    $('.pdf-btn').on('click', function() {
+        table.button('.buttons-pdf').trigger();
+    });
+
+    $('.excel-btn').on('click', function() {
+        table.button('.buttons-excel').trigger();
+    });
+
+    $('.print-btn').on('click', function() {
+        window.print();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    // Initialize the FullCalendar
+    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridWeek,dayGridMonth,listDay'
+        },
+        buttonText:{
+            dayGridWeek :"Week",
+            dayGridMonth :"Month",
+            listDay :"Day",
+            listWeek :"Week",
+        },
+        events: {
+            url: '{{ url("dashboard/get_appointments") }}',
+        },
+        eventClick: function(info) {
+            // Get the appointment ID from the clicked event
+            var appointmentId = info.event.id;
+
+            // Fetch appointment details using AJAX
+            $.ajax({
+                url: '{{ url("dashboard/get_appointment_details") }}',
+                method: 'GET',
+                data: { appointmentId: appointmentId },
+                dataType: 'json',
+                success: function(data) {
+                    if (data) {
+                        // Populate the modal with appointment details
+                        var modalContent = `
+                            <p><b>Appointment Schedule:</b> ${new Date(data.DateTime).toLocaleString()}</p>
+                            <p><b>Patient Name:</b> ${data.complete_name}</p>
+                            <p><b>Gender:</b> ${data.gender}</p>
+                            <p><b>Contact #:</b> ${data.contact_number}</p>
+                            <p><b>Address:</b> ${data.address}</p>
+                            <p><b>Status:</b> ${getStatusBadge(data.status)}</p>
+                        `;
+                        $('#viewAppointmentModal .modal-body').html(modalContent);
+                        $('#viewAppointmentModal').modal('show');
+                    } else {
+                        alert('Failed to fetch appointment details.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to fetch appointment details:', error);
+                    alert('Failed to fetch appointment details.');
+                }
+            });
+        }
+    });
+
+    calendar.render();
+});
+
+// Helper function to create status badge
+function getStatusBadge(status) {
+    var badgeClass;
+    var statusText;
+
+    // Determine the badge class and text based on status
+    switch (status) {
+        case 'Pending':
+            badgeClass = 'bg-lightyellow badges';
+            statusText = 'Pending';
+            break;
+        case 'Confirm':
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Confirm';
+            break;
+        case 'Cancelled':
+            badgeClass = 'bg-lightred badges';
+            statusText = 'Cancelled';
+            break;
+        default:
+            badgeClass = '';
+            statusText = status;
+            break;
+    }
+
+    // Return the HTML string for the badge
+    return `<span class="${badgeClass}">${statusText}</span>`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#addAppointmentForm').submit(function(e) {
+        e.preventDefault(); 
+        
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'New appointment was added successfully',
+                        confirmButtonColor: '#ff9f43',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ url('appointments') }}";
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to add appointment: ' + response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing your request. Please try again later.'
+                });
+            }
+        });
+    });
+});
+</script>
+
+<script>
+var checkeventcount = 1,prevTarget;
+    $('.modal').on('show.bs.modal', function (e) {
+        if(typeof prevTarget == 'undefined' || (checkeventcount==1 && e.target!=prevTarget))
+        {  
+          prevTarget = e.target;
+          checkeventcount++;
+          e.preventDefault();
+          $(e.target).appendTo('body').modal('show');
+        }
+        else if(e.target==prevTarget && checkeventcount==2)
+        {
+          checkeventcount--;
+        }
+     });
+</script>
+
+</body>
+</html>

@@ -1,9 +1,6 @@
-@include('template.admin.header')
+@extends('template.admin.header')
 
-
-        @include('template.admin.navbar')
-        @include('template.admin.sidebar')
-
+@section('content')
     <div class="page-wrapper">
         <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
             <div class="row">
@@ -114,4 +111,4 @@
         </div>
     </div>
 
-@include('template.admin.footer')
+@endsection

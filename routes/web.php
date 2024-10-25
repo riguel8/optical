@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AppointmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 
@@ -10,25 +11,23 @@ use App\Http\Controllers\ClientController;
 Route::get('/', [PagesController::class, 'index'])->name('landing');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-     // Admin
-     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');;
-     Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');;
-     Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');;
-     Route::get('/admin/eyewears', [AdminController::class, 'index'])->name('admin.eyewears');;
+    // Admin
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');
+    Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');
+    Route::get('/admin/eyewears', [AdminController::class, 'eyewears'])->name('admin.eyewears');
+    Route::post('/admin/appointments', [AdminController::class, 'store'])->name('admin.store');
+    Route::post('/admin/appointments', [AppointmentController::class, 'edit'])->name('admin.edit');
+    Route::post('/admin/appointments', [AppointmentController::class, 'update'])->name('admin.update');
 
-    //Admin Modal
-    Route::post('/appointments', [AdminController::class, 'add'])->name('appointments.add');
-
-
- 
-     // Client
-     Route::get('/client/dashboard', [ClientController::class, 'index'])->name('client.dashboard');
-     Route::get('/client/appointments', [ClientController::class, 'appointments'])->name('client.appointments');
-     Route::get('/client/eyewears', [ClientController::class, 'eyewears'])->name('client.eyewears');
-     Route::get('/client/account_details', [ClientController::class, 'account_details'])->name('client.account_details');
-     Route::put('/client/account_details', [ClientController::class, 'updateAccount'])->name('client.updateAccount');
-    
+    // Client
+    Route::get('/client/dashboard', [ClientController::class, 'index'])->name('client.dashboard');
+    Route::get('/client/appointments', [ClientController::class, 'appointments'])->name('client.appointments');
+    Route::get('/client/eyewears', [ClientController::class, 'eyewears'])->name('client.eyewears');
+    Route::get('/client/account_details', [ClientController::class, 'account_details'])->name('client.account_details');
+    Route::put('/client/account_details', [ClientController::class, 'updateAccount'])->name('client.updateAccount');
 });
+
 
 
 // Route::middleware(['auth', 'verified'])->group(function () {

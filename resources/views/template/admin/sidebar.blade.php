@@ -6,6 +6,7 @@
                     <li><a href="{{ url('admin/dashboard') }}"><i class="fe fe-grid"></i><span> Dashboard</span></a></li>
                     <li><a href="{{ url('admin/patients') }}"><i class="fe fe-users"></i><span> Patients</span></a></li>
                     <li><a href="{{ url('admin/appointments') }}"><i class="fe fe-calendar"></i><span> Appointment</span></a></li>
+                    <li><a href="{{ url('admin/eyewears') }}"><iconify-icon icon="bi:eyeglasses" width="18" height="18"></iconify-icon><span> Eyewears</span></a></li>
                     <li><a href="{{ url('admin/users') }}" class="disabled"><i class="fe fe-user-check"></i><span> Users</span></a></li>
                     <li class="disabled"><a href=""><i class="fe fe-file-text"></i><span> Reports</span></a></li>
                     <li class="disabled"><a href=""><i class="fe fe-settings"></i><span> Settings</span></a></li>
