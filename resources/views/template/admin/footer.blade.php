@@ -1,21 +1,8 @@
-
 <footer>
     <div class="text-center p-3">
         <p>&copy; 2024 SoftDev, BSIT-3A. All Rights Reserved.</p>
     </div>
 </footer>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Hide the loader when the DOM is fully loaded
-        const loader = document.getElementById('global-loader');
-        if (loader) {
-            loader.style.display = 'none'; // Hide the loader
-        }
-    });
-</script>
-
 
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
@@ -34,7 +21,6 @@
 <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 
