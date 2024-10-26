@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OphthalController;
 use App\Http\Controllers\Admin\AppointmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\ClientController;
 // Default Route for Pages
 Route::get('/', [PagesController::class, 'index'])->name('landing');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':admin'])->group(function () {
     // Admin
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');
@@ -19,7 +20,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin/appointments', [AdminController::class, 'store'])->name('admin.store');
     Route::post('/admin/appointments', [AppointmentController::class, 'edit'])->name('admin.edit');
     Route::post('/admin/appointments', [AppointmentController::class, 'update'])->name('admin.update');
+});
 
+Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':client'])->group(function () {
     // Client
     Route::get('/client/dashboard', [ClientController::class, 'index'])->name('client.dashboard');
     Route::get('/client/appointments', [ClientController::class, 'appointments'])->name('client.appointments');
@@ -28,6 +31,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/client/account_details', [ClientController::class, 'updateAccount'])->name('client.updateAccount');
 });
 
+Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':ophthal'])->group(function () {
+    // ophthal
+    Route::get('/ophthal/dashboard', [OphthalController::class, 'index'])->name('ophthal.dashboard');
+    Route::get('/ophthal/patients', [OphthalController::class, 'patients'])->name('ophthal.patients');
+    Route::get('/ophthal/appointments', [OphthalController::class, 'appointments'])->name('ophthal.appointments');
+});
 
 
 // Route::middleware(['auth', 'verified'])->group(function () {

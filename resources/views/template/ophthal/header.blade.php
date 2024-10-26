@@ -48,8 +48,8 @@
                 <a id="toggle_btn" href=""></a>
             </div>
 
-            @include('template.admin.navbar')
-            @include('template.admin.sidebar')
+            @include('template.ophthal.navbar')
+            @include('template.ophthal.sidebar')
             @yield('content')
 
 <!-- jQuery and Bootstrap -->

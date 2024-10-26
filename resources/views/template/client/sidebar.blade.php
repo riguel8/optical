@@ -2,6 +2,7 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
+            @if (Auth::check() && Auth::user()->usertype === 'client')
                 <li class="{{ request()->is('client/dashboard') ? 'active' : '' }}">
                     <a href="{{ url('client/dashboard') }}">
                         <iconify-icon icon="material-symbols-light:dashboard-outline-rounded" width="18" height="18"></iconify-icon><span>Dashboard</span>
@@ -22,6 +23,7 @@
                         <iconify-icon icon="carbon:order-details" width="18" height="18"></iconify-icon><span>Account Details</span>
                     </a>
                 </li>
+            @endif
             </ul>
         </div>
     </div>

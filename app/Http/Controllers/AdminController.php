@@ -15,23 +15,26 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        $title = 'Dashboard';
+        return view('admin.dashboard', compact('title'));
     }
 
     public function appointments()
     {
+        $title = 'Appointments';
         $appointments = AppointmentModel::with(['patient', 'staff'])
         ->orderBy('created_at', 'desc')
         ->get();
 
         
-        return view('admin.appointments', compact('appointments'));
+        return view('admin.appointments', compact('appointments', 'title'));
     }
 
     public function eyewears()
     {
+        $title = 'Eyewears';
         $eyewears = Eyewear::all();
-        return view('admin.eyewears', compact('eyewears'));
+        return view('admin.eyewears', compact('eyewears', 'title'));
     }
 
     //Adding New Appointment (Modal)
@@ -53,12 +56,11 @@ class AdminController extends Controller
     // ######### Patients Controller ######## //
     public function patients()
     {
+        $title = 'Patients';
         $patients = PatientModel::with('prescription')
             ->orderBy('created_at', 'desc')
             ->get();
     
-        return view('admin.patients', compact('patients'));
+        return view('admin.patients', compact('patients', 'title'));
     }
-    
-
 }

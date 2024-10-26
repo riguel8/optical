@@ -3,19 +3,13 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 @if(Auth::check() && Auth::user()->usertype === 'admin')
-                    <li><a href="{{ url('admin/dashboard') }}"><i class="fe fe-grid"></i><span> Dashboard</span></a></li>
-                    <li><a href="{{ url('admin/patients') }}"><i class="fe fe-users"></i><span> Patients</span></a></li>
-                    <li><a href="{{ url('admin/appointments') }}"><i class="fe fe-calendar"></i><span> Appointment</span></a></li>
-                    <li><a href="{{ url('admin/eyewears') }}"><iconify-icon icon="bi:eyeglasses" width="18" height="18"></iconify-icon><span> Eyewears</span></a></li>
-                    <li><a href="{{ url('admin/users') }}" class="disabled"><i class="fe fe-user-check"></i><span> Users</span></a></li>
-                    <li class="disabled"><a href=""><i class="fe fe-file-text"></i><span> Reports</span></a></li>
-                    <li class="disabled"><a href=""><i class="fe fe-settings"></i><span> Settings</span></a></li>
-                @elseif (Auth::check() && Auth::user()->usertype === 'staff')
-                    <li><a href="{{ url('patients') }}"><i class="fe fe-users"></i><span> Patients</span></a></li>
-                    <li><a href="{{ url('appointments') }}"><i class="fe fe-calendar"></i><span> Appointment</span></a></li>
-                @elseif (Auth::check() && Auth::user()->usertype === 'client')
-                    <li><a href="{{ url('appointments') }}" class="disabled"><i class="fe fe-calendar"></i><span> Appointment</span></a></li>
-                    <li><a href="{{ url('eyewears') }}"><i class="si si-eyeglass"></i><span> Eyewears</span></a></li>
+                    <li class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"><a href="{{ url('admin/dashboard') }}"><i class="fe fe-grid"></i><span> Dashboard</span></a></li>
+                    <li class="{{ request()->is('admin/patients') ? 'active' : '' }}"><a href="{{ url('admin/patients') }}"><i class="fe fe-users"></i><span> Patients</span></a></li>
+                    <li class="{{ request()->is('admin/appointments') ? 'active' : '' }}"><a href="{{ url('admin/appointments') }}"><i class="fe fe-calendar"></i><span> Appointment</span></a></li>
+                    <li class="{{ request()->is('admin/eyewears') ? 'active' : '' }}"><a href="{{ url('admin/eyewears') }}"><iconify-icon icon="bi:eyeglasses" width="18" height="18"></iconify-icon><span> Eyewears</span></a></li>
+                    <li class="{{ request()->is('admin/users') ? 'active' : '' }}"><a href="{{ url('admin/users') }}" class="disabled"><i class="fe fe-user-check"></i><span> Users</span></a></li>
+                    <li class="{{ request()->is('admin/reports') ? 'active' : '' }}"><a href="" class="disabled"><i class="fe fe-file-text"></i><span> Reports</span></a></li>
+                    <li class="{{ request()->is('admin/settings') ? 'active' : '' }}"><a href="" class="disabled"><i class="fe fe-settings"></i><span> Settings</span></a></li>
                 @endif
             </ul>
         </div>
