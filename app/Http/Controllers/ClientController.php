@@ -12,12 +12,14 @@ class ClientController extends Controller
 {
     public function index()
     {
-        return view('client.dashboard');
+        $title = 'Dashboard';
+        return view('client.dashboard', compact( 'title'));
     }
 
     public function appointments()
     {
-        return view('client.appointments');
+        $title = 'Appointments';
+        return view('client.appointments', compact( 'title'));
     }
 
     // public function account_details()
@@ -65,6 +67,8 @@ class ClientController extends Controller
     }
     public function eyewears(Request $request)
     {
+        $title = 'Eyewears';
+        
         $brand = $request->input('brand');
         $frameType = $request->input('frame_type');
         $frameColor = $request->input('frame_color');
@@ -92,7 +96,7 @@ class ClientController extends Controller
         $frameColors = Eyewear::select('FrameColor')->distinct()->get();
         $lensMaterials = Eyewear::select('LensMaterial')->distinct()->get();
 
-        return view('client.eyewears', compact('eyewearProducts', 'brands', 'frameTypes', 'frameColors', 'lensMaterials'));
+        return view('client.eyewears', compact('eyewearProducts', 'brands', 'frameTypes', 'frameColors', 'lensMaterials', 'title'));
     }
 
     public function store(Request $request)
@@ -106,7 +110,7 @@ class ClientController extends Controller
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('eyewears', $imageName, 'public'); 
         }
-
+        
         Eyewear::create([
             'Brand' => $request->input('Brand'),
             'Model' => $request->input('Model'),

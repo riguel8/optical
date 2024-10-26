@@ -30,8 +30,8 @@ class AuthenticatedSessionController extends Controller
                 return redirect('client/dashboard');
             case 'staff':
                 return redirect('staff/dashboard');
-            case 'optal':
-                return redirect('optal/dashboard');
+            case 'ophthal':
+                return redirect('ophthal/dashboard');
             default:
                 return redirect()->intended(route('/'));
         }
