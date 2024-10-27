@@ -1,10 +1,8 @@
-@include('template.client.header')
+@extends('template.client.header')
 
-@include('template.client.navbar')
-@include('template.client.sidebar')
-
+@section('content') 
 <div class="page-wrapper">
-    <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
+    <div class="content">
         <div class="row">
             <div class="col-lg-3 col-md-4">
                 <!-- Filter Sidebar -->
@@ -122,5 +120,4 @@
         </div>
     </div>
 </div>
-
-@include('template.client.footer')
+@endsection

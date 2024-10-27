@@ -91,7 +91,7 @@
     </div>
 </div>
 
-<!-- add patient modal -->
+<!-- Add Patient Modal -->
 <div class="modal fade" id="createPrescription" tabindex="-1" aria-labelledby="addPatientLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -102,17 +102,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form >
+                <form action="{{ route('ophthal.storePrescription') }}" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <input class="form-control" type="text" id="complete_name" placeholder="Enter Patients Name" name="complete_name" required>
-                                <label for="complete_name">Patient Name</label>
+                                <select class="form-select" id="patientSelect" name="PatientID" required>
+                                    <option value="" disabled selected>Select Patient</option>
+                                    @foreach ($patients as $patient)
+                                        <option value="{{ $patient->PatientID }}" data-name="{{ $patient->complete_name }}" data-age="{{ $patient->age }}" data-gender="{{ $patient->gender }}" data-cnum="{{ $patient->contact_number }}" data-address="{{ $patient->address }}">{{ $patient->complete_name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="patientSelect">Patient</label>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <input class="form-control" type="number" id="age" placeholder="Enter Age" name="age" required>
+                                <input class="form-control" type="number" id="age" placeholder="Enter Age" name="age" required readonly>
                                 <label for="age">Age</label>
                             </div>
                         </div>
@@ -131,12 +137,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <select name="gender" class="form-select" id="gender" required>
-                                    <option value="" disabled selected>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <input class="form-control" type="text" id="gender" placeholder="Gender" name="gender" required readonly>
                                 <label for="gender">Gender</label>
                             </div>
                         </div>
@@ -178,14 +179,22 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <input class="form-control" type="tel" id="contact_number" placeholder="Enter contact number" name="contact_number" required>
+                                <input class="form-control" type="tel" id="contact_number" placeholder="Enter contact number" name="contact_number" required readonly>
                                 <label for="contact_number">Contact Number</label>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-floating">
-                                <input class="form-control" type="text" id="address" placeholder="Enter address" name="address" required>
+                                <input class="form-control" type="text" id="address" placeholder="Enter address" name="address" required readonly>
                                 <label for="address">Address</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <textarea style="height: 100px" class="form-control" id="prescriptionDetails" placeholder="Enter Prescription Details" name="PrescriptionDetails" rows="3" required></textarea>
+                                <label for="prescriptionDetails">Prescription Details</label>
                             </div>
                         </div>
                     </div>
@@ -198,6 +207,4 @@
         </div>
     </div>
 </div>
-
-
 @endsection

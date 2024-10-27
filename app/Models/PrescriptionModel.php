@@ -23,14 +23,11 @@ class PrescriptionModel extends Model
         'updated_at',
     ];
 
-
     //For Foreign Keys
-
     public function patient()
     {
         return $this->belongsTo(PatientModel::class, 'PatientID');
     }
-
     public function staff()
     {
         return $this->belongsTo(UserModel::class, 'id');

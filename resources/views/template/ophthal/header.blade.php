@@ -29,6 +29,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
 </head>
 <body>
@@ -51,6 +52,12 @@
             @include('template.ophthal.navbar')
             @include('template.ophthal.sidebar')
             @yield('content')
+
+<footer>
+    <div class="p-2">
+        <p>&copy; 2024 Software Development. All Rights Reserved.</p>
+    </div>
+</footer>
 
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
@@ -90,6 +97,16 @@
 
 <!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
 {{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
+
+<script>
+    document.getElementById('patientSelect').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex];
+        document.getElementById('age').value = selectedOption.getAttribute('data-age');
+        document.getElementById('gender').value = selectedOption.getAttribute('data-gender');
+        document.getElementById('contact_number').value = selectedOption.getAttribute('data-cnum');
+        document.getElementById('address').value = selectedOption.getAttribute('data-address');
+    });
+</script>
 
 <script>
 $(document).ready(function() {

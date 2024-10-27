@@ -1,7 +1,6 @@
-@include('template.client.header')
+@extends('template.client.header')
 
-    @include('template.client.navbar')
-    @include('template.client.sidebar')
+@section('content') 
 
     <div class="page-wrapper">
         <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
@@ -17,4 +16,4 @@
     </div>
 
 
-@include('template.client.footer')
+@endsection
