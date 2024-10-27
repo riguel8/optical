@@ -29,6 +29,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
 </head>
 <body>
@@ -52,6 +53,11 @@
             @include('template.admin.sidebar')
             @yield('content')
 
+<footer>
+    <div class="p-2">
+        <p>&copy; 2024 Software Development. All Rights Reserved.</p>
+    </div>
+</footer>
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

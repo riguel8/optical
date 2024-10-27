@@ -35,6 +35,11 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     // ophthal
     Route::get('/ophthal/dashboard', [OphthalController::class, 'index'])->name('ophthal.dashboard');
     Route::get('/ophthal/patients', [OphthalController::class, 'patients'])->name('ophthal.patients');
+
+    // Inside the existing middleware group for 'ophthal'
+    Route::post('/ophthal/prescriptions', [OphthalController::class, 'storePrescription'])->name('ophthal.storePrescription');
+
+
     Route::get('/ophthal/appointments', [OphthalController::class, 'appointments'])->name('ophthal.appointments');
 });
 

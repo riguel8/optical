@@ -1,11 +1,8 @@
 @extends('layouts.header')
 
-@section('title', 'Sign Up')
+@section('title', 'Register')
 
 @section('content')
-<div id="global-loader">
-	<div class="whirly-loader"> </div>
-</div>
 <div id="main-wrapper">
 	<form method="POST" action="{{ route('register') }}">
 		@csrf
@@ -21,53 +18,66 @@
 									</b>
 								</a>
 
-								<div class="col-md-12">									
-									<div class="form-floating mb-2">
-										<input id="name" type="text" class="form-control" placeholder="Enter name" name="name" value="{{ old('name') }}" required autofocus />
-										<label for="name">Name</label>
-									</div>
+
+								<div class="col-md-12 mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-solid fa-user"></i></span>
+                                        <div class="form-floating">
+                                            <input id="name" type="text" class="form-control" placeholder="Enter name" name="name" value="{{ old('name') }}" required autofocus />
+											<label for="name">Name</label>
+                                        </div>
+                                    </div>
 									@error('name')
 									    <div class="text-danger mb-3">{{ $message }}</div>
 									@enderror
-								</div>
-
-								<div class="col-md-12">									
-									<div class="form-floating mb-2">										
-										<input id="email" type="email" class="form-control" placeholder="Enter email" name="email" value="{{ old('email') }}" required />
-										<label for="email">Email Address</label>
-									</div>
-									@error('email')
+                                </div>
+								
+								<div class="col-md-12 mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-solid fa-envelope"></i></span>
+                                        <div class="form-floating">
+                                            <input id="email" type="email" name="email" placeholder="Email" class="form-control" required autofocus value="{{ old('email') }}" />
+                                            <label for="email">Email Address</label>
+                                        </div>
+                                    </div>
+                                    @error('email')
 									    <div class="text-danger mb-3">{{ $message }}</div>
-									@enderror									
-								</div>
+									@enderror
+                                </div>
 
-								<div class="col-md-12">										
-									<div class="form-floating mb-2 input-icon">											
-										<input type="password" class="form-control" id="password"  placeholder="Enter password" name="password" required />
-										<!-- <i class="fa fa-eye-slash"></i> -->
-										<label for="password">Password</label>                                               
-									</div>	
-									@error('password')
-										<div class="text-danger mb-3">{{ $message }}</div>
-									@enderror									
-								</div>
+								<div class="col-md-12 mb-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
+                                        <div class="form-floating input-icon">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                                            <i class="fa fa-eye-slash"></i>
+                                            <label for="password">Password</label>
+                                        </div>
+                                    </div>
+                                    @error('password')
+                                        <div class="text-danger mb-3">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-								<div class="col-md-12">										
-									<div class="form-floating mb-4 input-icon">											
+								<div class="col-md-12 mb-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
+                                        <div class="form-floating input-icon">
 										<input type="password"  id="password_confirmation" class="form-control"  placeholder="Confirm password" name="password_confirmation" required />
-										<!-- <i class="fa fa-eye-slash"></i> -->
-										<label for="password_confirmation">Confirm password</label>                                                
-									</div>	
+                                            <i class="fa fa-eye-slash"></i>
+                                            <label for="password_confirmation">Confirm password</label>   
+                                        </div>
+                                    </div>
 									@error('password_confirmation')
 									    <div class="text-danger mb-2">{{ $message }}</div>
-									@enderror										
-								</div>
+									@enderror	
+                                </div>
 								
-								<button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign Up</button>
+								<button type="submit" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Register</button>
 
 								<div class="d-flex align-items-center justify-content-center">
 									<p class="fs-3 mb-0 text-dark">Already have an Account?</p>
-									<a class="text-warning fw-medium ms-2" href="{{ route('login') }}">Sign In</a>
+									<a class="text-warning fw-medium ms-2" href="{{ route('login') }}">Login</a>
 								</div>
 							</div>
 						</div>
@@ -81,4 +91,3 @@
 <div class="dark-transparent sidebartoggler"></div>
 @endsection
 
-@include('layouts.footer')
