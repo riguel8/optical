@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AppointmentModel;
 use App\Models\PrescriptionModel;
 use App\Models\PatientModel;
+use Session;
 
 class OphthalController extends Controller
 {
@@ -19,42 +20,41 @@ class OphthalController extends Controller
     {
         $title = 'Appointments';
         $appointments = AppointmentModel::all();
-        return view('ophthal.appointments', compact('appointments','title'));
+        return view('ophthal.appointments', compact('appointments', 'title'));
     }
+
     public function patients()
     {
         $title = 'Patients';
-        $patients = PatientModel::all();
-        return view('ophthal.patients', compact('patients','title'));
+        $patients = PatientModel::with('prescription')->get();
+        return view('ophthal.patients', compact('patients', 'title'));
     }
 
     public function storePrescription(Request $request)
     {
         $request->validate([
             'PatientID' => 'required|exists:patients,PatientID',
-            'Lens' => 'required',
-            'Frame' => 'required',
-            'Price' => 'required|numeric',
-            'Prescription' => 'required',
-            'PrescriptionDetails' => 'required|string',
+            'prescription' => 'required|string',
+            'lens' => 'required|string',
+            'frame' => 'required|string',
+            'price' => 'required|numeric',
             'date' => 'required|date',
+            'PrescriptionDetails' => 'required|string',
         ]);
 
-        // Create a new prescription
+        $doctorID = auth()->user()->id;
+
         PrescriptionModel::create([
-            'PatientID' => $request->input('PatientID'),
-            'Lens' => $request->input('Lens'),
-            'Frame' => $request->input('Frame'),
-            'Price' => $request->input('Price'),
-            'Prescription' => $request->input('Prescription'),
-            'PrescriptionDate' => $request->input('date'),
-            'PrescriptionDetails' => $request->input('PrescriptionDetails'),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'DoctorID' => $doctorID,
+            'PatientID' => $request->PatientID,
+            'Prescription' => $request->prescription,
+            'Lens' => $request->lens,
+            'Frame' => $request->frame,
+            'Price' => $request->price,
+            'Date' => $request->date,
+            'PrescriptionDetails' => $request->PrescriptionDetails,
         ]);
 
-        return redirect()->back()->with('success', 'Prescription created successfully!');
+        return redirect()->back()->with('success', 'Prescription added successfully.');
     }
-
-
 }

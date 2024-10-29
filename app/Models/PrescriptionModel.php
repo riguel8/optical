@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserModel;
+use App\Models\PatientModel;
 
 class PrescriptionModel extends Model
 {
     protected $table = "prescriptions";
-
     protected $primaryKey = 'PrescriptionID';
 
     protected $fillable = [
@@ -23,14 +24,13 @@ class PrescriptionModel extends Model
         'updated_at',
     ];
 
-    //For Foreign Keys
     public function patient()
     {
         return $this->belongsTo(PatientModel::class, 'PatientID');
     }
-    public function staff()
-    {
-        return $this->belongsTo(UserModel::class, 'id');
-    }
 
+    public function doctor()
+    {
+        return $this->belongsTo(UserModel::class, 'DoctorID')->where('usertype', 'ophthal');
+    }
 }

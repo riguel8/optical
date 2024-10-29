@@ -5,6 +5,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OphthalController;
 use App\Http\Controllers\Admin\AppointmentController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 
@@ -37,10 +38,20 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/ophthal/patients', [OphthalController::class, 'patients'])->name('ophthal.patients');
 
     // Inside the existing middleware group for 'ophthal'
-    Route::post('/ophthal/prescriptions', [OphthalController::class, 'storePrescription'])->name('ophthal.storePrescription');
-
-
+    Route::post('/ophthal/storePrescription', [OphthalController::class, 'storePrescription'])->name('ophthal.storePrescription');
     Route::get('/ophthal/appointments', [OphthalController::class, 'appointments'])->name('ophthal.appointments');
+});
+
+Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':staff'])->group(function () {
+    // staff
+    Route::get('/staff/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
+    Route::get('/staff/patients', [StaffController::class, 'patients'])->name('staff.patients');
+    Route::get('/staff/appointments', [StaffController::class, 'appointments'])->name('staff.appointments');
+    Route::get('/staff/eyewears', [StaffController::class, 'eyewears'])->name('staff.eyewears');
+    Route::post('/staff/appointments', [StaffController::class, 'store'])->name('staff.store');
+    Route::post('/staff/appointments', [StaffController::class, 'edit'])->name('staff.edit');
+    Route::post('/staff/appointments', [StaffController::class, 'update'])->name('staff.update');
+    Route::post('/staff/eyewears', [StaffController::class, 'storeEyewear'])->name('staff.storeEyewear');
 });
 
 

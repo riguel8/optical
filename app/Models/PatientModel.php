@@ -25,11 +25,9 @@ class PatientModel extends Model
         return $this->hasMany(AppointmentModel::class, 'PatientID');
     }
 
-
     public function prescription()
     {
-        return $this->belongsTo(PrescriptionModel::class, 'PatientID');
+        return $this->hasOne(PrescriptionModel::class, 'PatientID', 'PatientID');
     }
-
 
 }
