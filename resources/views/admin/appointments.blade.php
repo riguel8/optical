@@ -54,6 +54,7 @@
                                 <th>Date</th>
                                 <th>Patient Name</th>
                                 <th>Patient Age</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -64,10 +65,13 @@
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
                                     <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
                                     <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+                                    <td class="{{ $appointment->Status == 'pending' ? 'text-orange' : ($appointment->Status == 'completed' ? 'text-green' : ($appointment->Status == 'cancelled' ? 'text-red' : '')) }}">
+                                        {{ ucfirst($appointment->Status) }}
+                                    </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a class="me-3" href="#">
-                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img">
+                                            <a class="me-3" href="#" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View Appointment">
                                             </a>
                                             <a class="me-3" href="#">
                                                 <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img">
@@ -99,7 +103,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="{{ route('admin.store') }}">
+                    @csrf
                     <div class="form-floating mb-3">
                         <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
                         <label for="cname">Complete Name</label>
@@ -147,5 +152,80 @@
 </div>
 
 
-@endsection
 
+
+<!-- View Appointment Modal -->
+<div class="modal fade" id="viewAppointment" tabindex="-1" aria-labelledby="viewAppointmentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content w-100">
+            <div class="modal-header">
+                <h4 class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <strong>Appointment Schedule:</strong>
+                    <span id="appointmentSchedule"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Patient Name:</strong>
+                    <span id="patientName"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Age:</strong>
+                    <span id="patientAge"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Gender:</strong>
+                    <span id="patientGender"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Contact Number:</strong>
+                    <span id="contactNumber"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Address:</strong>
+                    <span id="patientAddress"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Status:</strong>
+                    <span id="appointmentStatus"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<style>
+.text-orange {
+    color: orange !important;
+}
+
+.text-green {
+    color: green !important;
+}
+
+.text-red {
+    color: red !important;
+}
+
+
+</style>
+
+
+
+@endsection

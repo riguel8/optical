@@ -9,6 +9,7 @@ use App\Models\PatientModel;
 use App\Models\Eyewear;
 use Illuminate\Http\Request;
 use App\Models\UserModel;
+use Carbon\Carbon;
 
 
 class AdminController extends Controller
@@ -39,19 +40,34 @@ class AdminController extends Controller
 
     //Adding New Appointment (Modal)
 
-    public function store(Request $request)
+ public function store(Request $request)
     {
-    $request->validate([
-        'patient_name' => 'required|string|max:255',
-        'email' => 'required|email',
-        'address' => 'required|string',
-        'contact' => 'required|string',
-        'age' => 'required|integer',
-        'appointment_date' => 'required|date',
-    ]);
-    AppointmentModel::create($request->all());
-    return redirect()->back()->with('success', 'Appointment created successfully!');
+        $validated = $request->validate([
+            'complete_name' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female,Other',
+            'age' => 'required|integer|min:0',
+            'contact_number' => 'required|string|max:15',
+            'address' => 'required|string|max:255',
+            'date' => 'required|date|after_or_equal:now',
+        ]);
+
+        $patient = PatientModel::create([
+            'complete_name' => $validated['complete_name'],
+            'gender' => $validated['gender'],
+            'age' => $validated['age'],
+            'contact_number' => $validated['contact_number'],
+            'address' => $validated['address'],
+        ]);
+
+        AppointmentModel::create([
+            'PatientID' => $patient->PatientID,
+            'DateTime' => Carbon::parse($validated['date']),
+            'Status' => 1,
+        ]);
+
+        return redirect()->back()->with('success', 'Appointment added successfully.');
     }
+
 
     // ######### Patients Controller ######## //
     public function patients()
