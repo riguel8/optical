@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PatientModel extends Model
 {
+    
     protected $table = 'patients';
 
     protected $primaryKey = 'PatientID';
@@ -20,11 +21,12 @@ class PatientModel extends Model
         'updated_at',
     ];
 
+
     public function appointments()
     {
-        return $this->hasMany(AppointmentModel::class, 'PatientID');
+        return $this->hasMany(AppointmentModel::class, 'PatientID', 'PatientID');
     }
-
+    
     public function prescription()
     {
         return $this->hasOne(PrescriptionModel::class, 'PatientID', 'PatientID');

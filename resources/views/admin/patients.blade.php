@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
             <div class="page-title">
                 <h4>Patients</h4>
@@ -99,7 +99,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="addPatientLabel">New Patient</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">

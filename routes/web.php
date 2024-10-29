@@ -18,7 +18,8 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');
     Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');
     Route::get('/admin/eyewears', [AdminController::class, 'eyewears'])->name('admin.eyewears');
-    Route::post('/admin/appointments/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
+    Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
     Route::post('/admin/appointments', [AppointmentController::class, 'edit'])->name('admin.edit');
     Route::post('/admin/appointments', [AppointmentController::class, 'update'])->name('admin.update');
 
