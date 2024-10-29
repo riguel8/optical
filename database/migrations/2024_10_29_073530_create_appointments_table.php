@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id('AppointmentID'); 
             $table->foreignId('PatientID')->references('patientID')->on('patients')->onDelete('cascade');
-            $table->foreignId('StaffID')->nullable(); 
+            $table->foreignId('StaffID')->references('id')->on('users')->onDelete('cascade'); 
             $table->dateTime('DateTime');
             $table->enum('Status', ['pending', 'completed', 'canceled'])->default('pending');
             $table->text('Notes')->nullable();
