@@ -10,9 +10,9 @@
                 <h6>Patient Lists</h6>
             </div>
             <div class="page-btn">
-                <a data-bs-target="#addPatient" data-bs-toggle="modal" class="btn btn-added">
+                {{-- <a data-bs-target="#addPatient" data-bs-toggle="modal" class="btn btn-added">
                     <img src="{{ asset("assets/img/icons/plus.svg")}}" alt="img">Add Patient
-                </a>
+                </a> --}}
             </div>
         </div>
 
