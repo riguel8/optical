@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Carbon\Carbon;
 
-
 class AdminController extends Controller
 {
     public function index()
@@ -24,10 +23,9 @@ class AdminController extends Controller
     {
         $title = 'Appointments';
         $appointments = AppointmentModel::with(['patient', 'staff'])
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        
         return view('admin.appointments', compact('appointments', 'title'));
     }
 
@@ -38,36 +36,104 @@ class AdminController extends Controller
         return view('admin.eyewears', compact('eyewears', 'title'));
     }
 
-    //Adding New Appointment (Modal)
-
- public function store(Request $request)
+    // Adding New Eyewears (Modal)
+    public function storeEyewear(Request $request)
     {
+        // Validate the request
         $validated = $request->validate([
-            'complete_name' => 'required|string|max:255',
-            'gender' => 'required|in:Male,Female,Other',
-            'age' => 'required|integer|min:0',
-            'contact_number' => 'required|string|max:15',
-            'address' => 'required|string|max:255',
-            'date' => 'required|date|after_or_equal:now',
+            'Brand' => 'required|string|max:255',
+            'Model' => 'required|string|max:255',
+            'FrameType' => 'nullable|string|max:255',
+            'FrameColor' => 'nullable|string|max:255',
+            'LensType' => 'nullable|string|max:255',
+            'LensMaterial' => 'nullable|string|max:255',
+            'QuantityAvailable' => 'required|integer|min:0',
+            'Price' => 'required|numeric|min:0',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $patient = PatientModel::create([
-            'complete_name' => $validated['complete_name'],
-            'gender' => $validated['gender'],
-            'age' => $validated['age'],
-            'contact_number' => $validated['contact_number'],
-            'address' => $validated['address'],
+        $imageName = null; // Initialize variable to store the image name
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName(); 
+            $image->storeAs('eyewears', $imageName, 'public'); // Store the image
+        }
+
+        // Create the Eyewear record
+        $data = Eyewear::create([
+            'Brand' => $validated['Brand'],
+            'Model' => $validated['Model'],
+            'FrameType' => $validated['FrameType'],
+            'FrameColor' => $validated['FrameColor'],
+            'LensType' => $validated['LensType'],
+            'LensMaterial' => $validated['LensMaterial'],
+            'QuantityAvailable' => $validated['QuantityAvailable'],
+            'Price' => $validated['Price'],
+            'ImagePath' => $imageName, // Store the image path in the database
         ]);
 
-        AppointmentModel::create([
-            'PatientID' => $patient->PatientID,
-            'DateTime' => Carbon::parse($validated['date']),
-            'Status' => 1,
-        ]);
-
-        return redirect()->back()->with('success', 'Appointment added successfully.');
+        // Return a response
+        if ($data) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Eyewear added successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to add eyewear. Please try again later.',
+            ]);
+        }
     }
 
+
+    // Adding New Appointment (Modal)
+    public function storeAppointment(Request $request)
+    {
+        try {
+
+            $validated = $request->validate([
+                'complete_name' => 'required|string|max:255',
+                'gender' => 'required|in:Male,Female,Other',
+                'age' => 'required|integer|min:0',
+                'contact_number' => 'required|string|max:15',
+                'address' => 'required|string|max:255',
+                'DateTime' => 'required|date|after_or_equal:now',
+            ]);
+
+            $patient = PatientModel::create([
+                'complete_name' => $validated['complete_name'],
+                'gender' => $validated['gender'],
+                'age' => $validated['age'],
+                'contact_number' => $validated['contact_number'],
+                'address' => $validated['address'],
+                'DateTime' => $validated['DateTime'],
+            ]);
+
+            $user = auth()->user();
+            $user->user_type === 'staff' || $user->user_type === 'admin';
+                $staffId = $user->id;
+
+            AppointmentModel::create([
+                'PatientID' => $patient->PatientID,
+                'StaffID' => $staffId,
+                'DateTime' => Carbon::parse($validated['DateTime']),
+                'Status' => 'pending', 
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Patient and appointment were added successfully',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to appointment. Please try again later.',
+            ]);
+        }
+    }
 
     // ######### Patients Controller ######## //
     public function patients()
@@ -76,7 +142,7 @@ class AdminController extends Controller
         $patients = PatientModel::with('prescription')
             ->orderBy('created_at', 'desc')
             ->get();
-    
+
         return view('admin.patients', compact('patients', 'title'));
     }
 }

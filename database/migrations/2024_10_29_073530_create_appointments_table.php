@@ -14,7 +14,7 @@ return new class extends Migration
     if (!Schema::hasTable('appointments')) {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id('AppointmentID'); 
-            $table->foreignId('PatientID')->references('patientID')->on('patients')->onDelete('cascade');
+            $table->foreignId('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
             $table->foreignId('StaffID')->references('id')->on('users')->onDelete('cascade'); 
             $table->dateTime('DateTime');
             $table->enum('Status', ['pending', 'completed', 'canceled'])->default('pending');

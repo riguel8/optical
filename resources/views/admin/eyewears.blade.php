@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content" >
         <div class="page-header">
             <div class="page-title">
                 <h4>Eyewear</h4>
@@ -11,7 +11,7 @@
             </div>
             <div class="page-btn">
                 <a data-bs-target="#addeyewear" data-bs-toggle="modal" class="btn btn-added">
-                    <img src="{{ asset("assets/img/icons/plus.svg") }}" alt="img">Add Product
+                    <img src="{{ asset("assets/img/icons/plus.svg") }}" alt="img">Add eyewear
                 </a>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <table class="table datanew">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="text-center">#</th>
                                 <th>Brand</th>
                                 <th>Model</th>
                                 <th>Frame Type</th>
@@ -54,7 +54,13 @@
                         <tbody>
                             @forelse ($eyewears as $eyewear)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td class="text-center flex items-center justify-center">
+                                            @if ($eyewear->image)
+                                                <img src="{{ asset('storage/' . $eyewear->image) }}" class="object-cover rounded" width="40" height="40" />
+                                            @else
+                                                <span>No Image</span>
+                                            @endif
+                                    </td>
                                     <td>{{ $eyewear->Brand }}</td>
                                     <td>{{ $eyewear->Model }}</td>
                                     <td>{{ $eyewear->FrameType ?? 'N/A' }}</td>
@@ -94,11 +100,11 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="addeyewearLabel">New Eyewear</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="eyewearForm" method="POST" action="{{ route('admin.storeEyewear') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -156,6 +162,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                    <div class="col-md-12 mb-3">
+										<div class="form-group">
+											<label>Eyewear Image</label>
+											<div class="image-upload">
+												<input id="image" name="image" type="file" accept="image/*">
+												<div class="image-uploads">
+                                                <img src="{{ asset('assets/img/icons/upload.svg') }}" alt="img">
+													<h4>Drag and drop a file to upload</h4>
+												</div>
+											</div>
+										</div>
+									</div>                      
+
+
+                    </div>
 
                     <div class="modal-footer justify-content-end">
                         <button class="btn btn-sm btn-primary" type="submit">Save</button>
@@ -167,4 +189,46 @@
     </div>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('image').onchange = function (e) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const imgElement = document.getElementById('imagePreview');
+            imgElement.src = event.target.result;
+            imgElement.style.display = 'block';
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+    document.getElementById('addEyewearForm').onsubmit = function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch('/admin/eyewear/storeEyewear', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message,
+                });
+            }
+        });
+    }
+</script>
 @endsection

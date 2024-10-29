@@ -52,6 +52,7 @@
             @include('template.admin.navbar')
             @include('template.admin.sidebar')
             @yield('content')
+            @yield('scripts')
 
 <footer>
     <div class="p-2">
@@ -96,6 +97,56 @@
 
 <!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
 {{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
+
+
+<script>
+$(document).ready(function() {
+    // Target the form directly within the modal
+    $('#addAppointment form').submit(function(e) {
+        e.preventDefault(); 
+        
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: response.message,
+                        confirmButtonColor: '#ff9f43',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ route('admin.appointments') }}"; 
+                        }
+                    });
+                } else if (response.status === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message,
+                        confirmButtonColor: '#ff9f43',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing your request. Please try again later.'
+                });
+            }
+        });
+    });
+});
+</script>
 
 <script>
 $(document).ready(function() {

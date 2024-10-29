@@ -14,7 +14,7 @@ return new class extends Migration
         if (!Schema::hasTable('prescriptions')) {
             Schema::create('prescriptions', function (Blueprint $table) {
                 $table->id('PrescriptionID');
-                $table->foreignId('PatientID')->references('patientID')->on('patients')->onDelete('cascade'); 
+                $table->foreignId('PatientID')->references('PatientID')->on('patients')->onDelete('cascade'); 
                 $table->foreignId('DoctorID')->references('id')->on('users')->onDelete('cascade'); 
                 $table->enum('Lens', ['SINGLE VISION', 'DOUBLE VISION', 'PROGRESSIVE', 'NEAR VISION'])->nullable();
                 $table->string('Frame', 255)->nullable();

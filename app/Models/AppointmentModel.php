@@ -24,12 +24,10 @@ class AppointmentModel extends Model
 
 
     //For Foreign Keys
-
     public function patient()
     {
-        return $this->belongsTo(PatientModel::class, 'PatientID');
+        return $this->belongsTo(PatientModel::class, 'PatientID', 'PatientID');
     }
-
     public function staff()
     {
         return $this->belongsTo(UserModel::class, 'id');

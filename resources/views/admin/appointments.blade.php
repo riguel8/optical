@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
             <div class="page-title">
                 <h4>Appointments</h4>
@@ -65,8 +65,16 @@
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
                                     <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
                                     <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
-                                    <td class="{{ $appointment->Status == 'pending' ? 'text-orange' : ($appointment->Status == 'completed' ? 'text-green' : ($appointment->Status == 'cancelled' ? 'text-red' : '')) }}">
-                                        {{ ucfirst($appointment->Status) }}
+                                    <td>
+                                        @if ($appointment->Status == 'pending')
+                                            <span class="bg-lightyellow badges">Pending</span>
+                                        @elseif ($appointment->Status == 'confirm')
+                                            <span class="bg-lightgreen badges">Confirm</span>
+                                        @elseif ($appointment->Status == 'completed')
+                                            <span class="bg-lightgreen badges">Completed</span>
+                                        @elseif ($appointment->Status == 'cancelled')
+                                            <span class="badges bg-lightred">Cancelled</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
@@ -103,8 +111,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('admin.store') }}">
+                <form method="POST" action="{{ route('admin.storeAppointment') }}">
                     @csrf
+                    <input type="hidden" id="patient_id" name="patientID" value="">
                     <div class="form-floating mb-3">
                         <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
                         <label for="cname">Complete Name</label>
@@ -137,7 +146,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="datetime-local" class="form-control" name="date" required>
+                        <input type="datetime-local" class="form-control" name="DateTime" required>
                         <label for="date">Appointment Date</label>
                     </div>
 
@@ -206,10 +215,6 @@
 </div>
 
 
-
-
-
-
 <style>
 .text-orange {
     color: orange !important;
@@ -223,9 +228,7 @@
     color: red !important;
 }
 
-
 </style>
-
 
 
 @endsection
