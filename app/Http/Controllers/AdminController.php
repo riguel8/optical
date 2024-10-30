@@ -135,6 +135,94 @@ class AdminController extends Controller
         }
     }
 
+    // Function to view specific appointment
+    public function viewAppointment($id)
+    {
+        try {
+            $appointment = AppointmentModel::with('patient')->findOrFail($id);
+    
+            return response()->json([
+                'appointment' => [
+                    'dateTime' => $appointment->DateTime,
+                    'status' => $appointment->Status,
+                ],
+                'patient' => [
+                    'complete_name' => $appointment->patient->complete_name,
+                    'age' => $appointment->patient->age,
+                    'gender' => $appointment->patient->gender,
+                    'contact_number' => $appointment->patient->contact_number,
+                    'address' => $appointment->patient->address,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        }
+    }
+
+    // Function to Edit Appointment
+    public function editAppointment($id)
+    {
+        try {
+            $appointment = AppointmentModel::with('patient')->findOrFail($id);
+    
+            return response()->json([
+                'appointment' => [
+                    'dateTime' => $appointment->DateTime,
+                    'status' => $appointment->Status,
+                ],
+                'patient' => [
+                    'complete_name' => $appointment->patient->complete_name,
+                    'age' => $appointment->patient->age,
+                    'gender' => $appointment->patient->gender,
+                    'contact_number' => $appointment->patient->contact_number,
+                    'address' => $appointment->patient->address,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        }
+    }
+    
+
+    //Function to Update the Appointment
+public function updateAppointment(Request $request, $id)
+{
+    $request->validate([
+        'DateTime' => 'required|date',
+        'status' => 'required|string',
+        'complete_name' => 'required|string',
+        'age' => 'required|integer',
+        'gender' => 'required|string',
+        'contact_number' => 'required|string',
+        'address' => 'required|string',
+    ]);
+
+    try {
+        $appointment = AppointmentModel::findOrFail($id);
+        $appointment->DateTime = $request->input('DateTime');
+        $appointment->Status = $request->input('status');
+        $appointment->save();
+
+        $patient = $appointment->patient;
+        $patient->complete_name = $request->input('complete_name');
+        $patient->age = $request->input('age');
+        $patient->gender = $request->input('gender');
+        $patient->contact_number = $request->input('contact_number');
+        $patient->address = $request->input('address');
+        $patient->save();
+
+        return response()->json(['success' => 'Appointment updated successfully']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Error updating appointment'], 500);
+    }
+}
+    
+    
+
+
+
+
+
     // ######### Patients Controller ######## //
     public function patients()
     {

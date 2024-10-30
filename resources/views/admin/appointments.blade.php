@@ -78,11 +78,11 @@
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a class="me-3" href="#" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+                                            <a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
                                                 <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View Appointment">
-                                            </a>
-                                            <a class="me-3" href="#">
-                                                <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img">
+                                            </a>                                        
+                                            <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+                                                <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit Appointment">
                                             </a>
                                         </div>
                                     </td>
@@ -215,6 +215,82 @@
 </div>
 
 
+
+<!-- Modal for Editing Appointment -->
+<div class="modal fade" id="editAppointment">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content w-100">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Appointment</h4>
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="" id="editAppointmentForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="appointment_id" name="appointmentID" value="">
+
+                    <div class="form-floating mb-3">
+                        <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
+                        <label for="cname">Complete Name</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input id="age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
+                        <label for="age">Age</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select name="gender" class="form-control" id="floatingSelect" required>
+                            <option value="" disabled>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <label for="floatingSelect">Gender</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
+                        <label for="contact_number">Contact Number</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
+                        <label for="address">Address</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="datetime-local" class="form-control" name="DateTime" required value="{{ old('DateTime') }}">
+                        <label for="date">Appointment Date</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select name="status" class="form-control" required>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <label for="status">Appointment Status</label>
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+                        <button class="btn btn-sm btn-primary" type="submit">Save Changes</button>
+                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 <style>
 .text-orange {
     color: orange !important;
@@ -229,6 +305,8 @@
 }
 
 </style>
+
+
 
 
 @endsection
