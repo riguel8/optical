@@ -95,8 +95,6 @@
 <script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
 <script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
 
-<!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
-{{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
 
 
 <script>
@@ -313,6 +311,102 @@ var checkeventcount = 1,prevTarget;
           checkeventcount--;
         }
      });
+</script>
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const viewButtons = document.querySelectorAll('.view-appointment');
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const AppointmentId = this.getAttribute('data-id');
+            console.log('Fetching details for appointment ID:', AppointmentId); // Debug log
+
+            fetch(`/admin/appointments/${AppointmentId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Populate modal fields with data from response
+                    document.getElementById('appointmentSchedule').textContent = data.appointment.dateTime;
+                    document.getElementById('appointmentStatus').textContent = data.appointment.status;
+                    document.getElementById('patientName').textContent = data.patient.complete_name;
+                    document.getElementById('patientAge').textContent = data.patient.age;
+                    document.getElementById('patientGender').textContent = data.patient.gender;
+                    document.getElementById('contactNumber').textContent = data.patient.contact_number;
+                    document.getElementById('patientAddress').textContent = data.patient.address;
+                })
+                .catch(error => console.error('Error fetching appointment details:', error));
+        });
+    });
+});
+</script>
+
+
+
+
+<!-- Script to open Edit and Update Appointments-->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.edit-appointment');
+    const editForm = document.querySelector('#editAppointment form');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const AppointmentID = this.getAttribute('data-id');
+            document.getElementById('appointment_id').value = AppointmentID;
+
+            // Set the form action dynamically
+            editForm.action = `/admin/appointments/update/${AppointmentID}`;
+
+            // Fetch the appointment details and populate the form
+            fetch(`/admin/appointments/edit/${AppointmentID}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cname').value = data.patient.complete_name;
+                    document.getElementById('age').value = data.patient.age;
+                    document.getElementById('floatingSelect').value = data.patient.gender;
+                    document.getElementById('contact_number').value = data.patient.contact_number;
+                    document.getElementById('address').value = data.patient.address;
+                    document.querySelector('[name="DateTime"]').value = data.appointment.dateTime;
+                    document.querySelector('[name="status"]').value = data.appointment.status;
+                })
+                .catch(error => console.error('Error fetching appointment details:', error));
+        });
+    });
+
+    editForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        fetch(editForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-HTTP-Method-Override': 'PUT'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.success);
+                // Optionally, close modal and refresh page
+            } else {
+                alert(data.error || 'Error updating appointment');
+            }
+        })
+        .catch(error => console.error('Error updating appointment:', error));
+    });
+});
+
 </script>
 
 </body>
