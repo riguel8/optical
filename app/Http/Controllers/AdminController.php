@@ -120,7 +120,7 @@ class AdminController extends Controller
                 'PatientID' => $patient->PatientID,
                 'StaffID' => $staffId,
                 'DateTime' => Carbon::parse($validated['DateTime']),
-                'Status' => 'pending', 
+                'Status' => 'Pending', 
             ]);
 
             return response()->json([

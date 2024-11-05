@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppointmentModel;
@@ -13,11 +13,11 @@ class AppointmentController extends Controller
     public function index()
     {
         $title = 'Appointments';
-        $appointments = AppointmentModel::with(['patient', 'admin'])
+        $appointments = AppointmentModel::with(['patient', 'staff'])
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('admin.appointments', compact('appointments', 'title'));
+        return view('staff.appointments', compact('appointments', 'title'));
     }
     // Adding New Appointment (Modal)
     public function store(Request $request)
@@ -43,12 +43,12 @@ class AppointmentController extends Controller
             ]);
 
             $user = auth()->user();
-            $user->user_type === 'admin' || $user->user_type === 'admin';
-                $adminId = $user->id;
+            $user->user_type === 'staff' || $user->user_type === 'admin';
+                $staffId = $user->id;
 
             AppointmentModel::create([
                 'PatientID' => $patient->PatientID,
-                'adminID' => $adminId,
+                'StaffID' => $staffId,
                 'DateTime' => Carbon::parse($validated['DateTime']),
                 'Status' => 'Pending', 
             ]);

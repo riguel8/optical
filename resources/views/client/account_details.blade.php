@@ -1,4 +1,4 @@
-@extends('template.client.header')
+@extends('template.client.layout')
 
 @section('content') 
 <div class="page-wrapper">

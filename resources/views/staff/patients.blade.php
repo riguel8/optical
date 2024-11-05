@@ -1,18 +1,18 @@
-@extends('template.staff.header')
+@extends('template.staff.layout')
 
 @section('content')
 
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
             <div class="page-title">
                 <h4>Patients</h4>
                 <h6>Patient Lists</h6>
             </div>
             <div class="page-btn">
-                <a data-bs-target="#addPatient" data-bs-toggle="modal" class="btn btn-added">
+                <!-- <a data-bs-target="#addPatient" data-bs-toggle="modal" class="btn btn-added">
                     <img src="{{ asset("assets/img/icons/plus.svg")}}" alt="img">Add Patient
-                </a>
+                </a> -->
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($patients as $patient)
+                            @foreach ($patients as $patient)
                                 <tr>
                                     <td>{{ $patient->complete_name}}</td>
                                     <td>{{ $patient->age}}</td>
@@ -76,14 +76,11 @@
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a>
                                             <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img"></a>
+                                            <a class="confirm-text" href=""><img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img"></a>
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center" colspan="8">No patients found</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -200,5 +197,11 @@
     </div>
 </div>
 
+    @section('scripts')
+
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+
+    @endsection
 
 @endsection

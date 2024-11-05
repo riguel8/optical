@@ -1,8 +1,8 @@
-@extends('template.ophthal.header')
+@extends('template.ophthal.layout')
 
 @section('content') 
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content"  style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
             <div class="page-title">
                 <h4>Patients</h4>
@@ -49,7 +49,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($patients as $patient)
+                            @foreach ($patients as $patient)
                                 <tr>
                                     <td>{{ $patient->complete_name}}</td>
                                     <td>{{ $patient->age}}</td>
@@ -78,13 +78,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @empty
-                                    <tr>
-                                        <td class="px-4 py-2 text-center text-sm text-gray-500" colspan="6">
-                                            {{ __('No patients found') }}
-                                        </td>
-                                    </tr>
-                                @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -209,4 +203,10 @@
         </div>
     </div>
 </div>
+
+    @section('scripts')
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    @endsection   
+    
 @endsection
