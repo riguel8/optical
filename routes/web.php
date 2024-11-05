@@ -34,7 +34,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');
     Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
     Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
-    
+
     Route::get('/admin/appointments/{id}', [AdminController::class, 'viewAppointment']);
     Route::get('/admin/appointments/edit/{id}', [AdminController::class, 'editAppointment']);
     Route::put('/admin/appointments/update/{id}', [AdminController::class, 'updateAppointment'])->name('admin.updateAppointment');

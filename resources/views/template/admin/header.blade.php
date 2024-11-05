@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Delin Optical' }}</title>
 
     <!-- Favicon -->
@@ -251,6 +252,8 @@ $(document).ready(function() {
     }
 </script>
 
+
+<!-- -->
 <script>
 $(document).ready(function() {
     $('#addAppointmentForm').submit(function(e) {
@@ -317,7 +320,7 @@ var checkeventcount = 1,prevTarget;
 
 
 
-
+<!-- Script to view details of an appointment -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const viewButtons = document.querySelectorAll('.view-appointment');
@@ -325,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
     viewButtons.forEach(button => {
         button.addEventListener('click', function () {
             const AppointmentId = this.getAttribute('data-id');
-            console.log('Fetching details for appointment ID:', AppointmentId); // Debug log
+            console.log('Fetching details for appointment ID:', AppointmentId);
 
             fetch(`/admin/appointments/${AppointmentId}`)
                 .then(response => {
@@ -357,49 +360,49 @@ document.addEventListener('DOMContentLoaded', function () {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const editButtons = document.querySelectorAll('.edit-appointment');
-    const editForm = document.querySelector('#editAppointment form');
+    const editForm = document.querySelector('#editAppointmentForm');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    // Button to open the edit modal
     editButtons.forEach(button => {
         button.addEventListener('click', function () {
             const AppointmentID = this.getAttribute('data-id');
             document.getElementById('appointment_id').value = AppointmentID;
-
-            // Set the form action dynamically
             editForm.action = `/admin/appointments/update/${AppointmentID}`;
 
-            // Fetch the appointment details and populate the form
             fetch(`/admin/appointments/edit/${AppointmentID}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('cname').value = data.patient.complete_name;
-                    document.getElementById('age').value = data.patient.age;
-                    document.getElementById('floatingSelect').value = data.patient.gender;
-                    document.getElementById('contact_number').value = data.patient.contact_number;
-                    document.getElementById('address').value = data.patient.address;
-                    document.querySelector('[name="DateTime"]').value = data.appointment.dateTime;
-                    document.querySelector('[name="status"]').value = data.appointment.status;
+                    document.getElementById('edit_cname').value = data.patient.complete_name;
+                    document.getElementById('edit_age').value = data.patient.age;
+                    document.getElementById('edit_floatingSelect').value = data.patient.gender;
+                    document.getElementById('edit_contact_number').value = data.patient.contact_number;
+                    document.getElementById('edit_address').value = data.patient.address;
+                    document.getElementById('edit_date').value = data.appointment.dateTime;
+                    document.getElementById('edit_status').value = data.appointment.status;
                 })
                 .catch(error => console.error('Error fetching appointment details:', error));
         });
     });
 
+    // Form submission handling
     editForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
+        e.preventDefault();  // Prevent default form submission
 
+        const formData = new FormData(this);
         fetch(editForm.action, {
             method: 'POST',
             body: formData,
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'X-HTTP-Method-Override': 'PUT'
+                'X-CSRF-TOKEN': csrfToken
             }
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 alert(data.success);
-                // Optionally, close modal and refresh page
+                $('#editAppointment').modal('hide');  // Close modal on success
+                location.reload();  // Refresh page to show updated data
             } else {
                 alert(data.error || 'Error updating appointment');
             }
@@ -407,6 +410,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error updating appointment:', error));
     });
 });
+
+
 
 </script>
 

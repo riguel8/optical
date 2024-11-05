@@ -62,7 +62,7 @@
                             @forelse ($appointments as $appointment)
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</td>
                                     <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
                                     <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
                                     <td>
@@ -233,47 +233,47 @@
                     <input type="hidden" id="appointment_id" name="appointmentID" value="">
 
                     <div class="form-floating mb-3">
-                        <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
-                        <label for="cname">Complete Name</label>
+                        <input id="edit_cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
+                        <label for="edit_cname">Complete Name</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input id="age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
-                        <label for="age">Age</label>
+                        <input id="edit_age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
+                        <label for="edit_age">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select name="gender" class="form-control" id="floatingSelect" required>
+                        <select name="gender" class="form-control" id="edit_floatingSelect" required>
                             <option value="" disabled>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                         </select>
-                        <label for="floatingSelect">Gender</label>
+                        <label for="edit_floatingSelect">Gender</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
-                        <label for="contact_number">Contact Number</label>
+                        <input id="edit_contact_number" class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
+                        <label for="edit_contact_number">Contact Number</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
-                        <label for="address">Address</label>
+                        <input id="edit_address" class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
+                        <label for="edit_address">Address</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="datetime-local" class="form-control" name="DateTime" required value="{{ old('DateTime') }}">
-                        <label for="date">Appointment Date</label>
+                        <input id="edit_date" type="datetime-local" class="form-control" name="DateTime" required value="{{ old('DateTime') }}">
+                        <label for="edit_date">Appointment Date</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select name="status" class="form-control" required>
+                        <select name="status" class="form-control" id="edit_status" required>
                             <option value="pending">Pending</option>
                             <option value="completed">Completed</option>
                             <option value="cancelled">Cancelled</option>
                         </select>
-                        <label for="status">Appointment Status</label>
+                        <label for="edit_status">Appointment Status</label>
                     </div>
 
                     <div class="modal-footer justify-content-end">
@@ -285,6 +285,7 @@
         </div>
     </div>
 </div>
+
 
 
 

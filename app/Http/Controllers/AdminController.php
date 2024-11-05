@@ -185,37 +185,37 @@ class AdminController extends Controller
     
 
     //Function to Update the Appointment
-public function updateAppointment(Request $request, $id)
-{
-    $request->validate([
-        'DateTime' => 'required|date',
-        'status' => 'required|string',
-        'complete_name' => 'required|string',
-        'age' => 'required|integer',
-        'gender' => 'required|string',
-        'contact_number' => 'required|string',
-        'address' => 'required|string',
-    ]);
+    public function updateAppointment(Request $request, $id)
+    {
+        $request->validate([
+            'DateTime' => 'required|date',
+            'status' => 'required|string',
+            'complete_name' => 'required|string',
+            'age' => 'required|integer',
+            'gender' => 'required|string',
+            'contact_number' => 'required|string',
+            'address' => 'required|string',
+        ]);
 
-    try {
-        $appointment = AppointmentModel::findOrFail($id);
-        $appointment->DateTime = $request->input('DateTime');
-        $appointment->Status = $request->input('status');
-        $appointment->save();
+        try {
+            $appointment = AppointmentModel::findOrFail($id);
+            $appointment->DateTime = $request->input('DateTime');
+            $appointment->Status = $request->input('status');
+            $appointment->save();
 
-        $patient = $appointment->patient;
-        $patient->complete_name = $request->input('complete_name');
-        $patient->age = $request->input('age');
-        $patient->gender = $request->input('gender');
-        $patient->contact_number = $request->input('contact_number');
-        $patient->address = $request->input('address');
-        $patient->save();
+            $patient = $appointment->patient;
+            $patient->complete_name = $request->input('complete_name');
+            $patient->age = $request->input('age');
+            $patient->gender = $request->input('gender');
+            $patient->contact_number = $request->input('contact_number');
+            $patient->address = $request->input('address');
+            $patient->save();
 
-        return response()->json(['success' => 'Appointment updated successfully']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Error updating appointment'], 500);
+            return response()->json(['success' => 'Appointment updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error updating appointment'], 500);
+        }
     }
-}
     
     
 
