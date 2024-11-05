@@ -13,12 +13,13 @@ class AppointmentController extends Controller
     public function index()
     {
         $title = 'Appointments';
-        $appointments = AppointmentModel::with(['patient', 'admin'])
+        $appointments = AppointmentModel::with(['patient', 'staff'])
             ->orderBy('created_at', 'desc')
             ->get();
         
         return view('admin.appointments', compact('appointments', 'title'));
     }
+
     // Adding New Appointment (Modal)
     public function store(Request $request)
     {
@@ -43,12 +44,12 @@ class AppointmentController extends Controller
             ]);
 
             $user = auth()->user();
-            $user->user_type === 'admin' || $user->user_type === 'admin';
-                $adminId = $user->id;
+            $user->user_type === 'staff' || $user->user_type === 'admin';
+                $staffId = $user->id;
 
             AppointmentModel::create([
                 'PatientID' => $patient->PatientID,
-                'adminID' => $adminId,
+                'StaffID' => $staffId,
                 'DateTime' => Carbon::parse($validated['DateTime']),
                 'Status' => 'Pending', 
             ]);
@@ -60,40 +61,16 @@ class AppointmentController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add patient and appointment. Please try again later.',
+                'message' => 'Failed to appointment. Please try again later.',
             ]);
         }
     }
-    // Function to view specific appointment
-    public function view($Appointment_Id)
-    {
-        try {
-            $appointment = AppointmentModel::with('patient')->findOrFail($Appointment_Id);
-    
-            return response()->json([
-                'appointment' => [
-                    'DateTime' => $appointment->DateTime,
-                    'Status' => $appointment->Status,
-                ],
-                'patient' => [
-                    'complete_name' => $appointment->patient->complete_name,
-                    'age' => $appointment->patient->age,
-                    'gender' => $appointment->patient->gender,
-                    'contact_number' => $appointment->patient->contact_number,
-                    'address' => $appointment->patient->address,
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Data not found'], 404);
-        }
-    }
-
 
     // Function to Edit Appointment
-    public function edit($AppointmentID)
+    public function edit($id)
     {
         try {
-            $appointment = AppointmentModel::with('patient')->findOrFail($AppointmentID);
+            $appointment = AppointmentModel::with('patient')->findOrFail($id);
     
             return response()->json([
                 'appointment' => [
@@ -114,11 +91,11 @@ class AppointmentController extends Controller
     }
     
     //Function to Update the Appointment
-    public function update(Request $request, $AppointmentID)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'DateTime' => 'required|date',
-            'status' => 'required|string',
+            'Status' => 'required|string',
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
@@ -127,7 +104,7 @@ class AppointmentController extends Controller
         ]);
 
         try {
-            $appointment = AppointmentModel::findOrFail($AppointmentID);
+            $appointment = AppointmentModel::findOrFail($id);
             $appointment->DateTime = $request->input('DateTime');
             $appointment->Status = $request->input('Status');
             $appointment->save();
@@ -143,6 +120,31 @@ class AppointmentController extends Controller
             return response()->json(['success' => 'Appointment updated successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error updating appointment'], 500);
+        }
+    }
+    
+    
+    // Function to view specific appointment
+    public function view($id)
+    {
+        try {
+            $appointment = AppointmentModel::with('patient')->findOrFail($id);
+    
+            return response()->json([
+                'appointment' => [
+                    'DateTime' => $appointment->DateTime,
+                    'Status' => $appointment->Status,
+                ],
+                'patient' => [
+                    'complete_name' => $appointment->patient->complete_name,
+                    'age' => $appointment->patient->age,
+                    'gender' => $appointment->patient->gender,
+                    'contact_number' => $appointment->patient->contact_number,
+                    'address' => $appointment->patient->address,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Data not found'], 404);
         }
     }
 }

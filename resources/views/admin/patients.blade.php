@@ -50,7 +50,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($patients as $patient)
+                            @foreach ($patients as $patient)
                                 <tr>
                                     <td>{{ $patient->complete_name}}</td>
                                     <td>{{ $patient->age}}</td>
@@ -79,11 +79,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center" colspan="8">No patients found</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -200,5 +196,10 @@
     </div>
 </div>
 
+    @section('scripts')
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    @endsection
 
 @endsection
+

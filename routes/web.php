@@ -5,9 +5,9 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OphthalController;
 
+use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\EyewearController as AdminEyewearController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-
 
 use App\Http\Controllers\Staff\EyewearController as StaffEyewearController;
 use App\Http\Controllers\Staff\AppointmentController as StaffAppointmentController;
@@ -25,19 +25,28 @@ Route::get('/', [PagesController::class, 'index'])->name('landing');
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':admin'])->group(function () {
     
     // Dashboard Module
-    // Route::get('/admin/dashboard', [StaffDashboardController::class, 'index'])->name('staff.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('staff.dashboard');
     Route::get('/admin/dashboard/get_appointments', [AdminDashboardController::class, 'getAppointments']);
     Route::get('/admin/dashboard/get_appointment_details', [AdminDashboardController::class, 'getAppointmentDetails']);
 
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    // Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');
     Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');
-    Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
-    Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
+    // Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
+    // Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
 
-    Route::get('/admin/appointments/{id}', [AdminController::class, 'viewAppointment']);
-    Route::get('/admin/appointments/edit/{id}', [AdminController::class, 'editAppointment']);
-    Route::put('/admin/appointments/update/{id}', [AdminController::class, 'updateAppointment'])->name('admin.updateAppointment');
+    // Appointment CRUD
+    Route::get('/admin/appointments', [AdminAppointmentController::class, 'index'])->name('admin.appointments');
+    Route::post('/admin/appointments', [AdminAppointmentController::class, 'store'])->name('admin.appointments.store');
+    Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);
+    Route::get('/admin/appointments/edit/{id}', [AdminAppointmentController::class, 'edit']);
+    Route::put('/admin/appointments/update/{id}', [AdminAppointmentController::class, 'update'])->name('admin.appointments.update');
+    Route::delete('/admin/appointments/{id}', [AdminAppointmentController::class, 'delete'])->name('admin.appointments.delete');
+
+
+    // Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);
+    // Route::get('/admin/appointments/edit/{id}', [AdminController::class, 'editAppointment']);
+    // Route::put('/admin/appointments/update/{id}', [AdminController::class, 'updateAppointment'])->name('admin.updateAppointment');
 
     // Eyewear CRUD
     Route::get('/admin/eyewears', [AdminEyewearController::class, 'index'])->name('admin.eyewears');
