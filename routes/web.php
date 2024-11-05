@@ -24,10 +24,11 @@ Route::get('/', [PagesController::class, 'index'])->name('landing');
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':admin'])->group(function () {
     
     // DASHBOARD MODULE
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/dashboard/get_appointments', [AdminDashboardController::class, 'getAppointments']);
-    Route::get('/admin/dashboard/get_appointment_details', [AdminDashboardController::class, 'getAppointmentDetails']);
+    // Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    // Route::get('/admin/dashboard/get_appointments', [AdminDashboardController::class, 'getAppointments']);
+    // Route::get('/admin/dashboard/get_appointment_details', [AdminDashboardController::class, 'getAppointmentDetails']);
 
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');
     Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');
     Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
