@@ -53,7 +53,7 @@ class DashboardController extends Controller
                 'gender' => $appointment->patient->gender,
                 'contact_number' => $appointment->patient->contact_number,
                 'address' => $appointment->patient->address,
-                'status' => $appointment->Status, 
+                'Status' => $appointment->Status, 
             ]);
         } else {
             return response()->json(['error' => 'Appointment not found'], 404);

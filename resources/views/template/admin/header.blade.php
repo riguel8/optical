@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>{{ $title ?? 'Delin Optical' }}</title>
 
     <!-- Favicon -->
@@ -14,22 +14,24 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
     <!-- Additional CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/alertify/alertify.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <!-- FontAwesome and Icons -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/pe7/pe-icon-7.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
+ 
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
 </head>
@@ -181,7 +183,7 @@ $(document).ready(function() {
                 listWeek: "Week",
             },
             events: {
-                url: '{{ url("/staff/dashboard/get_appointments") }}',
+                url: '{{ url("/admin/dashboard/get_appointments") }}',
                 method: 'GET',
                 failure: function() {
                     alert('There was an error while fetching appointments!');
@@ -189,7 +191,7 @@ $(document).ready(function() {
             },
             eventClick: function(info) {
                 $.ajax({
-                    url: '{{ url("/staff/dashboard/get_appointment_details") }}',
+                    url: '{{ url("/admin/dashboard/get_appointment_details") }}',
                     method: 'GET',
                     data: { appointmentId: info.event.id },
                     dataType: 'json',
@@ -206,7 +208,7 @@ $(document).ready(function() {
                             document.getElementById('patientAddress').textContent = data.address;
                             
                             // Use innerHTML to render the badge as HTML
-                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.status);
+                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.Status);
 
                             // Show the modal
                             $('#viewAppointmentModal').modal('show');
@@ -253,7 +255,6 @@ $(document).ready(function() {
 </script>
 
 
-<!-- -->
 <script>
 $(document).ready(function() {
     $('#addAppointmentForm').submit(function(e) {
@@ -318,102 +319,6 @@ var checkeventcount = 1,prevTarget;
 </script>
 
 
-
-
-<!-- Script to view details of an appointment -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const viewButtons = document.querySelectorAll('.view-appointment');
-
-    viewButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const AppointmentId = this.getAttribute('data-id');
-            console.log('Fetching details for appointment ID:', AppointmentId);
-
-            fetch(`/admin/appointments/${AppointmentId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Populate modal fields with data from response
-                    document.getElementById('appointmentSchedule').textContent = data.appointment.dateTime;
-                    document.getElementById('appointmentStatus').textContent = data.appointment.status;
-                    document.getElementById('patientName').textContent = data.patient.complete_name;
-                    document.getElementById('patientAge').textContent = data.patient.age;
-                    document.getElementById('patientGender').textContent = data.patient.gender;
-                    document.getElementById('contactNumber').textContent = data.patient.contact_number;
-                    document.getElementById('patientAddress').textContent = data.patient.address;
-                })
-                .catch(error => console.error('Error fetching appointment details:', error));
-        });
-    });
-});
-</script>
-
-
-
-
-<!-- Script to open Edit and Update Appointments-->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const editButtons = document.querySelectorAll('.edit-appointment');
-    const editForm = document.querySelector('#editAppointmentForm');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    // Button to open the edit modal
-    editButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const AppointmentID = this.getAttribute('data-id');
-            document.getElementById('appointment_id').value = AppointmentID;
-            editForm.action = `/admin/appointments/update/${AppointmentID}`;
-
-            fetch(`/admin/appointments/edit/${AppointmentID}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('edit_cname').value = data.patient.complete_name;
-                    document.getElementById('edit_age').value = data.patient.age;
-                    document.getElementById('edit_floatingSelect').value = data.patient.gender;
-                    document.getElementById('edit_contact_number').value = data.patient.contact_number;
-                    document.getElementById('edit_address').value = data.patient.address;
-                    document.getElementById('edit_date').value = data.appointment.dateTime;
-                    document.getElementById('edit_status').value = data.appointment.status;
-                })
-                .catch(error => console.error('Error fetching appointment details:', error));
-        });
-    });
-
-    // Form submission handling
-    editForm.addEventListener('submit', function (e) {
-        e.preventDefault();  // Prevent default form submission
-
-        const formData = new FormData(this);
-        fetch(editForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(data.success);
-                $('#editAppointment').modal('hide');  // Close modal on success
-                location.reload();  // Refresh page to show updated data
-            } else {
-                alert(data.error || 'Error updating appointment');
-            }
-        })
-        .catch(error => console.error('Error updating appointment:', error));
-    });
-});
-
-
-
-</script>
 
 </body>
 </html>

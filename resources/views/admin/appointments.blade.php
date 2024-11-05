@@ -59,20 +59,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($appointments as $appointment)
+                            @foreach ($appointments as $appointment)
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
                                     <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
                                     <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
                                     <td>
-                                        @if ($appointment->Status == 'pending')
+                                        @if ($appointment->Status == 'Pending')
                                             <span class="bg-lightyellow badges">Pending</span>
-                                        @elseif ($appointment->Status == 'confirm')
+                                        @elseif ($appointment->Status == 'Confirm')
                                             <span class="bg-lightgreen badges">Confirm</span>
-                                        @elseif ($appointment->Status == 'completed')
+                                        @elseif ($appointment->Status == 'Completed')
                                             <span class="bg-lightgreen badges">Completed</span>
-                                        @elseif ($appointment->Status == 'cancelled')
+                                        @elseif ($appointment->Status == 'Cancelled')
                                             <span class="badges bg-lightred">Cancelled</span>
                                         @endif
                                     </td>
@@ -87,11 +87,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center" colspan="5">No appointments found</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -111,7 +107,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('admin.storeAppointment') }}">
+                <form method="POST" action="{{ route('admin.appointments.store') }}">
                     @csrf
                     <input type="hidden" id="patient_id" name="patientID" value="">
                     <div class="form-floating mb-3">
@@ -160,60 +156,51 @@
     </div>
 </div>
 
-
-
-
 <!-- View Appointment Modal -->
 <div class="modal fade" id="viewAppointment" tabindex="-1" aria-labelledby="viewAppointmentLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content w-100">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="mb-3">
-                    <strong>Appointment Schedule:</strong>
-                    <span id="appointmentSchedule"></span>
+                <div class="productdetails">
+                    <ul class="product-bar">
+                        <li>
+                            <h4><strong>Appointment Schedule:</strong></h4>
+                            <h6 id="appointmentSchedule"></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Patient Name:</strong>
+                            <h6><span id="patientName"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Age:</strong></h4>
+                            <h6><span id="patientAge"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Gender:</strong></h4>
+                            <h6><span id="patientGender"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Contact Number:</strong></h4>
+                            <h6><span id="contactNumber"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Address:</strong></h4>
+                            <h6><span id="patientAddress"></span></h6>
+                        </li>
+                        <li class="mb-5">
+                            <h4><strong>Status:</strong></h4>
+                            <h6><span id="appointmentStatus"></span></h6>
+                        </li>
+                    </ul>
                 </div>
-                
-                <div class="mb-3">
-                    <strong>Patient Name:</strong>
-                    <span id="patientName"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Age:</strong>
-                    <span id="patientAge"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Gender:</strong>
-                    <span id="patientGender"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Contact Number:</strong>
-                    <span id="contactNumber"></span>
-                </div>
-                
-                <div class="mb-3">
-                    <strong>Address:</strong>
-                    <span id="patientAddress"></span>
-                </div>
-
-                <div class="mb-3">
-                    <strong>Status:</strong>
-                    <span id="appointmentStatus"></span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <!-- Modal for Editing Appointment -->
@@ -244,11 +231,12 @@
 
                     <div class="form-floating mb-3">
                         <select name="gender" class="form-control" id="edit_floatingSelect" required>
-                            <option value="" disabled>Select Gender</option>
+                            <option value="" disabled selected>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
                         </select>
+                        <span class="arrow"></span>
                         <label for="edit_floatingSelect">Gender</label>
                     </div>
 
@@ -268,11 +256,13 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select name="status" class="form-control" id="edit_status" required>
-                            <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
+                        <select name="Status" class="form-control" id="edit_status" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Confirm">Confirm</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
                         </select>
+                        <span class="arrow"></span>
                         <label for="edit_status">Appointment Status</label>
                     </div>
 
@@ -287,27 +277,116 @@
 </div>
 
 
-
-
-
-
-
 <style>
-.text-orange {
-    color: orange !important;
-}
+    .text-orange {
+        color: orange !important;
+    }
 
-.text-green {
-    color: green !important;
-}
+    .text-green {
+        color: green !important;
+    }
 
-.text-red {
-    color: red !important;
-}
+    .text-red {
+        color: red !important;
+    }
 
 </style>
 
 
 
+@section('scripts')
+    
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+
+    <!-- View Appointment -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const viewButtons = document.querySelectorAll('.view-appointment');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const AppointmentId = this.getAttribute('data-id');
+                console.log('Fetching details for appointment ID:', AppointmentId); // Debug log
+
+                fetch(`/admin/appointments/${AppointmentId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('appointmentSchedule').textContent = new Date(data.appointment.DateTime).toLocaleString();
+                        document.getElementById('patientName').textContent = data.patient.complete_name;
+                        document.getElementById('patientAge').textContent = data.patient.age;
+                        document.getElementById('patientGender').textContent = data.patient.gender;
+                        document.getElementById('contactNumber').textContent = data.patient.contact_number;
+                        document.getElementById('patientAddress').textContent = data.patient.address;
+                        document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.appointment.Status);
+                    })
+                    .catch(error => console.error('Error fetching appointment details:', error));
+            });
+        });
+    });
+    </script>
+
+    <!-- Script to open Edit and Update Appointments-->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.edit-appointment');
+        const editForm = document.querySelector('#editAppointmentForm');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        // Button to open the edit modal
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const AppointmentID = this.getAttribute('data-id');
+                document.getElementById('appointment_id').value = AppointmentID;
+                editForm.action = `/admin/appointments/update/${AppointmentID}`;
+
+                fetch(`/admin/appointments/edit/${AppointmentID}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('edit_cname').value = data.patient.complete_name;
+                        document.getElementById('edit_age').value = data.patient.age;
+                        document.getElementById('edit_floatingSelect').value = data.patient.gender;
+                        document.getElementById('edit_contact_number').value = data.patient.contact_number;
+                        document.getElementById('edit_address').value = data.patient.address;
+                        document.getElementById('edit_date').value = data.appointment.DateTime;
+                        document.getElementById('edit_status').value = data.appointment.Status;
+                    })
+                    .catch(error => console.error('Error fetching appointment details:', error));
+            });
+        });
+
+        // Form submission handling
+        editForm.addEventListener('submit', function (e) {
+            e.preventDefault();  // Prevent default form submission
+
+            const formData = new FormData(this);
+            fetch(editForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.success);
+                    $('#editAppointment').modal('hide');  // Close modal on success
+                    location.reload();  // Refresh page to show updated data
+                } else {
+                    alert(data.error || 'Error updating appointment');
+                }
+            })
+            .catch(error => console.error('Error updating appointment:', error));
+        });
+    });
+    </script>
+
+    @endsection
 
 @endsection
+
