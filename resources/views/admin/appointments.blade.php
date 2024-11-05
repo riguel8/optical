@@ -66,13 +66,13 @@
                                     <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
                                     <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
                                     <td>
-                                        @if ($appointment->Status == 'Pending')
+                                        @if ($appointment->Status == 'pending')
                                             <span class="bg-lightyellow badges">Pending</span>
-                                        @elseif ($appointment->Status == 'Confirm')
+                                        @elseif ($appointment->Status == 'confirm')
                                             <span class="bg-lightgreen badges">Confirm</span>
-                                        @elseif ($appointment->Status == 'Completed')
+                                        @elseif ($appointment->Status == 'completed')
                                             <span class="bg-lightgreen badges">Completed</span>
-                                        @elseif ($appointment->Status == 'Cancelled')
+                                        @elseif ($appointment->Status == 'cancelled')
                                             <span class="badges bg-lightred">Cancelled</span>
                                         @endif
                                     </td>
@@ -80,7 +80,7 @@
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
                                                 <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View Appointment">
-                                            </a>                                           
+                                            </a>                                        
                                             <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
                                                 <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit Appointment">
                                             </a>
@@ -161,51 +161,59 @@
 </div>
 
 
+
+
 <!-- View Appointment Modal -->
 <div class="modal fade" id="viewAppointment" tabindex="-1" aria-labelledby="viewAppointmentLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content w-100">
             <div class="modal-header">
-                <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                <h4 class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="productdetails">
-                    <ul class="product-bar">
-                        <li>
-                            <h4><strong>Appointment Schedule:</strong></h4>
-                            <h6 id="appointmentSchedule"></h6>
-                        </li>
-                        <li>
-                            <h4><strong>Patient Name:</strong>
-                            <h6><span id="patientName"></span></h6>
-                        </li>
-                        <li>
-                            <h4><strong>Age:</strong></h4>
-                            <h6><span id="patientAge"></span></h6>
-                        </li>
-                        <li>
-                            <h4><strong>Gender:</strong></h4>
-                            <h6><span id="patientGender"></span></h6>
-                        </li>
-                        <li>
-                            <h4><strong>Contact Number:</strong></h4>
-                            <h6><span id="contactNumber"></span></h6>
-                        </li>
-                        <li>
-                            <h4><strong>Address:</strong></h4>
-                            <h6><span id="patientAddress"></span></h6>
-                        </li>
-                        <li class="mb-5">
-                            <h4><strong>Status:</strong></h4>
-                            <h6><span id="appointmentStatus"></span></h6>
-                        </li>
-                    </ul>
+                <div class="mb-3">
+                    <strong>Appointment Schedule:</strong>
+                    <span id="appointmentSchedule"></span>
                 </div>
+                
+                <div class="mb-3">
+                    <strong>Patient Name:</strong>
+                    <span id="patientName"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Age:</strong>
+                    <span id="patientAge"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Gender:</strong>
+                    <span id="patientGender"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Contact Number:</strong>
+                    <span id="contactNumber"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <strong>Address:</strong>
+                    <span id="patientAddress"></span>
+                </div>
+
+                <div class="mb-3">
+                    <strong>Status:</strong>
+                    <span id="appointmentStatus"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!-- Modal for Editing Appointment -->
@@ -279,56 +287,26 @@
 </div>
 
 
+
+
+
+
 <style>
-    .text-orange {
-        color: orange !important;
-    }
+.text-orange {
+    color: orange !important;
+}
 
-    .text-green {
-        color: green !important;
-    }
+.text-green {
+    color: green !important;
+}
 
-    .text-red {
-        color: red !important;
-    }
+.text-red {
+    color: red !important;
+}
+
 </style>
 
-@section('scripts')
 
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
-    <!-- View Appointment -->
-    <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            const viewButtons = document.querySelectorAll('.view-appointment');
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const AppointmentId = this.getAttribute('data-id');
-                    console.log('Fetching details for appointment ID:', AppointmentId); // Debug log
-
-                    fetch(`/admin/appointments/${AppointmentId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            document.getElementById('appointmentSchedule').textContent = new Date(data.appointment.dateTime).toLocaleString();
-                            document.getElementById('patientName').textContent = data.patient.complete_name;
-                            document.getElementById('patientAge').textContent = data.patient.age;
-                            document.getElementById('patientGender').textContent = data.patient.gender;
-                            document.getElementById('contactNumber').textContent = data.patient.contact_number;
-                            document.getElementById('patientAddress').textContent = data.patient.address;
-                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.appointment.status);
-                        })
-                        .catch(error => console.error('Error fetching appointment details:', error));
-                });
-            });
-        });
-    </script>
-
-    @endsection
 
 @endsection
