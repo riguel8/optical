@@ -1,4 +1,4 @@
-@extends('template.ophthal.header')
+@extends('template.ophthal.layout')
 
 @section('content') 
     <div class="page-wrapper">

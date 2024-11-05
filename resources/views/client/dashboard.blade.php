@@ -1,8 +1,8 @@
-@extends('template.client.header')
+@extends('template.client.layout')
 
 @section('content') 
     <div class="page-wrapper">
-        <div class="content">
+        <div class="content"  style="overflow-y: auto; height: calc(100vh - 60px);">
             <div class="row">
                 <div class="page-header">
                     <div class="row">

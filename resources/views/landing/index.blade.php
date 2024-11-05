@@ -29,9 +29,18 @@
                             <li class="nav-item">
                                 <a class="nav-link scroll-link" href="#ophthalmologist">Ophthalmologist</a>
                             </li>
-                            <li class="nav-item ms-3 mt-2 mt-md-0">
-                                <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
-                            </li>
+                            @if (Route::has('login'))
+                                @auth
+                                    <li class="nav-item ms-3 mt-2 mt-md-0">
+                                        <a class="btn btn-primary" href="{{ url(session('usertype') . '/dashboard') }}">Dashboard</a>
+                                    </li>
+                                @else
+                                    <li class="nav-item ms-3 mt-2 mt-md-0">
+                                        <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
+                                    </li>
+                                @endauth
+                            @endif
+                            </nav>
                         </ul>
                     </div>
                 </nav>
@@ -112,7 +121,7 @@
                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                     <div class="productset flex-fill text-center">
                                         <div class="productsetimg">
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="Eyewear" class="img-fluid">
+                                            <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" class="img-fluid">
                                         </div>
                                         <div class="productsetcontent">
                                             <h4>{{ $product->Brand }} {{ $product->Model }}</h4>

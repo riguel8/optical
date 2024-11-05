@@ -13,22 +13,24 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
     <!-- Additional CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/alertify/alertify.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     <!-- FontAwesome and Icons -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/pe7/pe-icon-7.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
+ 
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
 </head>
@@ -52,6 +54,7 @@
             @include('template.staff.navbar')
             @include('template.staff.sidebar')
             @yield('content')
+            @yield('scripts')
 
 <footer>
     <div class="p-2">
@@ -65,8 +68,8 @@
 <!-- Additional JS -->
 <script src="{{ asset('assets/js/feather.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/bs-init.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
 <!-- External Scripts -->
@@ -98,154 +101,113 @@
 {{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
 
 <script>
-$(document).ready(function() {
-    // Event listeners for PDF, Excel, and Print buttons
-    $('.pdf-btn').on('click', function() {
-        table.button('.buttons-pdf').trigger();
-    });
-
-    $('.excel-btn').on('click', function() {
-        table.button('.buttons-excel').trigger();
-    });
-
-    $('.print-btn').on('click', function() {
-        window.print();
-    });
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    // Initialize the FullCalendar
-    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridWeek,dayGridMonth,listDay'
-        },
-        buttonText:{
-            dayGridWeek :"Week",
-            dayGridMonth :"Month",
-            listDay :"Day",
-            listWeek :"Week",
-        },
-        events: {
-            url: '{{ url("dashboard/get_appointments") }}',
-        },
-        eventClick: function(info) {
-            // Get the appointment ID from the clicked event
-            var appointmentId = info.event.id;
-
-            // Fetch appointment details using AJAX
-            $.ajax({
-                url: '{{ url("dashboard/get_appointment_details") }}',
+    $(document).ready(function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridWeek,dayGridMonth,listDay'
+            },
+            buttonText: {
+                dayGridWeek: "Week",
+                dayGridMonth: "Month",
+                listDay: "Day",
+                listWeek: "Week",
+            },
+            events: {
+                url: '{{ url("/staff/dashboard/get_appointments") }}',
                 method: 'GET',
-                data: { appointmentId: appointmentId },
-                dataType: 'json',
-                success: function(data) {
-                    if (data) {
-                        // Populate the modal with appointment details
-                        var modalContent = `
-                            <p><b>Appointment Schedule:</b> ${new Date(data.DateTime).toLocaleString()}</p>
-                            <p><b>Patient Name:</b> ${data.complete_name}</p>
-                            <p><b>Gender:</b> ${data.gender}</p>
-                            <p><b>Contact #:</b> ${data.contact_number}</p>
-                            <p><b>Address:</b> ${data.address}</p>
-                            <p><b>Status:</b> ${getStatusBadge(data.status)}</p>
-                        `;
-                        $('#viewAppointmentModal .modal-body').html(modalContent);
-                        $('#viewAppointmentModal').modal('show');
-                    } else {
-                        alert('Failed to fetch appointment details.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Failed to fetch appointment details:', error);
-                    alert('Failed to fetch appointment details.');
-                }
-            });
-        }
-    });
-
-    calendar.render();
-});
-
-// Helper function to create status badge
-function getStatusBadge(status) {
-    var badgeClass;
-    var statusText;
-
-    // Determine the badge class and text based on status
-    switch (status) {
-        case 'Pending':
-            badgeClass = 'bg-lightyellow badges';
-            statusText = 'Pending';
-            break;
-        case 'Confirm':
-            badgeClass = 'bg-lightgreen badges';
-            statusText = 'Confirm';
-            break;
-        case 'Cancelled':
-            badgeClass = 'bg-lightred badges';
-            statusText = 'Cancelled';
-            break;
-        default:
-            badgeClass = '';
-            statusText = status;
-            break;
-    }
-
-    // Return the HTML string for the badge
-    return `<span class="${badgeClass}">${statusText}</span>`;
-}
-</script>
-
-<script>
-$(document).ready(function() {
-    $('#addAppointmentForm').submit(function(e) {
-        e.preventDefault(); 
-        
-        var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'New appointment was added successfully',
-                        confirmButtonColor: '#ff9f43',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "{{ url('appointments') }}";
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to add appointment: ' + response.message
-                    });
+                failure: function() {
+                    alert('There was an error while fetching appointments!');
                 }
             },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while processing your request. Please try again later.'
+            eventClick: function(info) {
+                $.ajax({
+                    url: '{{ url("/staff/dashboard/get_appointment_details") }}',
+                    method: 'GET',
+                    data: { appointmentId: info.event.id },
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log("Fetched appointment details:", data); // Debugging
+
+                        if (data && !data.error) {
+                            // Populate the modal fields with the data received
+                            document.getElementById('appointmentSchedule').textContent = new Date(data.DateTime).toLocaleString();
+                            document.getElementById('patientName').textContent = data.complete_name;
+                            document.getElementById('patientAge').textContent = data.age || 'N/A'; // Assuming age is available
+                            document.getElementById('patientGender').textContent = data.gender;
+                            document.getElementById('contactNumber').textContent = data.contact_number;
+                            document.getElementById('patientAddress').textContent = data.address;
+                            
+                            // Use innerHTML to render the badge as HTML
+                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.status);
+
+                            // Show the modal
+                            $('#viewAppointmentModal').modal('show');
+                        } else {
+                            alert(data.error || 'Failed to fetch appointment details.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        alert('Failed to fetch appointment details.');
+                    }
                 });
             }
         });
+
+        calendar.render();
     });
-});
+
+    function getStatusBadge(status) {
+        let badgeClass;
+        let statusText;
+
+        // Use if-else to determine badge class and text
+        if (status === 'Pending') {
+            badgeClass = 'bg-lightyellow badges';
+            statusText = 'Pending';
+        } else if (status === 'Confirm') {
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Confirm';
+        } else if (status === 'Completed') {
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Completed';
+        } else if (status === 'Cancelled') {
+            badgeClass = 'badges bg-lightred';
+            statusText = 'Cancelled';
+        } else {
+            badgeClass = 'badges';
+            statusText = 'Unknown Status'; // Default case if needed
+        }
+
+        // Return badge HTML as a string
+        return `<span class="${badgeClass}">${statusText}</span>`;
+    }
 </script>
+
+
+
+<script>
+   function openEditModal(eyewearId) {
+    $.get('/staff/eyewears/' + eyewearId + '/edit', function (data) {
+        $('#editEyewearForm').attr('action', '/staff/eyewears/' + eyewearId);
+        $('#editEyewearModal #EyewearID').val(data.EyewearID);
+        $('#editEyewearModal #brand').val(data.Brand);
+        $('#editEyewearModal #model').val(data.Model);
+        $('#editEyewearModal #frame_type').val(data.FrameType);
+        $('#editEyewearModal #frame_color').val(data.FrameColor);
+        $('#editEyewearModal #lens_type').val(data.LensType);
+        $('#editEyewearModal #lens_material').val(data.LensMaterial);
+        $('#editEyewearModal #quantity_available').val(data.QuantityAvailable);
+        $('#editEyewearModal #price').val(data.Price);
+        $('#editEyewearModal').modal('show');
+    });
+}
+</script>
+
 
 <script>
 var checkeventcount = 1,prevTarget;
@@ -262,6 +224,23 @@ var checkeventcount = 1,prevTarget;
           checkeventcount--;
         }
      });
+</script>
+
+<script>
+$(document).ready(function() {
+    // Event listeners for PDF, Excel, and Print buttons
+    $('.pdf-btn').on('click', function() {
+        table.button('.buttons-pdf').trigger();
+    });
+
+    $('.excel-btn').on('click', function() {
+        table.button('.buttons-excel').trigger();
+    });
+
+    $('.print-btn').on('click', function() {
+        window.print();
+    });
+});
 </script>
 
 </body>

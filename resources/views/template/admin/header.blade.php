@@ -165,90 +165,91 @@ $(document).ready(function() {
 </script>
 
 <script>
-$(document).ready(function() {
-    // Initialize the FullCalendar
-    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridWeek,dayGridMonth,listDay'
-        },
-        buttonText:{
-            dayGridWeek :"Week",
-            dayGridMonth :"Month",
-            listDay :"Day",
-            listWeek :"Week",
-        },
-        events: {
-            url: '{{ url("dashboard/get_appointments") }}',
-        },
-        eventClick: function(info) {
-            // Get the appointment ID from the clicked event
-            var appointmentId = info.event.id;
-
-            // Fetch appointment details using AJAX
-            $.ajax({
-                url: '{{ url("dashboard/get_appointment_details") }}',
+    $(document).ready(function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridWeek,dayGridMonth,listDay'
+            },
+            buttonText: {
+                dayGridWeek: "Week",
+                dayGridMonth: "Month",
+                listDay: "Day",
+                listWeek: "Week",
+            },
+            events: {
+                url: '{{ url("/staff/dashboard/get_appointments") }}',
                 method: 'GET',
-                data: { appointmentId: appointmentId },
-                dataType: 'json',
-                success: function(data) {
-                    if (data) {
-                        // Populate the modal with appointment details
-                        var modalContent = `
-                            <p><b>Appointment Schedule:</b> ${new Date(data.DateTime).toLocaleString()}</p>
-                            <p><b>Patient Name:</b> ${data.complete_name}</p>
-                            <p><b>Gender:</b> ${data.gender}</p>
-                            <p><b>Contact #:</b> ${data.contact_number}</p>
-                            <p><b>Address:</b> ${data.address}</p>
-                            <p><b>Status:</b> ${getStatusBadge(data.status)}</p>
-                        `;
-                        $('#viewAppointmentModal .modal-body').html(modalContent);
-                        $('#viewAppointmentModal').modal('show');
-                    } else {
+                failure: function() {
+                    alert('There was an error while fetching appointments!');
+                }
+            },
+            eventClick: function(info) {
+                $.ajax({
+                    url: '{{ url("/staff/dashboard/get_appointment_details") }}',
+                    method: 'GET',
+                    data: { appointmentId: info.event.id },
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log("Fetched appointment details:", data); // Debugging
+
+                        if (data && !data.error) {
+                            // Populate the modal fields with the data received
+                            document.getElementById('appointmentSchedule').textContent = new Date(data.DateTime).toLocaleString();
+                            document.getElementById('patientName').textContent = data.complete_name;
+                            document.getElementById('patientAge').textContent = data.age || 'N/A'; // Assuming age is available
+                            document.getElementById('patientGender').textContent = data.gender;
+                            document.getElementById('contactNumber').textContent = data.contact_number;
+                            document.getElementById('patientAddress').textContent = data.address;
+                            
+                            // Use innerHTML to render the badge as HTML
+                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.status);
+
+                            // Show the modal
+                            $('#viewAppointmentModal').modal('show');
+                        } else {
+                            alert(data.error || 'Failed to fetch appointment details.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
                         alert('Failed to fetch appointment details.');
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Failed to fetch appointment details:', error);
-                    alert('Failed to fetch appointment details.');
-                }
-            });
-        }
+                });
+            }
+        });
+
+        calendar.render();
     });
 
-    calendar.render();
-});
+    function getStatusBadge(status) {
+        let badgeClass;
+        let statusText;
 
-// Helper function to create status badge
-function getStatusBadge(status) {
-    var badgeClass;
-    var statusText;
-
-    // Determine the badge class and text based on status
-    switch (status) {
-        case 'Pending':
+        // Use if-else to determine badge class and text
+        if (status === 'Pending') {
             badgeClass = 'bg-lightyellow badges';
             statusText = 'Pending';
-            break;
-        case 'Confirm':
+        } else if (status === 'Confirm') {
             badgeClass = 'bg-lightgreen badges';
             statusText = 'Confirm';
-            break;
-        case 'Cancelled':
-            badgeClass = 'bg-lightred badges';
+        } else if (status === 'Completed') {
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Completed';
+        } else if (status === 'Cancelled') {
+            badgeClass = 'badges bg-lightred';
             statusText = 'Cancelled';
-            break;
-        default:
-            badgeClass = '';
-            statusText = status;
-            break;
-    }
+        } else {
+            badgeClass = 'badges';
+            statusText = 'Unknown Status'; // Default case if needed
+        }
 
-    // Return the HTML string for the badge
-    return `<span class="${badgeClass}">${statusText}</span>`;
-}
+        // Return badge HTML as a string
+        return `<span class="${badgeClass}">${statusText}</span>`;
+    }
 </script>
 
 

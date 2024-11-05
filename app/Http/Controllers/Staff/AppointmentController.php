@@ -1,96 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
-use Illuminate\View\View;
-use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\Controller;
 use App\Models\AppointmentModel;
 use App\Models\PatientModel;
-use App\Models\Eyewear;
-use Illuminate\Http\Request;
-use App\Models\UserModel;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class AppointmentController extends Controller
 {
     public function index()
-    {
-        $title = 'Dashboard';
-        return view('admin.dashboard', compact('title'));
-    }
-
-    public function appointments()
     {
         $title = 'Appointments';
         $appointments = AppointmentModel::with(['patient', 'staff'])
             ->orderBy('created_at', 'desc')
             ->get();
-
-        return view('admin.appointments', compact('appointments', 'title'));
+        
+        return view('staff.appointments', compact('appointments', 'title'));
     }
-
-    public function eyewears()
-    {
-        $title = 'Eyewears';
-        $eyewears = Eyewear::all();
-        return view('admin.eyewears', compact('eyewears', 'title'));
-    }
-
-    // Adding New Eyewears (Modal)
-    public function storeEyewear(Request $request)
-    {
-        // Validate the request
-        $validated = $request->validate([
-            'Brand' => 'required|string|max:255',
-            'Model' => 'required|string|max:255',
-            'FrameType' => 'nullable|string|max:255',
-            'FrameColor' => 'nullable|string|max:255',
-            'LensType' => 'nullable|string|max:255',
-            'LensMaterial' => 'nullable|string|max:255',
-            'QuantityAvailable' => 'required|integer|min:0',
-            'Price' => 'required|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $imageName = null; // Initialize variable to store the image name
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName(); 
-            $image->storeAs('eyewears', $imageName, 'public'); // Store the image
-        }
-
-        // Create the Eyewear record
-        $data = Eyewear::create([
-            'Brand' => $validated['Brand'],
-            'Model' => $validated['Model'],
-            'FrameType' => $validated['FrameType'],
-            'FrameColor' => $validated['FrameColor'],
-            'LensType' => $validated['LensType'],
-            'LensMaterial' => $validated['LensMaterial'],
-            'QuantityAvailable' => $validated['QuantityAvailable'],
-            'Price' => $validated['Price'],
-            'ImagePath' => $imageName, // Store the image path in the database
-        ]);
-
-        // Return a response
-        if ($data) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Eyewear added successfully',
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to add eyewear. Please try again later.',
-            ]);
-        }
-    }
-
-
     // Adding New Appointment (Modal)
-    public function storeAppointment(Request $request)
+    public function store(Request $request)
     {
         try {
 
@@ -130,21 +60,20 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to appointment. Please try again later.',
+                'message' => 'Failed to add patient and appointment. Please try again later.',
             ]);
         }
     }
-
     // Function to view specific appointment
-    public function viewAppointment($id)
+    public function view($Appointment_Id)
     {
         try {
-            $appointment = AppointmentModel::with('patient')->findOrFail($id);
+            $appointment = AppointmentModel::with('patient')->findOrFail($Appointment_Id);
     
             return response()->json([
                 'appointment' => [
-                    'dateTime' => $appointment->DateTime,
-                    'status' => $appointment->Status,
+                    'DateTime' => $appointment->DateTime,
+                    'Status' => $appointment->Status,
                 ],
                 'patient' => [
                     'complete_name' => $appointment->patient->complete_name,
@@ -158,17 +87,18 @@ class AdminController extends Controller
             return response()->json(['error' => 'Data not found'], 404);
         }
     }
+
 
     // Function to Edit Appointment
-    public function editAppointment($id)
+    public function edit($AppointmentID)
     {
         try {
-            $appointment = AppointmentModel::with('patient')->findOrFail($id);
+            $appointment = AppointmentModel::with('patient')->findOrFail($AppointmentID);
     
             return response()->json([
                 'appointment' => [
-                    'dateTime' => $appointment->DateTime,
-                    'status' => $appointment->Status,
+                    'DateTime' => $appointment->DateTime,
+                    'Status' => $appointment->Status,
                 ],
                 'patient' => [
                     'complete_name' => $appointment->patient->complete_name,
@@ -183,9 +113,8 @@ class AdminController extends Controller
         }
     }
     
-
     //Function to Update the Appointment
-    public function updateAppointment(Request $request, $id)
+    public function update(Request $request, $AppointmentID)
     {
         $request->validate([
             'DateTime' => 'required|date',
@@ -198,9 +127,9 @@ class AdminController extends Controller
         ]);
 
         try {
-            $appointment = AppointmentModel::findOrFail($id);
+            $appointment = AppointmentModel::findOrFail($AppointmentID);
             $appointment->DateTime = $request->input('DateTime');
-            $appointment->Status = $request->input('status');
+            $appointment->Status = $request->input('Status');
             $appointment->save();
 
             $patient = $appointment->patient;
@@ -215,22 +144,5 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error updating appointment'], 500);
         }
-    }
-    
-    
-
-
-
-
-
-    // ######### Patients Controller ######## //
-    public function patients()
-    {
-        $title = 'Patients';
-        $patients = PatientModel::with('prescription')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('admin.patients', compact('patients', 'title'));
     }
 }

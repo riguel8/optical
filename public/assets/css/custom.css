@@ -23,7 +23,6 @@ a.fc-list-day-text:hover {
         cursor: pointer;
 }
 
-
 .custom-select {
     position: relative;
 }
@@ -53,4 +52,14 @@ a.fc-list-day-text:hover {
 .disabled {
     pointer-events: none;
     opacity: 0.6;
+}
+
+.fc .fc-button {
+    background-color: #fafbfe !important; 
+    color: #343a40 !important;
+    border-color: #ccc !important;
+}
+.fc .fc-button:hover {
+    background-color: #212b36 !important; 
+    color: #fafbfe !important;
 }

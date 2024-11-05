@@ -1,8 +1,8 @@
-@extends('template.ophthal.header')
+@extends('template.ophthal.layout')
 
 @section('content') 
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content"  style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
             <div class="page-title">
                 <h4>Appointments</h4>
@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($appointments as $appointment)
+                            @foreach ($appointments as $appointment)
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
@@ -74,11 +74,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center" colspan="5">No appointments found</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -86,4 +82,10 @@
         </div>
     </div>
 </div>
+
+    @section('scripts')
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    @endsection   
+
 @endsection

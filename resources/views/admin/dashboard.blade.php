@@ -15,7 +15,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count">
                         <div class="dash-counts">
-                            <h4>100</h4>
+                            <h4>{{ $patientCount }}</h4>
                             <h5>Patients</h5>
                         </div>
                         <div class="dash-imgs">
@@ -37,7 +37,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count das2">
                         <div class="dash-counts">
-                            <h4>100</h4>
+                            <h4>{{ $appointmentCount }}</h4>
                             <h5>Appointments</h5>
                         </div>
                         <div class="dash-imgs">
@@ -48,7 +48,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count das3">
                         <div class="dash-counts">
-                            <h4>105</h4>
+                            <h4>{{ $eyewearCount }}</h4>
                             <h5>Available Eyewears</h5>
                         </div>
                         <div class="dash-imgs">
@@ -58,7 +58,7 @@
                 </div>  
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-lg-12 col-md-8">
                 <div class="card bg-white">
@@ -91,24 +91,50 @@
         </div>
     </div>
 
-    
-    <div class="modal fade" id="viewAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="viewAppointmentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- View Appointment Modal -->
+    <div class="modal fade" id="viewAppointmentModal" tabindex="-1" aria-labelledby="viewAppointmentLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="viewAppointmentModalLabel">Appointment Details</h5>
-                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-body">
-                    
-                </div>
-                <div class="modal-footer justify-content-end">
-                    <button class="btn btn-sm btn-primary" type="button" data-bs-dismiss="modal">Close</button>
+                <div class="productdetails">
+                    <ul class="product-bar">
+                        <li>
+                            <h4><strong>Appointment Schedule:</strong></h4>
+                            <h6 id="appointmentSchedule"></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Patient Name:</strong>
+                            <h6><span id="patientName"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Age:</strong></h4>
+                            <h6><span id="patientAge"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Gender:</strong></h4>
+                            <h6><span id="patientGender"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Contact Number:</strong></h4>
+                            <h6><span id="contactNumber"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Address:</strong></h4>
+                            <h6><span id="patientAddress"></span></h6>
+                        </li>
+                        <li class="mb-5">
+                            <h4><strong>Status:</strong></h4>
+                            <h6><span id="appointmentStatus"></span></h6>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
+  
 @endsection
