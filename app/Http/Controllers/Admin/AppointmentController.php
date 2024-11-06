@@ -66,7 +66,7 @@ class AppointmentController extends Controller
         }
     }
 
-    // Function to Edit Appointment
+    // Function to Fetch Appointment Information
     public function edit($id)
     {
         try {

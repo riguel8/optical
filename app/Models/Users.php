@@ -13,7 +13,14 @@ class Users extends Model
     protected $table = 'users'; 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = [
+        'name',
+        'email',
+        'usertype',
+        'password',
+        'created_at',
+        'updated_at',
+    ];
 
     // Fetch all users
     public static function getUsers()
@@ -49,5 +56,16 @@ class Users extends Model
     public static function registerUser($userData)
     {
         return self::create($userData);
+    }
+
+
+    public function appointments()
+    {
+        return $this->hasMany(AppointmentModel::class, 'StaffID');
+    }
+
+    public function prescription()
+    {
+        return $this->hasMany(PrescriptionModel::class,'DoctorID');
     }
 }
