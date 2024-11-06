@@ -62,7 +62,7 @@
                             @foreach ($appointments as $appointment)
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</td>
                                     <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
                                     <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
                                     <td>
@@ -361,7 +361,7 @@
 
         // Form submission handling
         editForm.addEventListener('submit', function (e) {
-            e.preventDefault();  // Prevent default form submission
+            e.preventDefault(); 
 
             const formData = new FormData(this);
             fetch(editForm.action, {
@@ -375,8 +375,8 @@
             .then(data => {
                 if (data.success) {
                     alert(data.success);
-                    $('#editAppointment').modal('hide');  // Close modal on success
-                    location.reload();  // Refresh page to show updated data
+                    $('#editAppointment').modal('hide');
+                    location.reload(); 
                 } else {
                     alert(data.error || 'Error updating appointment');
                 }
