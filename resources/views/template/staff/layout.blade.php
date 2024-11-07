@@ -190,26 +190,6 @@
 </script>
 
 
-
-<script>
-   function openEditModal(eyewearId) {
-    $.get('/staff/eyewears/' + eyewearId + '/edit', function (data) {
-        $('#editEyewearForm').attr('action', '/staff/eyewears/' + eyewearId);
-        $('#editEyewearModal #EyewearID').val(data.EyewearID);
-        $('#editEyewearModal #brand').val(data.Brand);
-        $('#editEyewearModal #model').val(data.Model);
-        $('#editEyewearModal #frame_type').val(data.FrameType);
-        $('#editEyewearModal #frame_color').val(data.FrameColor);
-        $('#editEyewearModal #lens_type').val(data.LensType);
-        $('#editEyewearModal #lens_material').val(data.LensMaterial);
-        $('#editEyewearModal #quantity_available').val(data.QuantityAvailable);
-        $('#editEyewearModal #price').val(data.Price);
-        $('#editEyewearModal').modal('show');
-    });
-}
-</script>
-
-
 <script>
 var checkeventcount = 1,prevTarget;
     $('.modal').on('show.bs.modal', function (e) {

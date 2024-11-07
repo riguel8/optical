@@ -303,9 +303,9 @@
                         <label for="date">Appointment Date</label>
                     </div>
 
-                    <div class="modal-footer justify-content-end">
-                        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <div class="mt-auto d-flex justify-content-end gap-2">
+                        <button class="btn btn-lg btn-submit w-100" type="submit">Submit</button>
+                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -423,9 +423,9 @@
                         <label for="edit_status">Appointment Status</label>
                     </div>
 
-                    <div class="modal-footer justify-content-end">
-                        <button class="btn btn-sm btn-primary" type="submit">Save Changes</button>
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <div class="mt-auto d-flex justify-content-end gap-2">
+                        <button class="btn btn-lg btn-submit w-100" type="submit">Update Changes</button>
+                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>

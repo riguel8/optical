@@ -65,14 +65,12 @@
                                     <td>{{ $user->usertype}}</td>
                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y') }}</td>
                                     <td>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a class="me-3 view-user" href="#" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#viewUser">
-                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View User">
-                                            </a>                                        
-                                            <a class="me-3 edit-user" href="#" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#editUser">
-                                                <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit User">
-                                            </a>
-                                        </div>
+                                        <a class="me-3 view-user" href="#" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#viewUser">
+                                            <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View User">
+                                        </a>                                        
+                                        <a class="me-3 edit-user" href="#" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#editUser">
+                                            <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit User">
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -130,9 +128,9 @@
                         <input class="form-control" type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         <label for="password_confirmation">Confirm Password</label>
                     </div>
-                    <div class="modal-footer justify-content-end">
-                        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <div class="mt-auto d-flex justify-content-end gap-2">
+                        <button class="btn btn-lg btn-submit w-100" type="submit">Submit</button>
+                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -225,9 +223,9 @@
                         <label for="edit_userpassword_confirmation">Confirm New Password</label>
                     </div>
 
-                    <div class="modal-footer justify-content-end">
-                        <button class="btn btn-sm btn-primary" type="submit">Save Changes</button>
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <div class="mt-auto d-flex justify-content-end gap-2">
+                        <button class="btn btn-lg btn-submit w-100" type="submit">Update Changes</button>
+                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>

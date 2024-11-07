@@ -120,7 +120,7 @@ class EyewearController extends Controller
                 $image = $request->file('image');
                 $imageName = time() . '_' . $image->getClientOriginalName(); 
                 $image->storeAs('eyewears', $imageName, 'public'); 
-                $validation['image'] = $imageName; 
+                $eyewear['image'] = $imageName; 
             }
 
             $eyewear->save();

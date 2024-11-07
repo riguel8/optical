@@ -105,28 +105,37 @@ class EyewearController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $eyewear = Eyewear::findOrFail($id);
-        $eyewear->Brand = $request->Brand;
-        $eyewear->Model = $request->Model;
-        $eyewear->FrameType = $request->FrameType;
-        $eyewear->FrameColor = $request->FrameColor;
-        $eyewear->LensType = $request->LensType;
-        $eyewear->LensMaterial = $request->LensMaterial;
-        $eyewear->QuantityAvailable = $request->QuantityAvailable;
-        $eyewear->Price = $request->Price;
+        try{
+            $eyewear = Eyewear::findOrFail($id);
+            $eyewear->Brand = $request->Brand;
+            $eyewear->Model = $request->Model;
+            $eyewear->FrameType = $request->FrameType;
+            $eyewear->FrameColor = $request->FrameColor;
+            $eyewear->LensType = $request->LensType;
+            $eyewear->LensMaterial = $request->LensMaterial;
+            $eyewear->QuantityAvailable = $request->QuantityAvailable;
+            $eyewear->Price = $request->Price;
 
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->storeAs('public/eyewears', $imageName);
-            $eyewear->image = $imageName;
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . $image->getClientOriginalName(); 
+                $image->storeAs('eyewears', $imageName, 'public'); 
+                $eyewear['image'] = $imageName; 
+            }
+
+            $eyewear->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Eyewear updated successfully.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update eyewear. Please try again.',
+            ]);
         }
-
-        $eyewear->save();
-
-        return redirect()->back()->with('success', 'Eyewear updated successfully!');
     }
-
-    
     public function delete($id)
     {
             $eyewear = Eyewear::findOrFail($id);

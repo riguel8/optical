@@ -72,17 +72,15 @@
                                     <td>{{ $eyewear->QuantityAvailable }}</td>
                                     <td>₱{{ number_format($eyewear->Price, 2) }}</td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <a class="me-3" href="{{ route('admin.view-details', $eyewear->EyewearID) }}">
-                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Eyewear">
-                                            </a>
-                                            <a class="me-3" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#editEyewear">
-                                                <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Eyewear">
-                                            </a>
-                                            <a class="me-3 btn-delete" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Eyewear">
-                                            </a>
-                                        </div>
+                                        <a class="me-3" href="{{ route('admin.view-details', $eyewear->EyewearID) }}">
+                                            <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Eyewear">
+                                        </a>
+                                        <a class="me-3 edit-eyewear" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#editEyewear">
+                                            <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Eyewear">
+                                        </a>
+                                        <a class="me-3 btn-delete" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Eyewear">
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -96,7 +94,7 @@
 
 <!-- Add Eyewear Modal -->
 <div class="modal fade" id="addeyewear" tabindex="-1" aria-labelledby="addeyewearLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addeyewearLabel">New Eyewear</h5>
@@ -107,86 +105,189 @@
             <div class="modal-body">
                 <form id="addEyewearForm" method="POST" action="{{ route('admin.eyewears.store') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="brand" placeholder="Enter Brand" name="Brand" required>
-                                <label for="brand">Brand</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="model" placeholder="Enter Model" name="Model" required>
-                                <label for="model">Model</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="frame_type" placeholder="Enter Frame Type" name="FrameType">
-                                <label for="frame_type">Frame Type</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="frame_color" placeholder="Enter Frame Color" name="FrameColor">
-                                <label for="frame_color">Frame Color</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="lens_type" placeholder="Enter Lens Type" name="LensType">
-                                <label for="lens_type">Lens Type</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="lens_material" placeholder="Enter Lens Material" name="LensMaterial">
-                                <label for="lens_material">Lens Material</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="number" id="quantity_available" placeholder="Enter Quantity Available" name="QuantityAvailable" required>
-                                <label for="quantity_available">Quantity Available</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-floating">
-                                <input class="form-control" type="number" id="price" placeholder="Enter Price" name="Price" required>
-                                <label for="price">Price</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-5">
+                    <div class="row d-flex align-items-stretch">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Eyewear Image</label>
                                 <div class="image-upload">
                                     <input id="image" name="image" type="file" accept="image/*">
                                     <div class="image-uploads">
                                         <img src="{{ asset('assets/img/icons/upload.svg') }}" alt="Upload" id="imagePreview"
-                                            style="max-width: 100%; height: auto; object-fit: contain; border-radius: 4px;">
+                                            style="max-width: 100%; height: 200px; object-fit: contain; border-radius: 4px;">
                                         <h4 id="imageName">Drag and drop a file to upload</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer justify-content-end">
-                        <button class="btn btn-sm btn-primary" type="submit">Save</button>
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        <div class="col-md-6 d-flex flex-column">
+                            <input type="hidden" id="Eyewear_ID" name="EyewearID" value="">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="brand" placeholder="Enter Brand" name="Brand" required>
+                                            <label for="brand">Brand</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="lens_type" placeholder="Enter Lens Type" name="LensType">
+                                            <label for="lens_type">Lens Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="frame_type" placeholder="Enter Frame Type" name="FrameType">
+                                            <label for="frame_type">Frame Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" id="quantity_available" placeholder="Enter Quantity Available" name="QuantityAvailable" required>
+                                            <label for="quantity_available">Quantity Available</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="model" placeholder="Enter Model" name="Model" required>
+                                            <label for="model">Model</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="lens_material" placeholder="Enter Lens Material" name="LensMaterial">
+                                            <label for="lens_material">Lens Material</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="frame_color" placeholder="Enter Frame Color" name="FrameColor">
+                                            <label for="frame_color">Frame Color</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" id="price" placeholder="Enter Price" name="Price" required>
+                                            <label for="price">Price</label>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>   
+
+                            <div class="mt-auto d-flex justify-content-end gap-3">
+                                <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Save</button>
+                                <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div> 
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Edit Eyewear Modal -->
+<div class="modal fade" id="editEyewear" tabindex="-1" aria-labelledby="editEyewearLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEyewearLabel">Edit Eyewear</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="" id="editEyewearForm" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="row d-flex align-items-stretch">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Eyewear Image</label>
+                                <div class="image-upload">
+                                    <input id="edit_image" name="image" type="file" accept="image/*">
+                                    <div class="image-uploads">
+                                        <img src="{{ asset('assets/img/icons/upload.svg') }}" alt="Upload" id="edit_imagePreview"
+                                            style="max-width: 100%; height: 200px; object-fit: contain; border-radius: 4px;">
+                                        <h4 id="edit_imageName">Drag and drop a file to upload</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 d-flex flex-column">
+                            <input type="hidden" id="Eyewear_ID" name="EyewearID" value="">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="edit_brand" placeholder="Enter Brand" name="Brand" value="{{ old('Brand') }}">
+                                            <label for="edit_brand">Brand</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="edit_lens_type" placeholder="Enter Lens Type" name="LensType" value="{{ old('LensType') }}">
+                                            <label for="edit_lens_type">Lens Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="edit_frame_type" placeholder="Enter Frame Type" name="FrameType" value="{{ old('FrameType')}}">
+                                            <label for="edit_frame_type">Frame Type</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" id="edit_quantity_available" placeholder="Enter Quantity Available" name="QuantityAvailable" value="{{ old('QuantityAvailable') }}">
+                                            <label for="edit_quantity_available">Quantity Available</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="edit_model" placeholder="Enter Model" name="Model" value="{{ old('Model') }}">
+                                            <label for="edit_model">Model</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="edit_lens_material" placeholder="Enter Lens Material" name="LensMaterial" value="{{ old('LensMaterial') }}">
+                                            <label for="edit_lens_material">Lens Material</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" id="edit_frame_color" placeholder="Enter Frame Color" name="FrameColor" value="{{ old('FrameColor') }}">
+                                            <label for="edit_frame_color">Frame Color</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <div class="form-floating">
+                                            <input class="form-control" type="number" id="edit_price" placeholder="Enter Price" name="Price" value="{{ old('Price') }}">
+                                            <label for="edit_price">Price</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto d-flex justify-content-end gap-2">
+                                <button class="btn btn-lg btn-submit w-100" type="submit">Update Changes</button>
+                                <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+
+
 
 <style>
     .image-uploads {
@@ -196,12 +297,6 @@
         border: 1px dashed #ccc; 
         padding: 20px; 
         border-radius: 4px; 
-    }
-
-    #imagePreview {
-        max-width: 150px; 
-        max-height: 100px; 
-        margin-bottom: 10px; 
     }
 </style>
 
@@ -215,58 +310,98 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const editButtons = document.querySelectorAll('.edit-eyewear');
-        const editForm = document.querySelector('#editEyewear form');
-
+        const editForm = document.querySelector('#editEyewearForm');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+     
         editButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const EyewearID = this.getAttribute('data-id');
-                document.getElementById('eyewear_id').value = ID;
-
-                // Set the form action dynamically
+                document.getElementById('Eyewear_ID').value = EyewearID;
                 editForm.action = `/admin/eyewears/update/${EyewearID}`;
-
-                // Fetch the eyewear details and populate the form
+                
                 fetch(`/admin/eyewears/edit/${EyewearID}`)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('brand').value = data.eyewears.Brand;
-                        document.getElementById('model').value = data.eyewears.Model;
-                        document.getElementById('frame_type').value = data.eyewears.FrameType;
-                        document.getElementById('frame_clor').value = data.eyewears.FrameColor;
-                        document.getElementById('lens_type').value = data.eyewears.LensType;
-                        document.getElementById('lens_material').value = data.eyewear.LensMaterial;
-                        document.getElementById('quantity_available').value = data.eyewear.QuantityAvailable;
-                        document.getElementById('price').value = data.eyewear.Price;
+                        document.getElementById('edit_brand').value = data.Brand;
+                        document.getElementById('edit_model').value = data.Model;
+                        document.getElementById('edit_frame_type').value = data.FrameType;
+                        document.getElementById('edit_frame_color').value = data.FrameColor;
+                        document.getElementById('edit_lens_type').value = data.LensType;
+                        document.getElementById('edit_lens_material').value = data.LensMaterial;
+                        document.getElementById('edit_quantity_available').value = data.QuantityAvailable;
+                        document.getElementById('edit_price').value = data.Price;
+
+                        const imagePreview = document.getElementById("edit_imagePreview");
+                        const imageName = document.getElementById("edit_imageName");
+                        if (data.image) {
+                            imagePreview.src = `/storage/eyewears/${data.image}`;
+                            imageName.textContent = data.image;
+                        } else {
+                            imagePreview.src = "";
+                            imageName.textContent = "No image selected";
+                        }
                     })
-                    .catch(error => console.error('Error fetching eyewear details:', error));
+                    .catch(error => console.error('Error fetching Eyewear details:', error));
             });
         });
 
+            document.getElementById("edit_image").addEventListener("change", function () {
+            const file = this.files[0];
+            const imagePreview = document.getElementById("edit_imagePreview");
+            const imageName = document.getElementById("edit_imageName");
+
+                if (file) {
+                    imageName.textContent = file.name;
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagePreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    imageName.textContent = "No image selected";
+                    imagePreview.src = "";
+                }
+            });
+
         editForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            const formData = new FormData(this);
 
+            const formData = new FormData(this);
             fetch(editForm.action, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'X-HTTP-Method-Override': 'PUT'
+                    'X-CSRF-TOKEN': csrfToken
                 }
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert(data.success);
-                    // Optionally, close modal and refresh page
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message,
+                    }).then(() => {
+                        location.reload();
+                    });
                 } else {
-                    alert(data.error || 'Error updating eyewear');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                    });
                 }
             })
-            .catch(error => console.error('Error updating eyewear:', error));
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An unexpected error occurred. Please try again.',
+                });
+            });
         });
     });
-    </script>
+</script>
 
 
     <script>
@@ -395,50 +530,6 @@
     });
 
     </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#editEyewearForm').on('submit', function(event) {
-                event.preventDefault();
-
-                const formData = new FormData(this); 
-
-                $.ajax({
-                    url: $(this).attr('action'), 
-                    type: 'POST', 
-                    data: formData, 
-                    contentType: false, 
-                    processData: false, 
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: response.message,
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                location.reload(); 
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: response.message,
-                            });
-                        }
-                    },
-                    error: function(xhr) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: 'Something went wrong. Please try again.',
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-
-
 
 @endsection
 @endsection

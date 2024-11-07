@@ -16,6 +16,7 @@
     <!-- Additional CSS -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/alertify/alertify.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/owlcarousel/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
@@ -84,12 +85,12 @@
 
 <!-- Commented out scripts -->
 <!-- <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script> -->
-<script src="{{ asset('assets/js/jszip.min.js') }}"></script>
+<!-- <script src="{{ asset('assets/js/jszip.min.js') }}"></script>
 <script src="{{ asset('assets/js/pdfmake.min.js') }}"></script>
 <script src="{{ asset('assets/js/vfs_fonts.js') }}"></script>
 <script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('assets/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/js/buttons.print.min.js') }}"></script> -->
 <!-- <script src="{{ asset('assets/js/listTable.js') }}"></script> -->
 
 <!-- Plugins -->

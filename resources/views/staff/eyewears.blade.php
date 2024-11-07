@@ -209,26 +209,19 @@
                     @csrf
                     @method('PUT')
                     <div class="row d-flex align-items-stretch">
-                    <div class="col-md-6">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="custom-file-container" data-upload-id="mySecondImage">
-                <label>Upload (Eyewear Image) 
-                    <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a>
-                </label>
-                <label class="custom-file-container__custom-file">
-                    <input id="imageFileInput" type="file" class="custom-file-container__custom-file__custom-file-input" name="image" accept="image/*" onchange="UploadImage(event)">
-                    <input type="hidden" />
-                    <span class="custom-file-container__custom-file__custom-file-control"></span>
-                </label>
-                <div class="custom-file-container__image-preview">
-                    <img id="imagePreviewEdit" src="" alt="Current Eyewear Image" style="display:none; max-width: 100%; height: 150px; object-fit: cover;" />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Eyewear Image</label>
+                                <div class="image-upload">
+                                    <input id="image" name="image" type="file" accept="image/*">
+                                    <div class="image-uploads">
+                                        <img src="{{ asset('assets/img/icons/upload.svg') }}" alt="Upload" id="imagePreview"
+                                            style="max-width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">
+                                        <h4 id="imageName">Drag and drop a file to upload</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="col-md-6 d-flex flex-column">
                             <input type="hidden" id="eyewear_ID" name="EyewearID" value="">
@@ -301,11 +294,28 @@
 </div> 
 
 
+<style>
+    .image-uploads {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        border: 1px dashed #ccc; 
+        padding: 20px; 
+        border-radius: 4px; 
+    }
+
+    #imagePreview {
+        max-width: 150px; 
+        max-height: 100px; 
+        margin-bottom: 10px; 
+    }
+</style>
+
 @section('scripts')
 
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/fileupload/fileupload.min.js') }}"></script>
+    <!-- <script src="{{ asset('assets/plugins/fileupload/fileupload.min.js') }}"></script> -->
 
 
     <script>
