@@ -51,9 +51,9 @@
                         <tbody>
                             @foreach ($patients as $patient)
                                 <tr>
-                                    <td>{{ $patient->complete_name}}</td>
-                                    <td>{{ $patient->age}}</td>
-
+                                    <td>{{ $patient->complete_name }}</td>
+                                    <td>{{ $patient->age }}</td>
+                        
                                     <td class="{{ isset($patient->prescription) && $patient->prescription->Prescription ? '' : 'text-red' }}">
                                         {{ $patient->prescription->Prescription ?? 'No Prescription Yet' }}
                                     </td>
@@ -61,20 +61,29 @@
                                     <td class="{{ isset($patient->prescription) && $patient->prescription->Lens ? '' : 'text-red' }}">
                                         {{ $patient->prescription->Lens ?? 'No Lens Yet' }}
                                     </td>
-
+                        
                                     <td class="{{ isset($patient->prescription) && $patient->prescription->Frame ? '' : 'text-red' }}">
                                         {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
                                     </td>
-
+                        
                                     <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
                                         {{ $patient->prescription->Price ?? 'N/A' }}
                                     </td>
-
-                                    <td>{{ date('m/d/Y', strtotime($patient->created_at)) }}</td>
+                        
+                                    <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F j, Y') }}</td>
+                                    
                                     <td>
-                                        <div class="btn-group" role="group" >
+                                        <div class="btn-group" role="group">
                                             <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a>
-                                            <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img"></a>
+                                            <a class="me-3 prescription" href="#" 
+                                            data-id="{{ $patient->PatientID}}" 
+                                            data-name="{{ $patient->complete_name }}" 
+                                            data-age="{{ $patient->age }}" 
+                                            data-gender="{{ $patient->gender }}" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#Prescription">
+                                            <img src="{{ asset('assets/img/icons/add-pres.png') }}" alt="Prescription">
+                                         </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -87,8 +96,163 @@
     </div>
 </div>
 
+
+<!-- Add Prescription Modal-->
+<div class="modal fade" id="Prescription" tabindex="-1" aria-labelledby="prescriptionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="prescriptionLabel">New Prescription</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('ophthal.storePrescription') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="PatientID" id="patientID">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="patientName">Patient Name:</label>
+                            <input type="text" class="form-control" id="patientName" name="patientName" required readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="age">Age:</label>
+                            <input type="number" class="form-control" id="age" name="age" required readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="gender">Gender:</label>
+                            <input type="text" class="form-control" id="gender" name="gender" required readonly>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select name="prescription" class="form-select" id="prescription" required>
+                                    <option value="" disabled selected>Select Prescription</option>
+                                    <option value="(OD) Right Eye">(OD) Right Eye</option>
+                                    <option value="(OS) Left Eye">(OS) Left Eye</option>
+                                    <option value="(OU) Both Eyes">(OU) Both Eyes</option>
+                                </select>
+                                <label for="prescription">Prescription</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select name="lens" class="form-select" id="lens" required>
+                                    <option value="" disabled selected>Select Lens</option>
+                                    <option value="SINGLE VISION">SINGLE VISION</option>
+                                    <option value="DOUBLE VISION">DOUBLE VISION</option>
+                                    <option value="PROGRESSIVE">PROGRESSIVE</option>
+                                    <option value="NEAR VISION">NEAR VISION</option>
+                                </select>
+                                <label for="lens">Lens</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" type="text" id="frame" name="frame" placeholder="Enter Frame" required>
+                                <label for="frame">Frame</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input class="form-control" type="number" id="price" name="price" placeholder="Enter Price" required>
+                                <label for="price">Price</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <textarea style="height: 100px" class="form-control" id="prescriptionDetails" name="PrescriptionDetails" placeholder="Enter Prescription Details" rows="3" required></textarea>
+                                <label for="prescriptionDetails">Prescription Details</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer justify-content-end">
+                        <button class="btn btn-sm btn-primary" type="submit">Save</button>
+                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    @section('scripts')
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const prescriptionModal = document.getElementById('Prescription');
+            
+
+            prescriptionModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                const patientID = button.getAttribute('data-id'); 
+
+                console.log('Modal triggered for patient ID:', patientID);
+
+                fetch(`/ophthal/patients/edit/${patientID}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Fetched data:', data); 
+
+                        if (data.patient) {
+                            document.getElementById('patientID').value = data.patient.PatientID;
+                            document.getElementById('patientName').value = data.patient.complete_name;
+                            document.getElementById('age').value = data.patient.age;
+                            document.getElementById('gender').value = data.patient.gender;
+
+                            document.getElementById('prescription').value = data.prescription.Prescription || '';
+                            document.getElementById('lens').value = data.prescription.Lens || '';
+                            document.getElementById('frame').value = data.prescription.Frame || '';
+                            document.getElementById('price').value = data.prescription.Price || '';
+                            document.getElementById('prescriptionDetails').value = data.prescription.PrescriptionDetails || '';
+                        } else {
+                            console.error("No patient data found.");
+                        }
+                    })
+                    .catch(error => console.error('Error fetching patient data:', error));
+            });
+        });
+    </script>
+
+
+    @endsection   
+    
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Add Patient Modal -->
-<div class="modal fade" id="createPrescription" tabindex="-1" aria-labelledby="addPatientLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="createPrescription" tabindex="-1" aria-labelledby="addPatientLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,11 +366,4 @@
             </div>
         </div>
     </div>
-</div>
-
-    @section('scripts')
-        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
-    @endsection   
-    
-@endsection
+</div> --}}

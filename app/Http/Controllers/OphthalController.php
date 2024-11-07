@@ -26,10 +26,56 @@ class OphthalController extends Controller
     public function patients()
     {
         $title = 'Patients';
-        $patients = PatientModel::with('prescription')->get();
+    
+        $patients = PatientModel::with(['prescription', 'appointments' => function ($query) {
+            $query->whereIn('Status', ['confirm', 'completed']);
+        }])
+        ->whereHas('appointments', function ($query) {
+            $query->whereIn('Status', ['confirm', 'completed']);
+        })
+        ->get();
+    
         return view('ophthal.patients', compact('patients', 'title'));
     }
 
+
+
+
+    // Function to Fetch data to the modal
+    public function edit($patientId)
+    {
+        try {
+            // Fetch the patient with associated prescription data
+            $patient = PatientModel::with('prescription')->findOrFail($patientId);
+    
+            // Prepare the response data structure
+            return response()->json([
+                'patient' => [
+                    'PatientID' => $patient->PatientID,
+                    'complete_name' => $patient->complete_name,
+                    'age' => $patient->age,
+                    'gender' => $patient->gender,
+                    'contact_number' => $patient->contact_number,
+                    'address' => $patient->address,
+                ],
+                'prescription' => [
+                    'PrescriptionID' => $patient->prescription->PrescriptionID ?? null,
+                    'Lens' => $patient->prescription->Lens ?? null,
+                    'Frame' => $patient->prescription->Frame ?? null,
+                    'Price' => $patient->prescription->Price ?? null,
+                    'Prescription' => $patient->prescription->Prescription ?? null,
+                    'PrescriptionDetails' => $patient->prescription->PrescriptionDetails ?? null,
+                    'PrescriptionDate' => $patient->prescription->PrescriptionDate ?? null,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        }
+    }
+
+
+
+    // Function to store prescription
     public function storePrescription(Request $request)
     {
         $request->validate([
