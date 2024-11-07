@@ -89,11 +89,11 @@ class AppointmentController extends Controller
     }
 
 
-    // Function to Edit Appointment
-    public function edit($AppointmentID)
+    // Function to Fetch Appointment Information
+    public function edit($id)
     {
         try {
-            $appointment = AppointmentModel::with('patient')->findOrFail($AppointmentID);
+            $appointment = AppointmentModel::with('patient')->findOrFail($id);
     
             return response()->json([
                 'appointment' => [
@@ -114,11 +114,11 @@ class AppointmentController extends Controller
     }
     
     //Function to Update the Appointment
-    public function update(Request $request, $AppointmentID)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'DateTime' => 'required|date',
-            'status' => 'required|string',
+            'Status' => 'required|string',
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
@@ -127,7 +127,7 @@ class AppointmentController extends Controller
         ]);
 
         try {
-            $appointment = AppointmentModel::findOrFail($AppointmentID);
+            $appointment = AppointmentModel::findOrFail($id);
             $appointment->DateTime = $request->input('DateTime');
             $appointment->Status = $request->input('Status');
             $appointment->save();
@@ -140,9 +140,25 @@ class AppointmentController extends Controller
             $patient->address = $request->input('address');
             $patient->save();
 
-            return response()->json(['success' => 'Appointment updated successfully']);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Appointment updated successfully',
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error updating appointment'], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error updating appointment',
+            ]);
         }
+    } 
+    public function delete($id)
+    {
+        $appointment = AppointmentModel::findOrFail($id);
+        if ($appointment->patient) {
+            $appointment->patient->delete();
+        }
+    
+        $appointment->delete();
     }
+    
 }

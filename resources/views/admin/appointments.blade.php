@@ -2,98 +2,255 @@
 
 @section('content')
 <div class="page-wrapper">
-    <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
-        <div class="page-header">
-            <div class="page-title">
-                <h4>Appointments</h4>
-                <h6>Appointment Lists</h6>
-            </div>
-            <div class="page-btn">
-                <a data-bs-target="#addAppointment" data-bs-toggle="modal" class="btn btn-added">
-                    <img src="{{ asset('assets/img/icons/plus.svg') }}" alt="img">Add Appointment
-                </a>
-            </div>
-        </div>
+	<div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
+		<div class="page-header">
+			<div class="page-title">
+				<h4>Appointments</h4>
+				<h6>Appointment Lists</h6>
+			</div>
+			<div class="page-btn">
+				<a data-bs-target="#addAppointment" data-bs-toggle="modal" class="btn btn-added">
+					<img src="{{ asset('assets/img/icons/plus.svg') }}" alt="img">Add Appointment
+				</a>
+			</div>
+		</div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="table-top">
-                    <div class="search-set">
-                        <div class="search-input">
-                            <a class="btn btn-searchset">
-                                <img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="wordset">
-                        <ul>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
-                                    <img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img">
-                                </a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
-                                    <img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img">
-                                </a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print">
-                                    <img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+		<section class="comp-section">
+			<div class="card bg-white">
 
-                <div class="table-responsive">
-                    <table class="table datanew">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Date</th>
-                                <th>Patient Name</th>
-                                <th>Patient Age</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($appointments as $appointment)
-                                <tr>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</td>
-                                    <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
-                                    <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
-                                    <td>
-                                        @if ($appointment->Status == 'Pending')
-                                            <span class="bg-lightyellow badges">Pending</span>
-                                        @elseif ($appointment->Status == 'Confirm')
-                                            <span class="bg-lightgreen badges">Confirm</span>
-                                        @elseif ($appointment->Status == 'Completed')
-                                            <span class="bg-lightgreen badges">Completed</span>
-                                        @elseif ($appointment->Status == 'Cancelled')
-                                            <span class="badges bg-lightred">Cancelled</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
-                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View Appointment">
-                                            </a>                                        
-                                            <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
-                                                <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit Appointment">
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Pending Appointments</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Confirmed Appointments</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab3" data-bs-toggle="tab">Cancelled Appointments</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="table-top">
+							<div class="search-set">
+								<div class="search-input">
+									<a class="btn btn-searchset">
+										<img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
+									</a>
+								</div>
+							</div>
+							<div class="wordset">
+								<ul>
+									<li>
+										<a class="pdf-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+											<img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img">
+										</a>
+									</li>
+									<li>
+										<a class="excel-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+											<img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img">
+										</a>
+									</li>
+									<li>
+										<a class="print-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+											<img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img">
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="tab-pane show active" id="solid-justified-tab1">
+							<div class="table-responsive">
+								<table class="table datanew">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Date</th>
+											<th>Patient Name</th>
+											<th>Patient Age</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($appointments as $appointment)
+										@if ($appointment->Status == 'Pending')
+										<tr>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
+											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+											<td>
+												@if ($appointment->Status == 'Pending')
+												<span class="bg-lightyellow badges">Pending</span>
+												@elseif ($appointment->Status == 'Confirm')
+												<span class="bg-lightgreen badges">Confirm</span>
+												@elseif ($appointment->Status == 'Completed')
+												<span class="bg-primary badges">Completed</span>
+												@elseif ($appointment->Status == 'Cancelled')
+												<span class="bg-lightred badges">Cancelled</span>
+												@endif
+											</td>
+											<td>
+												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+													<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+												</a>
+
+												@if ($appointment->Status != 'Cancelled')
+												<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment (Unavailable)">
+												</a>
+												@endif
+
+												@if ($appointment->Status != 'Completed')
+												<a class="me-3 btn-delete" data-id="{{ $appointment->AppointmentID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment (Unavailable)">
+												</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane" id="solid-justified-tab2">
+							<div class="table-responsive">
+								<table class="table datanew">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Date</th>
+											<th>Patient Name</th>
+											<th>Patient Age</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($appointments as $appointment)
+										@if ($appointment->Status == 'Confirm')
+										<tr>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
+											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+											<td>
+												@if ($appointment->Status == 'Pending')
+												<span class="bg-lightyellow badges">Pending</span>
+												@elseif ($appointment->Status == 'Confirm')
+												<span class="bg-lightgreen badges">Confirm</span>
+												@elseif ($appointment->Status == 'Completed')
+												<span class="bg-primary badges">Completed</span>
+												@elseif ($appointment->Status == 'Cancelled')
+												<span class="bg-lightred badges">Cancelled</span>
+												@endif
+											</td>
+											<td>
+												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+													<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+												</a>
+
+												@if ($appointment->Status != 'Cancelled')
+												<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment (Unavailable)">
+												</a>
+												@endif
+
+												@if ($appointment->Status != 'Completed')
+												<a class="me-3 btn-delete" data-id="{{ $appointment->AppointmentID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment (Unavailable)">
+												</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane" id="solid-justified-tab3">
+							<div class="table-responsive">
+								<table class="table datanew">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Date</th>
+											<th>Patient Name</th>
+											<th>Patient Age</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($appointments as $appointment)
+										@if ($appointment->Status == 'Cancelled')
+										<tr>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
+											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+											<td>
+												@if ($appointment->Status == 'Pending')
+												<span class="bg-lightyellow badges">Pending</span>
+												@elseif ($appointment->Status == 'Confirm')
+												<span class="bg-lightgreen badges">Confirm</span>
+												@elseif ($appointment->Status == 'Completed')
+												<span class="bg-primary badges">Completed</span>
+												@elseif ($appointment->Status == 'Cancelled')
+												<span class="bg-lightred badges">Cancelled</span>
+												@endif
+											</td>
+											<td>
+												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+													<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+												</a>
+
+												@if ($appointment->Status != 'Cancelled')
+												<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment (Unavailable)">
+												</a>
+												@endif
+
+												@if ($appointment->Status != 'Completed')
+												<a class="me-3 btn-delete" data-id="{{ $appointment->AppointmentID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment (Unavailable)">
+												</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>               
+	</div>
 </div>
 
 <!-- Add Appointment Modal -->
@@ -373,15 +530,83 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert(data.success);
-                    $('#editAppointment').modal('hide');
-                    location.reload(); 
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message,
+                    }).then(() => {
+                        location.reload();
+                    });
                 } else {
-                    alert(data.error || 'Error updating appointment');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                    });
                 }
             })
-            .catch(error => console.error('Error updating appointment:', error));
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An unexpected error occurred. Please try again.',
+                });
+            });
+        });
+    });
+    </script>
+     <!-- Delete modal -->
+     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const id = this.getAttribute('data-id'); 
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ff9f43',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/admin/appointments/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                                'Accept': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Appointment has been deleted.',
+                                    'success',
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was a problem deleting the Appointment.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    }
+                });
+            });
         });
     });
     </script>

@@ -2,99 +2,257 @@
 
 @section('content')
 <div class="page-wrapper">
-    <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
-        <div class="page-header">
-            <div class="page-title">
-                <h4>Appointments</h4>
-                <h6>Appointment Lists</h6>
-            </div>
-            <div class="page-btn">
-                <a data-bs-target="#addAppointment" data-bs-toggle="modal" class="btn btn-added">
-                    <img src="{{ asset('assets/img/icons/plus.svg') }}" alt="img">Add Appointment
-                </a>
-            </div>
-        </div>
+	<div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
+		<div class="page-header">
+			<div class="page-title">
+				<h4>Appointments</h4>
+				<h6>Appointment Lists</h6>
+			</div>
+			<div class="page-btn">
+				<a data-bs-target="#addAppointment" data-bs-toggle="modal" class="btn btn-added">
+					<img src="{{ asset('assets/img/icons/plus.svg') }}" alt="img">Add Appointment
+				</a>
+			</div>
+		</div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="table-top">
-                    <div class="search-set">
-                        <div class="search-input">
-                            <a class="btn btn-searchset">
-                                <img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="wordset">
-                        <ul>
-                            <li>
-                                <a class="pdf-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
-                                    <img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img">
-                                </a>
-                            </li>
-                            <li>
-                                <a class="excel-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
-                                    <img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img">
-                                </a>
-                            </li>
-                            <li>
-                                <a class="print-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="print">
-                                    <img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img">
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+		<section class="comp-section">
+			<div class="card bg-white">
 
-                <div class="table-responsive">
-                    <table class="table datanew">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Date</th>
-                                <th>Patient Name</th>
-                                <th>Patient Age</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($appointments as $appointment)
-                                <tr>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
-                                    <td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
-                                    <td>{{ $appointment->patient->age ?? 'N/A' }}</td>
-                                    <td>
-                                        @if ($appointment->Status == 'Pending')
-                                            <span class="bg-lightyellow badges">Pending</span>
-                                        @elseif ($appointment->Status == 'Confirm')
-                                            <span class="bg-lightgreen badges">Confirm</span>
-                                        @elseif ($appointment->Status == 'Completed')
-                                            <span class="bg-lightgreen badges">Completed</span>
-                                        @elseif ($appointment->Status == 'Cancelled')
-                                            <span class="badges bg-lightred">Cancelled</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
-                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View Appointment">
-                                            </a>                                        
-                                            <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
-                                                <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit Appointment">
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Pending Appointments</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Confirmed Appointments</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab3" data-bs-toggle="tab">Cancelled Appointments</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="table-top">
+							<div class="search-set">
+								<div class="search-input">
+									<a class="btn btn-searchset">
+										<img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
+									</a>
+								</div>
+							</div>
+							<div class="wordset">
+								<ul>
+									<li>
+										<a class="pdf-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+											<img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img">
+										</a>
+									</li>
+									<li>
+										<a class="excel-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+											<img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img">
+										</a>
+									</li>
+									<li>
+										<a class="print-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="print">
+											<img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img">
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="tab-pane show active" id="solid-justified-tab1">
+							<div class="table-responsive">
+								<table class="table datanew">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Date</th>
+											<th>Patient Name</th>
+											<th>Patient Age</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($appointments as $appointment)
+										@if ($appointment->Status == 'Pending')
+										<tr>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
+											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+											<td>
+												@if ($appointment->Status == 'Pending')
+												<span class="bg-lightyellow badges">Pending</span>
+												@elseif ($appointment->Status == 'Confirm')
+												<span class="bg-lightgreen badges">Confirm</span>
+												@elseif ($appointment->Status == 'Completed')
+												<span class="bg-primary badges">Completed</span>
+												@elseif ($appointment->Status == 'Cancelled')
+												<span class="bg-lightred badges">Cancelled</span>
+												@endif
+											</td>
+											<td>
+												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+													<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+												</a>
+
+												@if ($appointment->Status != 'Cancelled')
+												<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment (Unavailable)">
+												</a>
+												@endif
+
+												@if ($appointment->Status != 'Completed')
+												<a class="me-3 btn-delete" data-id="{{ $appointment->AppointmentID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment (Unavailable)">
+												</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane" id="solid-justified-tab2">
+							<div class="table-responsive">
+								<table class="table datanew">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Date</th>
+											<th>Patient Name</th>
+											<th>Patient Age</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($appointments as $appointment)
+										@if ($appointment->Status == 'Confirm')
+										<tr>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
+											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+											<td>
+												@if ($appointment->Status == 'Pending')
+												<span class="bg-lightyellow badges">Pending</span>
+												@elseif ($appointment->Status == 'Confirm')
+												<span class="bg-lightgreen badges">Confirm</span>
+												@elseif ($appointment->Status == 'Completed')
+												<span class="bg-primary badges">Completed</span>
+												@elseif ($appointment->Status == 'Cancelled')
+												<span class="bg-lightred badges">Cancelled</span>
+												@endif
+											</td>
+											<td>
+												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+													<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+												</a>
+
+												@if ($appointment->Status != 'Cancelled')
+												<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment (Unavailable)">
+												</a>
+												@endif
+
+												@if ($appointment->Status != 'Completed')
+												<a class="me-3 btn-delete" data-id="{{ $appointment->AppointmentID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment (Unavailable)">
+												</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane" id="solid-justified-tab3">
+							<div class="table-responsive">
+								<table class="table datanew">
+									<thead>
+										<tr>
+											<th>Time</th>
+											<th>Date</th>
+											<th>Patient Name</th>
+											<th>Patient Age</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($appointments as $appointment)
+										@if ($appointment->Status == 'Cancelled')
+										<tr>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
+											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
+											<td>
+												@if ($appointment->Status == 'Pending')
+												<span class="bg-lightyellow badges">Pending</span>
+												@elseif ($appointment->Status == 'Confirm')
+												<span class="bg-lightgreen badges">Confirm</span>
+												@elseif ($appointment->Status == 'Completed')
+												<span class="bg-primary badges">Completed</span>
+												@elseif ($appointment->Status == 'Cancelled')
+												<span class="bg-lightred badges">Cancelled</span>
+												@endif
+											</td>
+											<td>
+												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+													<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+												</a>
+
+												@if ($appointment->Status != 'Cancelled')
+												<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment (Unavailable)">
+												</a>
+												@endif
+
+												@if ($appointment->Status != 'Completed')
+												<a class="me-3 btn-delete" data-id="{{ $appointment->AppointmentID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment">
+												</a>
+												@else
+												<a class="me-3 d-inline-block" style="pointer-events: none; opacity: 0.5;">
+													<img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Appointment (Unavailable)">
+												</a>
+												@endif
+											</td>
+										</tr>
+										@endif
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>               
+	</div>
 </div>
+
 
 <!-- Add Appointment Modal -->
 <div class="modal fade" id="addAppointment">
@@ -214,56 +372,56 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="" id="editAppointmentForm">
+            <form method="POST" action="" id="editAppointmentForm">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" id="appointment_id" name="AppointmentID" value="">
+                    <input type="hidden" id="appointment_id" name="appointmentID" value="">
 
                     <div class="form-floating mb-3">
-                        <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
-                        <label for="cname">Complete Name</label>
+                        <input id="edit_cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
+                        <label for="edit_cname">Complete Name</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input id="age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
-                        <label for="age">Age</label>
+                        <input id="edit_age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
+                        <label for="edit_age">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select name="gender" class="form-control" id="floatingSelect" required>
+                        <select name="gender" class="form-control" id="edit_floatingSelect" required>
                             <option value="" disabled selected>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <option value="Female">Other</option>
+                            <option value="Other">Other</option>
                         </select>
                         <span class="arrow"></span>
-                        <label for="floatingSelect">Gender</label>
+                        <label for="edit_floatingSelect">Gender</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
-                        <label for="contact_number">Contact Number</label>
+                        <input id="edit_contact_number" class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
+                        <label for="edit_contact_number">Contact Number</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
-                        <label for="address">Address</label>
+                        <input id="edit_address" class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
+                        <label for="edit_address">Address</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="datetime-local" class="form-control" name="DateTime" required value="{{ old('DateTime') }}">
-                        <label for="date">Appointment Date</label>
+                        <input id="edit_date" type="datetime-local" class="form-control" name="DateTime" required value="{{ old('DateTime') }}">
+                        <label for="edit_date">Appointment Date</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select name="Status" class="form-control" id="floatingSelect" required>
-                        <option value="" disabled selected>Select Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
+                        <select name="Status" class="form-control" id="edit_status" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Confirm">Confirm</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
                         </select>
                         <span class="arrow"></span>
-                        <label for="status">Appointment Status</label>
+                        <label for="edit_status">Appointment Status</label>
                     </div>
 
                     <div class="modal-footer justify-content-end">
@@ -377,59 +535,128 @@
 
     <!-- Script to open Edit and Update Appointments-->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         const editButtons = document.querySelectorAll('.edit-appointment');
-        const editForm = document.querySelector('#editAppointment form');
+        const editForm = document.querySelector('#editAppointmentForm');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+        // Button to open the edit modal
         editButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const AppointmentID = this.getAttribute('data-id');
                 document.getElementById('appointment_id').value = AppointmentID;
-
-                // Set the form action dynamically
                 editForm.action = `/staff/appointments/update/${AppointmentID}`;
 
-                // Fetch the appointment details and populate the form
                 fetch(`/staff/appointments/edit/${AppointmentID}`)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById('cname').value = data.patient.complete_name;
-                        document.getElementById('age').value = data.patient.age;
-                        document.getElementById('floatingSelect').value = data.patient.gender;
-                        document.getElementById('contact_number').value = data.patient.contact_number;
-                        document.getElementById('address').value = data.patient.address;
-                        document.querySelector('[name="DateTime"]').value = data.appointment.DateTime;
-                        document.querySelector('[name="Status"]').value = data.appointment.Status;
+                        document.getElementById('edit_cname').value = data.patient.complete_name;
+                        document.getElementById('edit_age').value = data.patient.age;
+                        document.getElementById('edit_floatingSelect').value = data.patient.gender;
+                        document.getElementById('edit_contact_number').value = data.patient.contact_number;
+                        document.getElementById('edit_address').value = data.patient.address;
+                        document.getElementById('edit_date').value = data.appointment.DateTime;
+                        document.getElementById('edit_status').value = data.appointment.Status;
                     })
                     .catch(error => console.error('Error fetching appointment details:', error));
             });
         });
 
+        // Form submission handling
         editForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const formData = new FormData(this);
+            e.preventDefault();  // Prevent default form submission
 
+            const formData = new FormData(this);
             fetch(editForm.action, {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'X-HTTP-Method-Override': 'PUT'
+                    'X-CSRF-TOKEN': csrfToken
                 }
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert(data.success);
-                    // Optionally, close modal and refresh page
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message,
+                    }).then(() => {
+                        location.reload();
+                    });
                 } else {
-                    alert(data.error || 'Error updating appointment');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                    });
                 }
             })
-            .catch(error => console.error('Error updating appointment:', error));
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An unexpected error occurred. Please try again.',
+                });
+            });
         });
     });
+    </script>
 
+    
+    <!-- Delete modal -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const id = this.getAttribute('data-id'); 
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ff9f43',
+                    cancelButtonColor: '#dc3545',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/staff/appointments/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                                'Accept': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Appointment has been deleted.',
+                                    'success',
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was a problem deleting the Appointment.',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    }
+                });
+            });
+        });
+    });
     </script>
 
     @endsection

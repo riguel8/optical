@@ -117,9 +117,15 @@ class AppointmentController extends Controller
             $patient->address = $request->input('address');
             $patient->save();
 
-            return response()->json(['success' => 'Appointment updated successfully']);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Appointment updated successfully',
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error updating appointment'], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error updating appointment',
+            ]);
         }
     }
     
@@ -147,4 +153,15 @@ class AppointmentController extends Controller
             return response()->json(['error' => 'Data not found'], 404);
         }
     }
+
+    public function delete($id)
+    {
+        $appointment = AppointmentModel::findOrFail($id);
+        if ($appointment->patient) {
+            $appointment->patient->delete();
+        }
+
+        $appointment->delete();
+    }
+    
 }
