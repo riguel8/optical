@@ -9,10 +9,12 @@ use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentControll
 use App\Http\Controllers\Admin\EyewearController as AdminEyewearController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\PatientController as AdminPatientController;
 
 use App\Http\Controllers\Staff\EyewearController as StaffEyewearController;
 use App\Http\Controllers\Staff\AppointmentController as StaffAppointmentController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
+use App\Http\Controllers\Staff\PatientController as StaffPatientController;
 
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
@@ -30,9 +32,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/dashboard/get_appointments', [AdminDashboardController::class, 'getAppointments']);
     Route::get('/admin/dashboard/get_appointment_details', [AdminDashboardController::class, 'getAppointmentDetails']);
 
-    // Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/patients', [AdminController::class, 'patients'])->name('admin.patients');
-    Route::get('/admin/appointments', [AdminController::class, 'appointments'])->name('admin.appointments');
+
+    // Dashboard Module
+    Route::get('/admin/patients', [AdminPatientController::class, 'index'])->name('admin.patients');
     // Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
     // Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
 
@@ -98,7 +100,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/staff/dashboard/get_appointment_details', [StaffDashboardController::class, 'getAppointmentDetails']);
 
     // Patient Module
-    Route::get('/staff/patients', [StaffController::class, 'patients'])->name('staff.patients');
+    Route::get('/staff/patients', [StaffPatientController::class, 'index'])->name('staff.patients');
 
     // Appointment CRUD
     Route::get('/staff/appointments', [StaffAppointmentController::class, 'index'])->name('staff.appointments');
