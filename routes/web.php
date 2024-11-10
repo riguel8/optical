@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\EyewearController as AdminEyewearController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PatientController as AdminPatientController;
+use App\Http\Controllers\Admin\SystemController as AdminSystemController;
 
 use App\Http\Controllers\Staff\EyewearController as StaffEyewearController;
 use App\Http\Controllers\Staff\AppointmentController as StaffAppointmentController;
@@ -59,14 +60,17 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::put('/admin/eyewears/update/{id}', [AdminEyewearController::class, 'update'])->name('admin.eyewears.update');
     Route::delete('/admin/eyewears/{id}', [AdminEyewearController::class, 'delete'])->name('admin.eyewears.delete');
 
-
-
     // Users CRUD
     Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users');
     Route::post('/admin/users', [AdminUserController::class, 'store'])->name('admin.users.store');
     Route::get('/admin/users/{id}', [AdminUserController::class, 'view']);
     Route::get('/admin/users/edit/{id}', [AdminUserController::class, 'edit']);
     Route::put('/admin/users/update/{id}', [AdminUserController::class, 'update'])->name('admin.users.update');
+
+    Route::get('/admin/system-info', [AdminSystemController::class, 'index'])->name('admin.system-info');
+    Route::get('/admin/system-info/create', [AdminSystemController::class, 'create'])->name('admin.system-info.create');
+    Route::get('admin/system-info/edit', [AdminSystemController::class, 'edit'])->name('admin.system-info.edit');
+    Route::put('/admin/system-info/update/{id?}', [AdminSystemController::class, 'update'])->name('admin.system-info.update');
 
 });
  // Client Modules

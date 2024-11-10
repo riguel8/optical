@@ -102,10 +102,10 @@
         </div>
 
         <div class="container-xl py-5 section-padding" id="eyewears" style="scroll-margin-top: 60px;">
-            <div class="text-aligin-left wow fadeInUp" data-wow-delay="0.1s">
+            <div class="text-center wow fadeInUp mb-5" data-wow-delay="0.1s">
                 <h2 class="text-warning"><strong>EYEWEAR</strong></h2>
                 <h5>Elevate your vision, enhance your style.</h5>
-            </div> 
+            </div>
             <!-- Start of the carousel -->
             <div id="eyewearCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
@@ -113,15 +113,15 @@
                     @foreach($groupedByBrand as $brand => $products)
                         @foreach($products->chunk(4) as $chunkedProducts)
                         <div class="carousel-item @if($loop->parent->first && $loop->first) active @endif">
-                            <div class="text-center mb-2">
+                            <!-- <div class="text-center mb-2">
                                 <h3 class="brand-caption" style="text-transform:uppercase"><strong>{{ $brand }}</strong></h3>
-                            </div>
+                            </div> -->
                             <div class="row justify-content-center">
                                 @foreach($chunkedProducts as $product)
                                 <div class="col-lg-3 col-md-4 col-sm-6">
                                     <div class="productset flex-fill text-center">
                                         <div class="productsetimg">
-                                            <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" class="img-fluid">
+                                            <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" class="img-fluid d-block w-100" style="max-width: 100%; max-height: 150px; height: auto; object-fit: cover;">
                                         </div>
                                         <div class="productsetcontent">
                                             <h4>{{ $product->Brand }} {{ $product->Model }}</h4>
@@ -136,11 +136,11 @@
                     @endforeach
                 @else
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h5 class="mb-5">No product available.</h5>
+                        <h5 class="mt-5">No product available.</h5>
                     </div>
                 @endif
-                </div>&nbsp;
-
+                </div>
+                
                 <!-- Carousel Controls -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
