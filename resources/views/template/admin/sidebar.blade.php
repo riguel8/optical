@@ -9,7 +9,8 @@
                     <li class="{{ request()->is('admin/eyewears') ? 'active' : '' }}"><a href="{{ url('admin/eyewears') }}"><iconify-icon icon="bi:eyeglasses" width="18" height="18"></iconify-icon><span> Eyewears</span></a></li>
                     <li class="{{ request()->is('admin/users') ? 'active' : '' }}"><a href="{{ url('admin/users') }}"><i class="fe fe-user-check"></i><span> Users</span></a></li>
                     <li class="{{ request()->is('admin/reports') ? 'active' : '' }}"><a href="" class="disabled"><i class="fe fe-file-text"></i><span> Reports</span></a></li>
-                    <li class="{{ request()->is('admin/settings') ? 'active' : '' }}"><a href="" class="disabled"><i class="fe fe-settings"></i><span> Settings</span></a></li>
+                    <li class="{{ request()->is('admin/system-info') ? 'active' : '' }}"><a href="{{ url('admin/system-info') }}"><iconify-icon icon="hugeicons:system-update-01" width="18" height="18"></iconify-icon><span> Settings</span></a></li>
+
                 @endif
             </ul>
         </div>

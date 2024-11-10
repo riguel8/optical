@@ -23,77 +23,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/owlcarousel/owl.theme.default.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/landingEyewear.css') }}">
 
-    <style>
-        .section-padding {
-            padding-top: 10px;
-        }
-
-        .logo-img img {
-            max-width: 150px;
-            height: auto;
-        }
-        .sticky-top {
-            position: sticky;
-            top: 0;
-            z-index: 1030;
-            background-color: #fff; 
-            width: 100%; 
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        .productset {
-            max-height: 400px; 
-            overflow: hidden; 
-            text-align: center; 
-        }
-
-        .productsetimg img {
-            max-height: 300px; 
-            object-fit: cover; 
-            width: 100%; 
-        }
-
-        .productsetcontent {
-            padding: 10px; 
-        }
-
-        .swiper-pagination {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .swiper-pagination-bullet {
-            background-color: #637381;
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 14px;
-            height: 14px;
-            opacity: 0.7;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .swiper-pagination-bullet-active {
-            background-color:#212b36;
-            opacity: 1;
-        }
-
-        .carousel-control-prev-icon,
-        .carousel-control-next-icon {
-            background-color: #212b36;
-            border-radius: 50%;
-        }
-    </style>
 </head>
 <body>
 

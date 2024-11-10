@@ -256,7 +256,7 @@
 
 <!-- Add Appointment Modal -->
 <div class="modal fade" id="addAppointment">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">New Appointment</h4>
@@ -268,45 +268,47 @@
                 <form id="addAppointmentForm" method="POST" action="{{ route('staff.appointments.store') }}">
                     @csrf
                     <input type="hidden" id="patient_id" name="patientID" value="">
-                    <div class="form-floating mb-3">
-                        <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
-                        <label for="cname">Complete Name</label>
-                    </div>
+                    <div class="row">
+                        <div class="col-md-6 border-end">
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" class="form-control" name="DateTime" required>
+                                <label for="date">Appointment Date</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Personal Information</h4>
+                            <p>Fields with * are required</p>
+                            <div class="form-floating mb-3">
+                                <input id="cname" type="text" name="complete_name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
+                                <label for="cname">Complete Name *</label>
+                            </div>
 
-                    <div class="form-floating mb-3">
-                        <input id="age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
-                        <label for="age">Age</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <select name="gender" class="form-control" id="floatingSelect" required>
-                            <option value="" disabled selected>Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Female">Other</option>
-                        </select>
-                        <span class="arrow"></span>
-                        <label for="floatingSelect">Gender</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
-                        <label for="contact_number">Contact Number</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
-                        <label for="address">Address</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="datetime-local" class="form-control" name="DateTime" required>
-                        <label for="date">Appointment Date</label>
-                    </div>
-
-                    <div class="mt-auto d-flex justify-content-end gap-3">
-                        <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
-                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <div class="form-floating mb-3">
+                                <input id="age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
+                                <label for="age">Age *</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select name="gender" class="form-control" id="floatingSelect" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <label for="floatingSelect">Gender</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
+                                <label for="contact_number">Contact Number *</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" placeholder="Enter address" name="address" required value="{{ old('address') }}">
+                                <label for="address">Address *</label>
+                            </div>
+                            <div class="mt-auto d-flex justify-content-end gap-2">
+                                <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
+                                <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -433,21 +435,6 @@
         </div>
     </div>
 </div>
-
-
-<style>
-    .text-orange {
-        color: orange !important;
-    }
-
-    .text-green {
-        color: green !important;
-    }
-
-    .text-red {
-        color: red !important;
-    }
-</style>
 
 @section('scripts')
 

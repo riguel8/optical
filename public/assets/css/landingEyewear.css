@@ -1,0 +1,93 @@
+#eyewearCarousel .carousel-item {
+    height: 400px;
+    overflow: hidden;
+}
+
+#eyewearCarousel .carousel-inner .active {
+    display: block;
+}
+
+#eyewearCarousel .carousel-inner .carousel-item {
+    display: none;
+}
+
+#eyewearCarousel .carousel-inner .carousel-item.active {
+    display: block;
+}
+
+.productset {
+    display: flex;
+    flex-direction: column;
+    height: 300px;    
+    overflow: hidden; 
+    text-align: center; 
+}
+
+.productsetimg {
+    flex-grow: 1;
+    overflow: hidden;
+    max-height: 100%;
+}    
+       
+.section-padding {
+    padding-top: 10px;
+}
+
+.logo-img img {
+    max-width: 150px;
+    height: auto;
+}
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: #fff; 
+    width: 100%; 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.productsetimg img {
+    max-height: 300px; 
+    object-fit: cover; 
+    width: 100%; 
+}
+
+.productsetcontent {
+    padding: 10px; 
+}
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.swiper-pagination-bullet {
+    background-color: #637381;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+    background-color:#212b36;
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #212b36;
+    border-radius: 50%;
+}
