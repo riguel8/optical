@@ -88,6 +88,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     // Inside the existing middleware group for 'ophthal'
     Route::post('/ophthal/storePrescription', [OphthalController::class, 'storePrescription'])->name('ophthal.storePrescription');
     Route::get('/ophthal/appointments', [OphthalController::class, 'appointments'])->name('ophthal.appointments');
+    Route::get('/ophthal/patients/{id}', [OphthalController::class, 'view']);
     Route::get('/ophthal/patients/edit/{id}', [OphthalController::class, 'edit']);
 });
 

@@ -40,15 +40,26 @@ class OphthalController extends Controller
 
 
 
+    //Function to View Specific Patient with Prescription
+    public function view($patientId)
+    {
+        $patient = PatientMOdel::find($patientId);
+        $prescription = PrescriptionModel::where('PatientID', $patientId)->first();
+
+        return response()->json([
+            'patients' => $patient,
+            'prescriptions' => $prescription
+        ]);
+    }
+
+
 
     // Function to Fetch data to the modal
     public function edit($patientId)
     {
         try {
-            // Fetch the patient with associated prescription data
             $patient = PatientModel::with('prescription')->findOrFail($patientId);
     
-            // Prepare the response data structure
             return response()->json([
                 'patient' => [
                     'PatientID' => $patient->PatientID,
@@ -76,31 +87,31 @@ class OphthalController extends Controller
 
 
     // Function to store prescription
-    public function storePrescription(Request $request)
-    {
-        $request->validate([
-            'PatientID' => 'required|exists:patients,PatientID',
-            'prescription' => 'required|string',
-            'lens' => 'required|string',
-            'frame' => 'required|string',
-            'price' => 'required|numeric',
-            'date' => 'required|date',
-            'PrescriptionDetails' => 'required|string',
-        ]);
+    // public function storePrescription(Request $request)
+    // {
+    //     $request->validate([
+    //         'PatientID' => 'required|exists:patients,PatientID',
+    //         'prescription' => 'required|string',
+    //         'lens' => 'required|string',
+    //         'frame' => 'required|string',
+    //         'price' => 'required|numeric',
+    //         'date' => 'required|date',
+    //         'PrescriptionDetails' => 'required|string',
+    //     ]);
 
-        $doctorID = auth()->user()->id;
+    //     $doctorID = auth()->user()->id;
 
-        PrescriptionModel::create([
-            'DoctorID' => $doctorID,
-            'PatientID' => $request->PatientID,
-            'Prescription' => $request->prescription,
-            'Lens' => $request->lens,
-            'Frame' => $request->frame,
-            'Price' => $request->price,
-            'Date' => $request->date,
-            'PrescriptionDetails' => $request->PrescriptionDetails,
-        ]);
+    //     PrescriptionModel::create([
+    //         'DoctorID' => $doctorID,
+    //         'PatientID' => $request->PatientID,
+    //         'Prescription' => $request->prescription,
+    //         'Lens' => $request->lens,
+    //         'Frame' => $request->frame,
+    //         'Price' => $request->price,
+    //         'Date' => $request->date,
+    //         'PrescriptionDetails' => $request->PrescriptionDetails,
+    //     ]);
 
-        return redirect()->back()->with('success', 'Prescription added successfully.');
-    }
+    //     return redirect()->back()->with('success', 'Prescription added successfully.');
+    // }
 }

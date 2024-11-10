@@ -74,7 +74,9 @@
                                     
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a>
+                                            <a class="me-3 view-patient-prescription" href="#" data-id="{{ $patient->id }}" data-bs-toggle="modal" data-bs-target="#viewPatientPrescriptionModal">
+                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View" data-bs-toggle="tooltip" data-bs-placement="top" title="View Patient Prescription">
+                                            </a>                                              
                                             <a class="me-3 prescription" href="#" 
                                             data-id="{{ $patient->PatientID}}" 
                                             data-name="{{ $patient->complete_name }}" 
@@ -187,6 +189,52 @@
 </div>
 
 
+<!-- Modal for Viewing Specific Patient with Prescription -->
+    <div class="modal fade" id="viewPatientPrescriptionModal" tabindex="-1" aria-labelledby="viewPatientPrescriptionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="viewPatientPrescriptionModalLabel">Patient Details and Prescription</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <h6>Patient Information</h6>
+            <div class="mb-3">
+                <strong>Name:</strong> <span id="view_patient_name"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Age:</strong> <span id="view_patient_age"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Gender:</strong> <span id="view_patient_gender"></span>
+            </div>
+    
+            <h6>Prescription Information</h6>
+            <div class="mb-3">
+                <strong>Prescription:</strong> <span id="view_prescription"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Lens:</strong> <span id="view_lens"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Frame:</strong> <span id="view_frame"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Price:</strong> <span id="view_price"></span>
+            </div>
+            <div class="mb-3">
+                <strong>Prescription Details:</strong> <span id="view_prescription_details"></span>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+  
+
+
 
 
     @section('scripts')
@@ -230,6 +278,43 @@
             });
         });
     </script>
+
+
+    <!-- Script to View Specific Patient with Prescription -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll(".view-patient-prescription").forEach(button => {
+            button.addEventListener("click", function () {
+              const PatientId = this.getAttribute("data-id");
+        
+              fetch(`/ophthal/patients/${PatientId}`)
+                .then(response => response.json())
+                .then(data => {
+                  // Populate modal fields with fetched data
+                  document.getElementById("view_patient_name").textContent = data.patient.complete_name;
+                  document.getElementById("view_patient_age").textContent = data.patient.age;
+                  document.getElementById("view_patient_gender").textContent = data.patient.gender;
+        
+                  if (data.prescription) {
+                    document.getElementById("view_prescription").textContent = data.prescription.Prescription;
+                    document.getElementById("view_lens").textContent = data.prescription.Lens;
+                    document.getElementById("view_frame").textContent = data.prescription.Frame;
+                    document.getElementById("view_price").textContent = data.prescription.Price;
+                    document.getElementById("view_prescription_details").textContent = data.prescription.PrescriptionDetails;
+                  } else {
+                    document.getElementById("view_prescription").textContent = 'No prescription available';
+                    document.getElementById("view_lens").textContent = '';
+                    document.getElementById("view_frame").textContent = '';
+                    document.getElementById("view_price").textContent = '';
+                    document.getElementById("view_prescription_details").textContent = '';
+                  }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+            });
+          });
+        });
+        </script>
+        
 
 
     @endsection   
