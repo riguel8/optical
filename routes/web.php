@@ -35,9 +35,17 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 
 
     // Dashboard Module
-    Route::get('/admin/patients', [AdminPatientController::class, 'index'])->name('admin.patients');
     // Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
     // Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
+
+
+    // Patient (View & Edit)
+    Route::get('/admin/patients', [AdminPatientController::class, 'index'])->name('admin.patients');
+    Route::get('/admin/patients/{id}', [AdminPatientController::class, 'view']);
+    Route::get('/admin/patients/edit/{id}', [AdminPatientController::class, 'edit']);
+    Route::put('/admin/patients/update/{id}', [AdminPatientController::class, 'update'])->name('admin.patients.update');
+    
+
 
     // Appointment CRUD
     Route::get('/admin/appointments', [AdminAppointmentController::class, 'index'])->name('admin.appointments');
