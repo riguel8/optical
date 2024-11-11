@@ -72,7 +72,7 @@
 										@if ($appointment->Status == 'Pending')
 										<tr>
 											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F-j-Y') }}</td>
 											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
 											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
 											<td>
@@ -136,7 +136,7 @@
 										@if ($appointment->Status == 'Confirm')
 										<tr>
 											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F-j-Y') }}</td>
 											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
 											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
 											<td>
@@ -200,7 +200,7 @@
 										@if ($appointment->Status == 'Cancelled')
 										<tr>
 											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('h:i A') }}</td>
-											<td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('Y-m-d') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F-j-Y') }}</td>
 											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
 											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
 											<td>
@@ -385,7 +385,6 @@
                         <input id="edit_age" type="text" name="age" class="form-control" placeholder="Age" required value="{{ old('age') }}" />
                         <label for="edit_age">Age</label>
                     </div>
-
                     <div class="form-floating mb-3">
                         <select name="gender" class="form-control" id="edit_floatingSelect" required>
                             <option value="" disabled selected>Select Gender</option>
@@ -396,7 +395,6 @@
                         <span class="arrow"></span>
                         <label for="edit_floatingSelect">Gender</label>
                     </div>
-
                     <div class="form-floating mb-3">
                         <input id="edit_contact_number" class="form-control" type="text" placeholder="Enter contact number" name="contact_number" required value="{{ old('contact_number') }}">
                         <label for="edit_contact_number">Contact Number</label>
