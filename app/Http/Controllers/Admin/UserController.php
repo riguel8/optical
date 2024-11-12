@@ -31,17 +31,24 @@ class UserController extends Controller
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
                 'usertype' => ['required', 'string', 'max:255'],
             ]);
-    
+
             User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'usertype' => $validated['usertype'],
                 'password' => Hash::make($validated['password']),
             ]);
-    
-            return redirect()->route('admin.users')->with('status', 'User created successfully!');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User created successfully!'
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'User creation failed', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User creation failed',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 
@@ -117,11 +124,15 @@ class UserController extends Controller
     
             $user->save();
     
-            return response()->json(['success' => 'User updated successfully']);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => 'Validation error', 'details' => $e->errors()], 422);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User updated successfully.',
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to update user', 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update User. Please try again.',
+            ]);
         }
     }
 }
