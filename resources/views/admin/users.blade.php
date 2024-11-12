@@ -94,7 +94,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('admin.users.store') }}">
+                <form method="POST" id="addUsersForm" action="{{ route('admin.users.store') }}">
                     @csrf
                     <input type="hidden" id="id" name="userID" value="">
                     <div class="form-floating mb-3">
@@ -241,6 +241,59 @@
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
+    <!-- ADD SUCCESSFUL MODAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const addUserForm = document.querySelector('#addUsersForm');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        addUserForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(addUserForm);
+
+            fetch(addUserForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.error || 'Unexpected server error');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message,
+                    }).then(() => {
+                        location.reload(); // Reload page or close modal
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `An unexpected error occurred: ${error.message}`,
+                });
+            });
+        });
+    });
+    </script>
 
     <!-- View User -->
     <script>
@@ -304,10 +357,10 @@
                 });
             });
         
-            // Form submission handling
-            editForm.addEventListener('submit', function (e) {
+                // Form submission handling
+                editForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-        
+
                 const formData = new FormData(this);
                 fetch(editForm.action, {
                     method: 'POST',
@@ -318,15 +371,29 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        alert(data.success);
-                        $('#editUser').modal('hide');
-                        location.reload();
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                        }).then(() => {
+                            location.reload();
+                        });
                     } else {
-                        alert(data.error || 'Error updating user');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                        });
                     }
                 })
-                .catch(error => console.error('Error updating user:', error));
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An unexpected error occurred. Please try again.',
+                    });
+                });
             });
         });
         </script>

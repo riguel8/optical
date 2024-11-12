@@ -16,6 +16,7 @@ use App\Http\Controllers\Staff\EyewearController as StaffEyewearController;
 use App\Http\Controllers\Staff\AppointmentController as StaffAppointmentController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\PatientController as StaffPatientController;
+use App\Http\Controllers\Staff\ChatbotController as StaffChatbotController;
 
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
@@ -123,6 +124,14 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/staff/eyewears/edit/{id}', [StaffEyewearController::class, 'edit']);
     Route::put('/staff/eyewears/update/{id}', [StaffEyewearController::class, 'update'])->name('staff.eyewears.update');
     Route::delete('/staff/eyewears/{id}', [StaffEyewearController::class, 'delete'])->name('staff.eyewears.delete');
+
+    // Chatbot
+    Route::get('/staff/chatbot', [StaffChatbotController::class, 'index'])->name('staff.chatbot');
+    Route::post('/staff/chatbot', [StaffChatbotController::class, 'store'])->name('staff.chatbot.store');
+    Route::get('/staff/chatbot/{id}', [StaffChatbotController::class, 'view']);
+    Route::get('/staff/chatbot/edit/{id}', [StaffChatbotController::class, 'edit']);
+    Route::put('/staff/chatbot/update/{id}', [StaffChatbotController::class, 'update'])->name('staff.chatbot.update');
+    Route::delete('/staff/chatbot/{id}', [StaffChatbotController::class, 'delete'])->name('staff.chatbot.delete');
 });
 
 // 404 Override

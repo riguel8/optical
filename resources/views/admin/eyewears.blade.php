@@ -176,7 +176,7 @@
                                 </div>   
                             </div>   
 
-                            <div class="mt-auto d-flex justify-content-end gap-2">
+                            <div class="mt-auto d-flex justify-content-end gap-3">
                                 <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Save</button>
                                 <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                             </div>

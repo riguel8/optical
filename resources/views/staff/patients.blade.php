@@ -73,11 +73,9 @@
 
                                     <td>{{ date('m/d/Y', strtotime($patient->created_at)) }}</td>
                                     <td>
-                                        <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a>
-                                            <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img"></a>
-                                            <a class="confirm-text" href=""><img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img"></a>
-                                        </div>
+                                        <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a>
+                                        <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img"></a>
+                                        <a class="confirm-text" href=""><img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img"></a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -1,4 +1,4 @@
-@include('template.header')
+@include('template.layout')
 
 <header class="topheader py-0 sticky-top" id="top">
 <div class="landingpage">
@@ -40,7 +40,6 @@
                                     </li>
                                 @endauth
                             @endif
-                            </nav>
                         </ul>
                     </div>
                 </nav>
@@ -79,7 +78,8 @@
                         <h1 class="mb-4">Welcome to Delin Optical</h1>
                         <p class="mb-4">Computerized eye examination. 30 years in providing good quality eyecare in the province of Bukidnon.</p>
                         <p><strong>Address: 2nd Level Robinsons Place Valencia, Sayre Highway, Brgy. Hagkol, Valencia City, Bukidnon, Philippines</strong></p>
-                        <a id="contactUsBtn" class="btn btn-outline-primary py-3 px-5 mt-2" data-bs-toggle="modal" data-bs-target="#chatbotModal">Contact Us</a>
+                        <!-- <a id="contactUsBtn" class="btn btn-outline-primary py-3 px-5 mt-2" data-bs-toggle="modal" data-bs-target="#chatbotModal">Contact Us</a> -->
+                        <a href="#contact" class="btn btn-outline-primary py-3 px-5 mt-2 scroll-link" >Contact Us</a>
                     </div>
                     <div class="col-lg-6">
                         <div class="row g-3">
@@ -203,7 +203,76 @@
             </div>
         </div>
         <!-- Service End -->
+        <!-- Contact us -->
+    <div class="container-xxl py-5 section-padding" id="contact" style="scroll-margin-top: 60px;">
+        <div class="container">
+            <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
+                <h2 class="text-warning"><strong>CONTACT US</strong></h2>
+                <p>We'd love to speak with you. Feel free to reach out using the details below.</p>
+            </div>
+            
+            <div class="contact-card">
+                <!-- Left side with contact details -->
+                <div class="contact-details">
+                    <h3 class="mb-3"><strong>Get In Touch</strong></h3>
+                    <p>We would love to speak with you. Feel free to reach out using the below details:</p>
+                    <ul>
+                        <li>
+                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                            <span>09123456789</span>
+                        </li>
+                        <li>
+                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                            <span>09123456789</span>
+                        </li>
+                        <li>
+                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                            <span>09123456789</span>
+                        </li>
+                        <li>
+                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                            <span>09123456789</span>
+                        </li>
+                        <li>
+                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                            <span>09123456789</span>
+                        </li>
+                        <li>
+                            <iconify-icon icon="nrk:some-email"></iconify-icon>
+                            <span>customerservice@delinoptical.com</span>
+                        </li>
+                    </ul>
+                </div>
 
+                <!-- Right side with contact form -->
+                <div class="contact-form">
+                    <form action="" method="POST">
+                        @csrf
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text" id="name" placeholder="Enter Name" name="name" required>
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="email" id="email" placeholder="Enter Email" name="email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" placeholder="Enter Message" id="message" name="message" rows="4" style="height: 150px" required></textarea>
+                            <label for="message">Message</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact us end -->
+
+    <!-- Floating Chat Button -->
+    <a id="contactUsBtn" class="chat-float-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+        <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
+        <span>Chat with our Assistant</span>
+    </a>
 
 @include('template.footer')
 </header>
