@@ -13,7 +13,7 @@ class PatientController extends Controller
     {
         $title = 'Patients';
         $patients = PatientModel::whereHas('appointments', function($query) {
-            $query->where('appointments.Status', 'Completed');
+            $query->whereIn('appointments.Status', ['Confirm','Completed']);
         })
         ->get();
 

@@ -191,7 +191,7 @@
                         <div class="card h-100 border-0 shadow">
                             <div class="card-body d-flex flex-column align-items-center">
                                 <div class="service-icon bg-transparent border rounded-circle p-3 mb-3">
-                                    <iconify-icon icon="fluent-emoji:eyes" width="36" height="36"></iconify-icon>
+                                <iconify-icon icon="material-symbols:ophthalmology-outline" width="36" height="36"></iconify-icon>
                                     <!-- <i class="fas fa-eye fa-2x text-warning"></i> -->
                                 </div>
                                 <h5 class="card-title mb-3">Eye Examinations</h5>
