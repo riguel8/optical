@@ -2,25 +2,32 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OphthalController;
-
+// ADMIN CONTROLLER
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\EyewearController as AdminEyewearController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PatientController as AdminPatientController;
 use App\Http\Controllers\Admin\SystemController as AdminSystemController;
-
+use App\Http\Controllers\Admin\ChatbotController as AdminChatbotController;
+// STAFF CONTROLLER
 use App\Http\Controllers\Staff\EyewearController as StaffEyewearController;
 use App\Http\Controllers\Staff\AppointmentController as StaffAppointmentController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\PatientController as StaffPatientController;
 use App\Http\Controllers\Staff\ChatbotController as StaffChatbotController;
+// CLIENT
+use App\Http\Controllers\Client\EyewearController as ClientEyewearController;
+use App\Http\Controllers\Client\AppointmentController as ClientAppointmentController;
+use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Client\AccountController as ClientAccountController;
+// OPHTHAL
+use App\Http\Controllers\Ophthal\DashboardController as OphthalDashboardController;
+use App\Http\Controllers\Ophthal\AppointmentController as OphthalAppointmentController;
+use App\Http\Controllers\Ophthal\PatientController as OphthalPatientController;
 
-use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClientController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Default Route for Pages
@@ -34,11 +41,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/dashboard/get_appointments', [AdminDashboardController::class, 'getAppointments']);
     Route::get('/admin/dashboard/get_appointment_details', [AdminDashboardController::class, 'getAppointmentDetails']);
 
-
     // Dashboard Module
     // Route::post('/admin/appointments/storeEyewear', [AdminController::class, 'storeEyewear'])->name('admin.storeEyewear');
     // Route::post('/admin/appointments/storeAppointment', [AdminController::class, 'storeAppointment'])->name('admin.storeAppointment');
-
 
     // Patient (View & Edit)
     Route::get('/admin/patients', [AdminPatientController::class, 'index'])->name('admin.patients');
@@ -46,8 +51,6 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/patients/edit/{id}', [AdminPatientController::class, 'edit']);
     Route::put('/admin/patients/update/{id}', [AdminPatientController::class, 'update'])->name('admin.patients.update');
     
-
-
     // Appointment CRUD
     Route::get('/admin/appointments', [AdminAppointmentController::class, 'index'])->name('admin.appointments');
     Route::post('/admin/appointments', [AdminAppointmentController::class, 'store'])->name('admin.appointments.store');
@@ -55,7 +58,6 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/appointments/edit/{id}', [AdminAppointmentController::class, 'edit']);
     Route::put('/admin/appointments/update/{id}', [AdminAppointmentController::class, 'update'])->name('admin.appointments.update');
     Route::delete('/admin/appointments/{id}', [AdminAppointmentController::class, 'delete'])->name('admin.appointments.delete');
-
 
     // Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);
     // Route::get('/admin/appointments/edit/{id}', [AdminController::class, 'editAppointment']);
@@ -76,20 +78,33 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/users/edit/{id}', [AdminUserController::class, 'edit']);
     Route::put('/admin/users/update/{id}', [AdminUserController::class, 'update'])->name('admin.users.update');
 
+    // Chatbot CRUD
+    Route::get('/admin/chatbot', [AdminChatbotController::class, 'index'])->name('admin.chatbot');
+    Route::post('/admin/chatbot', [AdminChatbotController::class, 'store'])->name('admin.chatbot.store');
+    Route::get('/admin/chatbot/{id}', [AdminChatbotController::class, 'view']);
+    Route::get('/admin/chatbot/edit/{id}', [AdminChatbotController::class, 'edit']);
+    Route::put('/admin/chatbot/update/{id}', [AdminChatbotController::class, 'update'])->name('admin.chatbot.update');
+    Route::delete('/admin/chatbot/{id}', [AdminChatbotController::class, 'delete'])->name('admin.chatbot.delete');
+
+    // System Info
     Route::get('/admin/system-info', [AdminSystemController::class, 'index'])->name('admin.system-info');
     Route::get('/admin/system-info/create', [AdminSystemController::class, 'create'])->name('admin.system-info.create');
     Route::get('admin/system-info/edit', [AdminSystemController::class, 'edit'])->name('admin.system-info.edit');
     Route::put('/admin/system-info/update/{id?}', [AdminSystemController::class, 'update'])->name('admin.system-info.update');
 
 });
+
  // Client Modules
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':client'])->group(function () {
-   
-    Route::get('/client/dashboard', [ClientController::class, 'index'])->name('client.dashboard');
-    Route::get('/client/appointments', [ClientController::class, 'appointments'])->name('client.appointments');
-    Route::get('/client/eyewears', [ClientController::class, 'eyewears'])->name('client.eyewears');
-    Route::get('/client/account_details', [ClientController::class, 'account_details'])->name('client.account_details');
-    Route::put('/client/account_details', [ClientController::class, 'updateAccount'])->name('client.updateAccount');
+    // Dashboard
+    Route::get('/client/dashboard', [ClientDashboardController::class, 'index'])->name('client.dashboard');
+    // Appointment View
+    Route::get('/client/appointments', [ClientAppointmentController::class, 'index'])->name('client.appointments');
+    // Eyewear View
+    Route::get('/client/eyewears', [ClientEyewearController::class, 'index'])->name('client.eyewears');
+    // ACCOUNT DETAILS
+    Route::get('/client/account_details', [ClientAccountController::class, 'index'])->name('client.account_details');
+    Route::put('/client/account_details{id}', [ClientAccountController::class, 'update'])->name('client.update');
 });
 
 // Ophthal Modules
@@ -103,6 +118,16 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/ophthal/appointments', [OphthalController::class, 'appointments'])->name('ophthal.appointments');
     Route::get('/ophthal/patients/{id}', [OphthalController::class, 'view']);
     Route::get('/ophthal/patients/edit/{id}', [OphthalController::class, 'edit']);
+
+    // // DASHBOARD
+    // Route::get('/ophthal/dashboard', [OphthalDashboardController::class, 'index'])->name('ophthal.dashboard');
+    // // APPOINTMENTs
+    // Route::get('/ophthal/appointments', [OphthalAppointmentController::class, 'index'])->name('ophthal.appointments');
+    // // PATIENTS
+    // Route::get('/ophthal/patients', [OphthalPatientController::class, 'patients'])->name('ophthal.patients');
+    // Route::get('/ophthal/patients/{id}', [OphthalPatientController::class, 'view']);
+    // Route::get('/ophthal/patients/edit/{id}', [OphthalPatientController::class, 'edit']);
+    // Route::post('/ophthal/storePrescription', [OphthalPatientController::class, 'storePrescription'])->name('ophthal.storePrescription');
 });
 
 
