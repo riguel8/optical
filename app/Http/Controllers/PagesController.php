@@ -9,23 +9,26 @@ class PagesController extends Controller
 {
     public function index(Request $request)
     {
+        // Eyewear data
         $query = Eyewear::query();
         $eyewearProducts = $query->select('Brand', 'Model', 'FrameType', 'FrameColor', 'LensMaterial', 'Price', 'QuantityAvailable', 'image')->get();
-
         $groupedByBrand = $eyewearProducts->groupBy('Brand');
-
         $brands = Eyewear::select('Brand')->distinct()->get();
         $frameTypes = Eyewear::select('FrameType')->distinct()->get();
         $frameColors = Eyewear::select('FrameColor')->distinct()->get();
         $lensMaterials = Eyewear::select('LensMaterial')->distinct()->get();
 
-        return view('landing.index', compact('groupedByBrand', 'brands', 'frameTypes', 'frameColors', 'lensMaterials'));
-    }
-    public function getChatbotResponse(Request $request)
-    {
-        $question = $request->input('question');
-        $response = Chatbot::where('Question', $question)->value('Response');
+        // Chatbot data
+        $questions = Chatbot::select('ChatbotID', 'Question')->get();
 
-        return response()->json(['response' => $response]);
+        return view('landing.index', compact('groupedByBrand', 'brands', 'frameTypes', 'frameColors', 'lensMaterials', 'questions'));
+    }
+
+    public function fetchResponse(Request $request)
+    {
+        $chatbotId = $request->input('chatbot_id');
+        $response = Chatbot::where('ChatbotID', $chatbotId)->value('Response');
+
+        return response()->json(['answer' => $response ?? 'Sorry, no response found.']);
     }
 }
