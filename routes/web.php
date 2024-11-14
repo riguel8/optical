@@ -153,6 +153,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/staff/appointments/edit/{id}', [StaffAppointmentController::class, 'edit']);
     Route::put('/staff/appointments/update/{id}', [StaffAppointmentController::class, 'update'])->name('staff.appointments.update');
     Route::delete('/staff/appointments/{id}', [StaffAppointmentController::class, 'delete'])->name('staff.appointments.delete');
+    // Calendar Time Slot Availability
+    Route::get('/appointments/check-availability', [StaffAppointmentController::class, 'checkAvailability']);
+
 
     // Eyewear CRUD
     Route::get('/staff/eyewears', [StaffEyewearController::class, 'index'])->name('staff.eyewears');

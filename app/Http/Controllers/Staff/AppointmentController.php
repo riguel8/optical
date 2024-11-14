@@ -19,72 +19,82 @@ class AppointmentController extends Controller
         
         return view('staff.appointments', compact('appointments', 'title'));
     }
+
+
+    // Function to check the availability of the time slot
+    public function checkAvailability(Request $request)
+    {
+        $selectedDate = $request->input('date');
+
+        $appointments = AppointmentModel::whereDate('DateTime', $selectedDate)
+            ->pluck('DateTime')
+            ->toArray();
+
+        $timeSlots = [];
+        for ($hour = 10; $hour <= 19; $hour++) {
+            for ($minute = 0; $minute < 60; $minute += 20) {
+                $timeSlots[] = sprintf('%02d:%02d', $hour, $minute);
+            }
+        }
+        $unavailableSlots = [];
+        foreach ($appointments as $appointment) {
+            $appointmentTime = Carbon::parse($appointment)->format('H:i');
+            if (in_array($appointmentTime, $timeSlots)) {
+                $unavailableSlots[] = $appointmentTime;
+            }
+        }
+        return response()->json([
+            'unavailableSlots' => $unavailableSlots,
+        ]);
+    }
+
+
+
+
     // Adding New Appointment (Modal)
     public function store(Request $request)
     {
         try {
-
             $validated = $request->validate([
                 'complete_name' => 'required|string|max:255',
                 'gender' => 'required|in:Male,Female,Other',
                 'age' => 'required|integer|min:0',
                 'contact_number' => 'required|string|max:15',
                 'address' => 'required|string|max:255',
-                'DateTime' => 'required|date|after_or_equal:now',
+                'appointment_date' => 'required|date|after:today',
+                'appointment_time' => 'required|string',
             ]);
 
+            $appointmentDateTime = Carbon::parse($validated['appointment_date'] . ' ' . $validated['appointment_time']);
+    
             $patient = PatientModel::create([
                 'complete_name' => $validated['complete_name'],
                 'gender' => $validated['gender'],
                 'age' => $validated['age'],
                 'contact_number' => $validated['contact_number'],
                 'address' => $validated['address'],
-                'DateTime' => $validated['DateTime'],
             ]);
-
+    
             $user = auth()->user();
-            $user->user_type === 'staff' || $user->user_type === 'admin';
-                $staffId = $user->id;
+            $staffId = $user->id;
 
             AppointmentModel::create([
                 'PatientID' => $patient->PatientID,
                 'StaffID' => $staffId,
-                'DateTime' => Carbon::parse($validated['DateTime']),
-                'Status' => 'Pending', 
+                'DateTime' => $appointmentDateTime,
+                'Status' => 'Pending',
             ]);
-
+    
             return response()->json([
                 'status' => 'success',
                 'message' => 'Patient and appointment were added successfully',
             ]);
+    
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Failed to add patient and appointment. Please try again later.',
             ]);
-        }
-    }
-    // Function to view specific appointment
-    public function view($Appointment_Id)
-    {
-        try {
-            $appointment = AppointmentModel::with('patient')->findOrFail($Appointment_Id);
-    
-            return response()->json([
-                'appointment' => [
-                    'DateTime' => $appointment->DateTime,
-                    'Status' => $appointment->Status,
-                ],
-                'patient' => [
-                    'complete_name' => $appointment->patient->complete_name,
-                    'age' => $appointment->patient->age,
-                    'gender' => $appointment->patient->gender,
-                    'contact_number' => $appointment->patient->contact_number,
-                    'address' => $appointment->patient->address,
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Data not found'], 404);
         }
     }
 
@@ -151,6 +161,32 @@ class AppointmentController extends Controller
             ]);
         }
     } 
+
+
+    // Function to view specific appointment
+    public function view($id)
+    {
+        try {
+            $appointment = AppointmentModel::with('patient')->findOrFail($id);
+    
+            return response()->json([
+                'appointment' => [
+                    'DateTime' => $appointment->DateTime,
+                    'Status' => $appointment->Status,
+                ],
+                'patient' => [
+                    'complete_name' => $appointment->patient->complete_name,
+                    'age' => $appointment->patient->age,
+                    'gender' => $appointment->patient->gender,
+                    'contact_number' => $appointment->patient->contact_number,
+                    'address' => $appointment->patient->address,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Data not found'], 404);
+        }
+    }
+
     public function delete($id)
     {
         $appointment = AppointmentModel::findOrFail($id);
