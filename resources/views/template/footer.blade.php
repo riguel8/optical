@@ -84,27 +84,31 @@
 
 </script>
 
-<script>
-  document.getElementById("contactUsBtn").addEventListener("click", function() {
-    var introMessage = "Welcome to Delin Optical! How can we assist you today?";
-    appendMessage('received', introMessage);
-  });
 
+<script>
   // Function to handle sending messages
   function sendMessage(message) {
     appendMessage('sent', message);
-    // Here you can add logic to handle predefined messages
-    if (message === 'What are the available hours for today?') {
-      var response = "Our available hours for today are from 9:00 AM to 5:00 PM.";
-      setTimeout(function() {
-        appendMessage('received', response);
-      }, 1000); // Simulate a delay before the response is received
-    } else if (message === 'Book an Appointment') {
-      var response = "Sure! Please click the button below.";
-      appendMessageWithButton('received', response, 'Book Appointment');
-    } else {
-      // Handle other messages
-    }
+
+    // AJAX request to fetch chatbot response
+    $.ajax({
+      url: "{{ route('chatbot.response') }}",
+      type: "POST",
+      data: {
+        question: message,
+        _token: "{{ csrf_token() }}"
+      },
+      success: function(data) {
+        if (data.response) {
+          appendMessage('received', data.response);
+        } else {
+          appendMessage('received', "Sorry, I couldn't find an answer to that question.");
+        }
+      },
+      error: function() {
+        appendMessage('received', "There was an error processing your request.");
+      }
+    });
   }
 
   // Function to append messages to the chat
@@ -120,36 +124,6 @@
         <div class="msg-box">
           <div>
             <p>${message}</p>
-            <ul class="chat-msg-info">
-              <li>
-                <div class="chat-time">
-                  <span>${new Date().toLocaleTimeString()}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    `;
-    chatMessages.appendChild(li);
-  }
-
-  // Function to append messages with a button to the chat
-  function appendMessageWithButton(type, message, buttonText) {
-    var chatMessages = document.getElementById('chat-messages');
-    var li = document.createElement('li');
-    li.classList.add('media', type === 'sent' ? 'sent' : 'received', 'd-flex');
-    li.innerHTML = `
-      <div class="avatar flex-shrink-0">
-        <img src="assets/img/users/${type === 'sent' ? 'noimages.jpg' : 'Dlogo-small.png'}" alt="User Image" class="avatar-img rounded-circle">
-      </div>
-      <div class="media-body flex-grow-1">
-        <div class="msg-box">
-          <div>
-            <p>${message}</p>
-            <div class="d-flex justify-content">
-              <button type="button" class="btn btn-sm mt-2" style="background-color: #1b2850; color: white;" onclick="showAppointmentModal()">${buttonText}</button>
-            </div>
             <ul class="chat-msg-info">
               <li>
                 <div class="chat-time">
@@ -183,6 +157,7 @@
     resetConversation();
   });
 </script>
+
 
 <script>
    document.addEventListener('DOMContentLoaded', function () {
