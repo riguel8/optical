@@ -474,17 +474,7 @@
 
 
 <style>
-    .text-orange {
-        color: orange !important;
-    }
 
-    .text-green {
-        color: green !important;
-    }
-
-    .text-red {
-        color: red !important;
-    }
 
     /* Time CSS */
     .time-selection {
@@ -646,87 +636,54 @@
             });
         </script>
 
-        <!-- ADD Appointment -->
-        {{-- <script>
-            const addAppointmentModal = document.getElementById('addAppointment');
-            addAppointmentModal.addEventListener('hidden.bs.modal', function () {
-                // Reset the form only when the modal is fully closed
-                document.getElementById('addAppointmentForm').reset(); 
-            });
-    
-    
-            document.getElementById('addAppointmentForm').onsubmit = function (event) {
-            event.preventDefault();
-            const submitButton = event.target.querySelector("button[type='submit']");
-            submitButton.disabled = true; // Disable the submit button
-
-            const formData = new FormData(this);
-            fetch('{{ route("admin.appointments.store") }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                submitButton.disabled = false; // Re-enable the button after the request completes
-
-                if (data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message,
-                    }).then(() => {
-                        window.location.href = '/admin/appointments';
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message,
-                    });
-                }
-            })
-            .catch(error => {
-                submitButton.disabled = false;
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An unexpected error occurred. Please try again.',
-                });
-            });
-        };
-        </script> --}}
-
     <!-- View Appointment -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-        const viewButtons = document.querySelectorAll('.view-appointment');
-        viewButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const AppointmentId = this.getAttribute('data-id');
-                console.log('Fetching details for appointment ID:', AppointmentId);
+            const viewButtons = document.querySelectorAll('.view-appointment');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const AppointmentId = this.getAttribute('data-id');
+                    console.log('Fetching details for appointment ID:', AppointmentId);
 
-                fetch(`/admin/appointments/${AppointmentId}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById('patientName').textContent = data.patient.complete_name;
-                        document.getElementById('patientAge').textContent = data.patient.age;
-                        document.getElementById('patientGender').textContent = data.patient.gender;
-                        document.getElementById('contactNumber').textContent = data.patient.contact_number;
-                        document.getElementById('patientAddress').textContent = data.patient.address;
-                        document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.appointment.Status);
-                    })
-                    .catch(error => console.error('Error fetching appointment details:', error));
+                    fetch(`/admin/appointments/${AppointmentId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const appointmentDateTime = new Date(data.appointment.DateTime);
+                            const formattedDate = formatAppointmentDate(appointmentDateTime);
+
+                            document.getElementById('appointmentSchedule').textContent = formattedDate;
+                            document.getElementById('patientName').textContent = data.patient.complete_name;
+                            document.getElementById('patientAge').textContent = data.patient.age;
+                            document.getElementById('patientGender').textContent = data.patient.gender;
+                            document.getElementById('contactNumber').textContent = data.patient.contact_number;
+                            document.getElementById('patientAddress').textContent = data.patient.address;
+                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.appointment.Status);
+                        })
+                        .catch(error => console.error('Error fetching appointment details:', error));
+                });
             });
         });
-    });
+
+        function formatAppointmentDate(date) {
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: 'numeric', 
+                minute: 'numeric', 
+                second: 'numeric', 
+                hour12: true 
+            };
+            
+            const formattedDate = date.toLocaleString('en-US', options);
+            const [datePart, timePart] = formattedDate.split(', ');
+            return `${datePart}, ${timePart}`;
+        }
     </script>
 
     <!-- Script to open Edit and Update Appointments-->

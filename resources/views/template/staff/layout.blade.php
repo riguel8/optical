@@ -189,6 +189,56 @@
     }
 </script>
 
+<!-- Sweet Alert for adding appointment -->
+<script>
+    $(document).ready(function() {
+        // Target the form directly within the modal
+        $('#addAppointment form').submit(function(e) {
+            e.preventDefault(); 
+            
+            var formData = $(this).serialize();
+    
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#ff9f43',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "{{ route('staff.appointments') }}"; 
+                            }
+                        });
+                    } else if (response.status === 'error') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message,
+                            confirmButtonColor: '#ff9f43',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while processing your request. Please try again later.'
+                    });
+                }
+            });
+        });
+    });
+    </script>
+
 
 <script>
 var checkeventcount = 1,prevTarget;
