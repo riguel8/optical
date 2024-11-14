@@ -26,49 +26,49 @@
     <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
 </head>
 <body>
-    <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
-                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col-lg-7 col-xl-12 chat-cont-right">
-                        <div class="card mb-0">
-                            <div class="card-header msg_head">
-                                <div class="d-flex bd-highlight">
-                                    <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
-                                      <i class="fas fa-chevron-left"></i>
-                                  </a>
-                                  <div class="img_cont">
-                                      <img class="rounded-circle user_img" src="{{ asset("assets/img/Dlogo-small.png") }}" alt="">
-                                  </div>
-                                  <div class="user_info">
-                                      <span><strong id="receiver_name">Delin Optical</strong></span>
-                                      <p class="mb-0">Chatbot</p>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="card-body msg_card_body chat-scroll">
-                              <ul class="list-unstyled" id="chat-messages">
 
-                              </ul>
-                          </div>
-                          <div class="card-footer">
-                              <div class="input-group">
+  @yield('content')
+
+  <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-7 col-xl-12 chat-cont-right">
+                    <div class="card mb-0">
+                        <div class="card-header msg_head">
+                            <div class="d-flex bd-highlight">
+                                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <div class="img_cont">
+                                    <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
+                                </div>
+                                <div class="user_info">
+                                    <span><strong id="receiver_name">Delin Optical</strong></span>
+                                    <p class="mb-0">Chatbot</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body msg_card_body chat-scroll">
+                            <ul class="list-unstyled" id="chat-messages"></ul>
+                        </div>
+                        <div class="card-footer">
+                            <div class="input-group">
                                 <div class="btn" role="group">
-                                  <button type="button" class="btn btn-outline-success" onclick="sendMessage('Book an Appointment')">Book an Appointment</button>
-                                  <button type="button" class="btn btn-outline-primary" onclick="sendMessage('What are the available hours for today?')">Available Hours Today</button>  
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                                    <button type="button" class="btn btn-outline-success" onclick="sendMessage('Book an Appointment')">Book an Appointment</button>
+                                    <button type="button" class="btn btn-outline-primary" onclick="sendMessage('What are the available hours for today?')">Available Hours Today</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-

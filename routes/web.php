@@ -32,6 +32,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 // Default Route for Pages
 Route::get('/', [PagesController::class, 'index'])->name('landing');
+Route::post('/chatbot-response', [PagesController::class, 'getChatbotResponse'])->name('chatbot.response');
 
 // Admin Modules
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':admin'])->group(function () {

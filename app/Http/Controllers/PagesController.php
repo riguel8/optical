@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Eyewear;
+use App\Models\Chatbot;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
@@ -19,5 +20,12 @@ class PagesController extends Controller
         $lensMaterials = Eyewear::select('LensMaterial')->distinct()->get();
 
         return view('landing.index', compact('groupedByBrand', 'brands', 'frameTypes', 'frameColors', 'lensMaterials'));
+    }
+    public function getChatbotResponse(Request $request)
+    {
+        $question = $request->input('question');
+        $response = Chatbot::where('Question', $question)->value('Response');
+
+        return response()->json(['response' => $response]);
     }
 }
