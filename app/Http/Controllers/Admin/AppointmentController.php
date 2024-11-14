@@ -14,67 +14,106 @@ class AppointmentController extends Controller
     {
         $title = 'Appointments';
         $appointments = AppointmentModel::with(['patient', 'staff'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('DateTime', 'asc')
             ->get();
-        
+    
         return view('admin.appointments', compact('appointments', 'title'));
     }
+
+        // Function to check the availability of the time slot
+        public function checkAvailability(Request $request)
+    {
+        $selectedDate = $request->input('date');
+
+        $appointments = AppointmentModel::whereDate('DateTime', $selectedDate)
+            ->pluck('DateTime')
+            ->toArray();
+
+        $timeSlots = [];
+        for ($hour = 10; $hour <= 19; $hour++) {
+            for ($minute = 0; $minute < 60; $minute += 20) {
+                $timeSlots[] = sprintf('%02d:%02d', $hour, $minute);
+            }
+        }
+        $unavailableSlots = [];
+        foreach ($appointments as $appointment) {
+            $appointmentTime = Carbon::parse($appointment)->format('H:i');
+            if (in_array($appointmentTime, $timeSlots)) {
+                $unavailableSlots[] = $appointmentTime;
+            }
+        }
+        return response()->json([
+            'unavailableSlots' => $unavailableSlots,
+        ]);
+    }
+
 
     // Adding New Appointment (Modal)
     public function store(Request $request)
     {
         try {
-
             $validated = $request->validate([
                 'complete_name' => 'required|string|max:255',
                 'gender' => 'required|in:Male,Female,Other',
                 'age' => 'required|integer|min:0',
                 'contact_number' => 'required|string|max:15',
                 'address' => 'required|string|max:255',
-                'DateTime' => 'required|date|after_or_equal:now',
+                'appointment_date' => 'required|date|after:today',
+                'appointment_time' => 'required|string',
             ]);
 
+            $appointmentDateTime = Carbon::parse($validated['appointment_date'] . ' ' . $validated['appointment_time']);
+    
             $patient = PatientModel::create([
                 'complete_name' => $validated['complete_name'],
                 'gender' => $validated['gender'],
                 'age' => $validated['age'],
                 'contact_number' => $validated['contact_number'],
                 'address' => $validated['address'],
-                'DateTime' => $validated['DateTime'],
             ]);
-
+    
             $user = auth()->user();
-            $user->user_type === 'staff' || $user->user_type === 'admin';
-                $staffId = $user->id;
+            $staffId = $user->id;
 
             AppointmentModel::create([
                 'PatientID' => $patient->PatientID,
                 'StaffID' => $staffId,
-                'DateTime' => Carbon::parse($validated['DateTime']),
-                'Status' => 'Pending', 
+                'DateTime' => $appointmentDateTime,
+                'Status' => 'Pending',
             ]);
-
+    
             return response()->json([
                 'status' => 'success',
                 'message' => 'Patient and appointment were added successfully',
             ]);
+    
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to appointment. Please try again later.',
+                'message' => 'Failed to add patient and appointment. Please try again later.',
             ]);
         }
     }
+    
+    
+    
 
     // Function to Fetch Appointment Information
     public function edit($id)
     {
         try {
             $appointment = AppointmentModel::with('patient')->findOrFail($id);
+            $formattedDate = $appointment->DateTime->format('Y-m-d');
+            $takenSlots = AppointmentModel::whereDate('DateTime', $formattedDate)
+                                          ->pluck('DateTime')
+                                          ->map(function ($dateTime) {
+                                              return $dateTime->format('H:i');
+                                          })
+                                          ->toArray();
     
             return response()->json([
                 'appointment' => [
-                    'DateTime' => $appointment->DateTime,
+                    // 'DateTime' => $formattedDate,
                     'Status' => $appointment->Status,
                 ],
                 'patient' => [
@@ -83,29 +122,34 @@ class AppointmentController extends Controller
                     'gender' => $appointment->patient->gender,
                     'contact_number' => $appointment->patient->contact_number,
                     'address' => $appointment->patient->address,
-                ]
+                ],
+                'takenSlots' => $takenSlots,
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Data not found'], 404);
         }
     }
     
+    
     //Function to Update the Appointment
     public function update(Request $request, $id)
     {
         $request->validate([
-            'DateTime' => 'required|date',
             'Status' => 'required|string',
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
             'contact_number' => 'required|string',
             'address' => 'required|string',
+            'DateTime' => 'required|string',
         ]);
-
+    
         try {
             $appointment = AppointmentModel::findOrFail($id);
-            $appointment->DateTime = $request->input('DateTime');
+
+            $appointment->DateTime = Carbon::parse($request->input('DateTime'));
+            
+            // $appointment->DateTime = $appointmentDateTime;
             $appointment->Status = $request->input('Status');
             $appointment->save();
 
@@ -116,7 +160,7 @@ class AppointmentController extends Controller
             $patient->contact_number = $request->input('contact_number');
             $patient->address = $request->input('address');
             $patient->save();
-
+    
             return response()->json([
                 'status' => 'success',
                 'message' => 'Appointment updated successfully',
@@ -124,7 +168,7 @@ class AppointmentController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error updating appointment',
+                'message' => 'Error updating appointment: ' . $e->getMessage(),
             ]);
         }
     }

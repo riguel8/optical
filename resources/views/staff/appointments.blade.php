@@ -495,7 +495,7 @@
         viewButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const AppointmentId = this.getAttribute('data-id');
-                console.log('Fetching details for appointment ID:', AppointmentId); // Debug log
+                console.log('Fetching details for appointment ID:', AppointmentId);
 
                 fetch(`/staff/appointments/${AppointmentId}`)
                     .then(response => {
