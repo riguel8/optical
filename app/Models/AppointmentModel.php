@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use  App\Models\UserModel;
 use App\Models\PatientModel;
+use Carbon\Carbon;
 
 class AppointmentModel extends Model
 {
@@ -22,6 +23,10 @@ class AppointmentModel extends Model
         'updated_at',
     ];
 
+    //For calendar
+    protected $casts = [
+        'DateTime' => 'datetime',
+    ];
 
     //For Foreign Keys
     public function patient()

@@ -58,6 +58,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/admin/appointments/edit/{id}', [AdminAppointmentController::class, 'edit']);
     Route::put('/admin/appointments/update/{id}', [AdminAppointmentController::class, 'update'])->name('admin.appointments.update');
     Route::delete('/admin/appointments/{id}', [AdminAppointmentController::class, 'delete'])->name('admin.appointments.delete');
+    // Calendar Time Slot Availability
+    Route::get('/appointments/check-availability', [AdminAppointmentController::class, 'checkAvailability']);
+
 
     // Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);
     // Route::get('/admin/appointments/edit/{id}', [AdminController::class, 'editAppointment']);
