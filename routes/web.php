@@ -102,10 +102,19 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':client'])->group(function () {
     // Dashboard
     Route::get('/client/dashboard', [ClientDashboardController::class, 'index'])->name('client.dashboard');
-    // Appointment View
+    
+    // Appointment CRUD
     Route::get('/client/appointments', [ClientAppointmentController::class, 'index'])->name('client.appointments');
+    Route::post('/client/appointments', [ClientAppointmentController::class, 'store'])->name('client.appointments.store');
+    Route::get('/client/appointments/edit/{id}', [ClientAppointmentController::class, 'edit']);
+    Route::put('/client/appointments/update/{id}', [ClientAppointmentController::class, 'update'])->name('client.appointments.update');
+    Route::get('/client/appointments/{id}', [ClientAppointmentController::class, 'view']);
+    // Calendar Time Slot Availability
+    Route::get('/appointments/check-client-availability', [ClientAppointmentController::class, 'checkclientAvailability']);
+
     // Eyewear View
     Route::get('/client/eyewears', [ClientEyewearController::class, 'index'])->name('client.eyewears');
+
     // ACCOUNT DETAILS
     Route::get('/client/account_details', [ClientAccountController::class, 'index'])->name('client.account_details');
     Route::put('/client/account_details{id}', [ClientAccountController::class, 'update'])->name('client.update');
@@ -154,7 +163,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::put('/staff/appointments/update/{id}', [StaffAppointmentController::class, 'update'])->name('staff.appointments.update');
     Route::delete('/staff/appointments/{id}', [StaffAppointmentController::class, 'delete'])->name('staff.appointments.delete');
     // Calendar Time Slot Availability
-    Route::get('/appointments/check-availability', [StaffAppointmentController::class, 'checkAvailability']);
+    Route::get('/appointments/check-staff-availability', [StaffAppointmentController::class, 'checkstaffAvailability']);
 
 
     // Eyewear CRUD

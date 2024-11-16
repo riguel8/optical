@@ -22,7 +22,7 @@ class AppointmentController extends Controller
 
 
     // Function to check the availability of the time slot
-    public function checkAvailability(Request $request)
+    public function checkstaffAvailability(Request $request)
     {
         $selectedDate = $request->input('date');
 

@@ -552,7 +552,7 @@
                 }
         
                 function checkAvailability(date, timeSelectionInputs) {
-                    fetch(`/appointments/check-availability?date=${date}`)
+                    fetch(`/appointments/check-staff-availability?date=${date}`)
                         .then(response => response.json())
                         .then(data => {
                             console.log('Availability Check:', data);

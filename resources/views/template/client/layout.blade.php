@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>{{ $title ?? 'Delin Optical' }}</title>
 
@@ -33,6 +34,9 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
 
     <style>
         .productset {
@@ -304,7 +308,7 @@ $(document).ready(function() {
                         confirmButtonText: 'OK'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "{{ url('appointments') }}";
+                            window.location.href = "{{ url('/client/appointments') }}";
                         }
                     });
                 } else {
@@ -365,6 +369,52 @@ $(document).ready(function() {
             });
         });
     });
+</script>
+
+<script>
+    var checkeventcount = 1,prevTarget;
+        $('.modal').on('show.bs.modal', function (e) {
+            if(typeof prevTarget == 'undefined' || (checkeventcount==1 && e.target!=prevTarget))
+            {  
+              prevTarget = e.target;
+              checkeventcount++;
+              e.preventDefault();
+              $(e.target).appendTo('body').modal('show');
+            }
+            else if(e.target==prevTarget && checkeventcount==2)
+            {
+              checkeventcount--;
+            }
+         });
+</script>
+
+<!-- script for status color/badge -->
+<script>
+        function getStatusBadge(status) {
+        let badgeClass;
+        let statusText;
+
+        // Use if-else to determine badge class and text
+        if (status === 'Pending') {
+            badgeClass = 'bg-lightyellow badges';
+            statusText = 'Pending';
+        } else if (status === 'Confirm') {
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Confirm';
+        } else if (status === 'Completed') {
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Completed';
+        } else if (status === 'Cancelled') {
+            badgeClass = 'badges bg-lightred';
+            statusText = 'Cancelled';
+        } else {
+            badgeClass = 'badges';
+            statusText = 'Unknown Status';
+        }
+
+        return `<span class="${badgeClass}">${statusText}</span>`;
+    }
+
 </script>
 
 
