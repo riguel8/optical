@@ -105,11 +105,11 @@ class AppointmentController extends Controller
             $appointment = AppointmentModel::with('patient')->findOrFail($id);
             $formattedDate = $appointment->DateTime->format('Y-m-d');
             $takenSlots = AppointmentModel::whereDate('DateTime', $formattedDate)
-                                          ->pluck('DateTime')
-                                          ->map(function ($dateTime) {
-                                              return $dateTime->format('H:i');
-                                          })
-                                          ->toArray();
+            ->pluck('DateTime')
+            ->map(function ($dateTime) {
+                return $dateTime->format('H:i');
+            })
+            ->toArray();
     
             return response()->json([
                 'appointment' => [
