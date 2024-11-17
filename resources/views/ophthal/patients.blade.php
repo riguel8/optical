@@ -1,6 +1,7 @@
 @extends('template.ophthal.layout')
 
 @section('content') 
+
 <div class="page-wrapper">
     <div class="content"  style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
@@ -9,9 +10,9 @@
                 <h6>Patient Lists</h6>
             </div>
             <div class="page-btn">
-                <a data-bs-target="#createPrescription" data-bs-toggle="modal" class="btn btn-added">
+                {{-- <a data-bs-target="#createPrescription" data-bs-toggle="modal" class="btn btn-added">
                     <img src="{{ asset("assets/img/icons/plus.svg")}}" alt="img">Create Prescription
-                </a>
+                </a> --}}
             </div>
         </div>
 
@@ -74,9 +75,9 @@
                                     
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a class="me-3 view-patient-prescription" href="#" data-id="{{ $patient->id }}" data-bs-toggle="modal" data-bs-target="#viewPatientPrescriptionModal">
-                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View" data-bs-toggle="tooltip" data-bs-placement="top" title="View Patient Prescription">
-                                            </a>                                              
+                                            <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
+                                                <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Patient">
+                                            </a>                                          
                                             <a class="me-3 prescription" href="#" 
                                             data-id="{{ $patient->PatientID}}" 
                                             data-name="{{ $patient->complete_name }}" 
@@ -110,46 +111,50 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('ophthal.storePrescription') }}" method="POST">
+                <form action="{{ route('ophthal.patients.storePrescription', ['PrescriptionID' => $prescription->PrescriptionID ?? '']) }}" method="POST">
                     @csrf
+                    @if (isset($prescription) && $prescription->PrescriptionID)
+                        @method('PUT')
+                    @endif
+                    <input type="hidden" name="PrescriptionID" id="edit_PrescriptionID"> 
                     <input type="hidden" name="PatientID" id="patientID">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="patientName">Patient Name:</label>
-                            <input type="text" class="form-control" id="patientName" name="patientName" required readonly>
+                            <label for="edit_patientName">Patient Name:</label>
+                            <input type="text" class="form-control" id="edit_patientName" name="edit_patientName" required readonly>
                         </div>
                         <div class="col-md-3">
-                            <label for="age">Age:</label>
-                            <input type="number" class="form-control" id="age" name="age" required readonly>
+                            <label for="edit_age">Age:</label>
+                            <input type="number" class="form-control" id="edit_age" name="edit_age" required readonly>
                         </div>
                         <div class="col-md-3">
-                            <label for="gender">Gender:</label>
-                            <input type="text" class="form-control" id="gender" name="gender" required readonly>
+                            <label for="edit_gender">Gender:</label>
+                            <input type="text" class="form-control" id="edit_gender" name="edit_gender" required readonly>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <select name="prescription" class="form-select" id="prescription" required>
+                                <select name="edit_prescription" class="form-select" id="edit_prescription" required>
                                     <option value="" disabled selected>Select Prescription</option>
                                     <option value="(OD) Right Eye">(OD) Right Eye</option>
                                     <option value="(OS) Left Eye">(OS) Left Eye</option>
                                     <option value="(OU) Both Eyes">(OU) Both Eyes</option>
                                 </select>
-                                <label for="prescription">Prescription</label>
+                                <label for="edit_prescription">Prescription</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <select name="lens" class="form-select" id="lens" required>
+                                <select name="edit_lens" class="form-select" id="edit_lens" required>
                                     <option value="" disabled selected>Select Lens</option>
                                     <option value="SINGLE VISION">SINGLE VISION</option>
                                     <option value="DOUBLE VISION">DOUBLE VISION</option>
                                     <option value="PROGRESSIVE">PROGRESSIVE</option>
                                     <option value="NEAR VISION">NEAR VISION</option>
                                 </select>
-                                <label for="lens">Lens</label>
+                                <label for="edit_lens">Lens</label>
                             </div>
                         </div>
                     </div>
@@ -157,14 +162,14 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input class="form-control" type="text" id="frame" name="frame" placeholder="Enter Frame" required>
-                                <label for="frame">Frame</label>
+                                <input class="form-control" type="text" id="edit_frame" name="edit_frame" placeholder="Enter Frame" required>
+                                <label for="edit_frame">Frame</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input class="form-control" type="number" id="price" name="price" placeholder="Enter Price" required>
-                                <label for="price">Price</label>
+                                <input class="form-control" type="number" id="edit_price" name="edit_price" placeholder="Enter Price" required>
+                                <label for="edit_price">Price</label>
                             </div>
                         </div>
                     </div>
@@ -172,8 +177,8 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <textarea style="height: 100px" class="form-control" id="prescriptionDetails" name="PrescriptionDetails" placeholder="Enter Prescription Details" rows="3" required></textarea>
-                                <label for="prescriptionDetails">Prescription Details</label>
+                                <textarea style="height: 100px" class="form-control" id="edit_prescriptionDetails" name="edit_PrescriptionDetails" placeholder="Enter Prescription Details" rows="3" required></textarea>
+                                <label for="edit_prescriptionDetails">Prescription Details</label>
                             </div>
                         </div>
                     </div>
@@ -189,47 +194,64 @@
 </div>
 
 
-<!-- Modal for Viewing Specific Patient with Prescription -->
-    <div class="modal fade" id="viewPatientPrescriptionModal" tabindex="-1" aria-labelledby="viewPatientPrescriptionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="viewPatientPrescriptionModalLabel">Patient Details and Prescription</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            <h6>Patient Information</h6>
-            <div class="mb-3">
-                <strong>Name:</strong> <span id="view_patient_name"></span>
-            </div>
-            <div class="mb-3">
-                <strong>Age:</strong> <span id="view_patient_age"></span>
-            </div>
-            <div class="mb-3">
-                <strong>Gender:</strong> <span id="view_patient_gender"></span>
-            </div>
+    <!-- Modal to View Specific Patient -->
+    <div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewPatientLabel">Patient Details</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="productdetails" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
+                        <ul class="product-bar" style="flex: 1; min-width: 250px;">
+                            <li>
+                                <h4><strong>Patient Name:</strong></h4>
+                                <h6 id="patientName"></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Age:</strong></h4>
+                                <h6><span id="patientAge"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Gender:</strong></h4>
+                                <h6><span id="patientGender"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Contact Number:</strong></h4>
+                                <h6><span id="contactNumber"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Address:</strong></h4>
+                                <h6><span id="patientAddress"></span></h6>
+                            </li>
+                        </ul>
     
-            <h6>Prescription Information</h6>
-            <div class="mb-3">
-                <strong>Prescription:</strong> <span id="view_prescription"></span>
+                        <ul style="flex: 1; min-width: 250px; padding-left: 20px; list-style-type: none; text-align: right;">
+                            <li>
+                                <h4><strong>Prescription:</strong></h4>
+                                <h6><span id="prescriptionPrescription"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Lens:</strong></h4>
+                                <h6><span id="prescriptionLens"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Frame:</strong></h4>
+                                <h6><span id="prescriptionFrame"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Details:</strong></h4>
+                                <h6><span id="prescriptionDetails"></span></h6>
+                            </li>
+                            <li>
+                                <h4><strong>Price:</strong></h4>
+                                <h6><span id="prescriptionPrice"></span></h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <strong>Lens:</strong> <span id="view_lens"></span>
-            </div>
-            <div class="mb-3">
-                <strong>Frame:</strong> <span id="view_frame"></span>
-            </div>
-            <div class="mb-3">
-                <strong>Price:</strong> <span id="view_price"></span>
-            </div>
-            <div class="mb-3">
-                <strong>Prescription Details:</strong> <span id="view_prescription_details"></span>
-            </div>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
         </div>
     </div>
   
@@ -242,77 +264,122 @@
         <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
 
-
+    <!-- Script to fetch data for edit and submit -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const prescriptionModal = document.getElementById('Prescription');
-            
+    document.addEventListener("DOMContentLoaded", function() {
+        const prescriptionModal = document.getElementById('Prescription');
 
-            prescriptionModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const patientID = button.getAttribute('data-id'); 
+        prescriptionModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const patientID = button.getAttribute('data-id');
 
-                console.log('Modal triggered for patient ID:', patientID);
+            console.log('Modal triggered for patient ID:', patientID);
 
-                fetch(`/ophthal/patients/edit/${patientID}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Fetched data:', data); 
+            fetch(`/ophthal/patients/edit/${patientID}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data:', data);
 
-                        if (data.patient) {
-                            document.getElementById('patientID').value = data.patient.PatientID;
-                            document.getElementById('patientName').value = data.patient.complete_name;
-                            document.getElementById('age').value = data.patient.age;
-                            document.getElementById('gender').value = data.patient.gender;
+                    if (data.patient) {
+                        document.getElementById('patientID').value = data.patient.PatientID;
+                        document.getElementById('edit_patientName').value = data.patient.complete_name;
+                        document.getElementById('edit_age').value = data.patient.age;
+                        document.getElementById('edit_gender').value = data.patient.gender;
 
-                            document.getElementById('prescription').value = data.prescription.Prescription || '';
-                            document.getElementById('lens').value = data.prescription.Lens || '';
-                            document.getElementById('frame').value = data.prescription.Frame || '';
-                            document.getElementById('price').value = data.prescription.Price || '';
-                            document.getElementById('prescriptionDetails').value = data.prescription.PrescriptionDetails || '';
-                        } else {
-                            console.error("No patient data found.");
-                        }
-                    })
-                    .catch(error => console.error('Error fetching patient data:', error));
+                        document.getElementById('edit_prescription').value = data.prescription?.Prescription || '';
+                        document.getElementById('edit_lens').value = data.prescription?.Lens || '';
+                        document.getElementById('edit_frame').value = data.prescription?.Frame || '';
+                        document.getElementById('edit_price').value = data.prescription?.Price || '';
+                        document.getElementById('edit_prescriptionDetails').value = data.prescription?.PrescriptionDetails || '';
+
+                        document.getElementById('edit_PrescriptionID').value = data.prescription?.PrescriptionID || '';
+                    } else {
+                        console.error("No patient data found.");
+                    }
+                })
+                .catch(error => console.error('Error fetching patient data:', error));
+        });
+
+        // Form submission handling
+        const editForm = document.querySelector("form");
+        editForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            fetch(editForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message,
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An unexpected error occurred. Please try again.',
+                });
             });
         });
+    });
+
     </script>
 
 
-    <!-- Script to View Specific Patient with Prescription -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          document.querySelectorAll(".view-patient-prescription").forEach(button => {
-            button.addEventListener("click", function () {
-              const PatientId = this.getAttribute("data-id");
-        
-              fetch(`/ophthal/patients/${PatientId}`)
-                .then(response => response.json())
-                .then(data => {
-                  // Populate modal fields with fetched data
-                  document.getElementById("view_patient_name").textContent = data.patient.complete_name;
-                  document.getElementById("view_patient_age").textContent = data.patient.age;
-                  document.getElementById("view_patient_gender").textContent = data.patient.gender;
-        
-                  if (data.prescription) {
-                    document.getElementById("view_prescription").textContent = data.prescription.Prescription;
-                    document.getElementById("view_lens").textContent = data.prescription.Lens;
-                    document.getElementById("view_frame").textContent = data.prescription.Frame;
-                    document.getElementById("view_price").textContent = data.prescription.Price;
-                    document.getElementById("view_prescription_details").textContent = data.prescription.PrescriptionDetails;
-                  } else {
-                    document.getElementById("view_prescription").textContent = 'No prescription available';
-                    document.getElementById("view_lens").textContent = '';
-                    document.getElementById("view_frame").textContent = '';
-                    document.getElementById("view_price").textContent = '';
-                    document.getElementById("view_prescription_details").textContent = '';
-                  }
-                })
-                .catch(error => console.error('Error fetching data:', error));
+        <!-- Script to view specific patient -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const viewButtons = document.querySelectorAll('.view-patient');
+                viewButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const PatientId = this.getAttribute('data-id');
+                        console.log('Fetching details for Patient ID:', PatientId);
+
+                        fetch(`/ophthal/patients/${PatientId}`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                document.getElementById('patientName').textContent = data.patient.complete_name || '';
+                                document.getElementById('patientAge').textContent = data.patient.age || '';
+                                document.getElementById('patientGender').textContent = data.patient.gender || '';
+                                document.getElementById('contactNumber').textContent = data.patient.contact_number || '';
+                                document.getElementById('patientAddress').textContent = data.patient.address || '';
+
+                                document.getElementById('prescriptionPrescription').textContent = data.prescription.prescription || 'Not Available';
+                                document.getElementById('prescriptionLens').textContent = data.prescription.lens || 'Not Available';
+                                document.getElementById('prescriptionFrame').textContent = data.prescription.frame || 'Not Available';
+                                document.getElementById('prescriptionDetails').textContent = data.prescription.details || 'Not Available';
+                                document.getElementById('prescriptionPrice').textContent = data.prescription.price || 'Not Available';
+                            })
+                            .catch(error => {
+                                console.error('Error fetching appointment details:', error);
+                                alert('Error fetching patient data.');
+                            });
+                    });
+                });
             });
-          });
-        });
         </script>
         
 
