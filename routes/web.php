@@ -123,24 +123,16 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 // Ophthal Modules
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':ophthal'])->group(function () {
 
-    Route::get('/ophthal/dashboard', [OphthalController::class, 'index'])->name('ophthal.dashboard');
-    Route::get('/ophthal/patients', [OphthalController::class, 'patients'])->name('ophthal.patients');
+    Route::get('/ophthal/dashboard', [OphthalDashboardController::class, 'index'])->name('ophthal.dashboard');
 
     // Inside the existing middleware group for 'ophthal'
-    Route::post('/ophthal/storePrescription', [OphthalController::class, 'storePrescription'])->name('ophthal.storePrescription');
-    Route::get('/ophthal/appointments', [OphthalController::class, 'appointments'])->name('ophthal.appointments');
-    Route::get('/ophthal/patients/{id}', [OphthalController::class, 'view']);
-    Route::get('/ophthal/patients/edit/{id}', [OphthalController::class, 'edit']);
+    Route::get('/ophthal/appointments', [OphthalAppointmentController::class, 'index'])->name('ophthal.appointments');
 
-    // // DASHBOARD
-    // Route::get('/ophthal/dashboard', [OphthalDashboardController::class, 'index'])->name('ophthal.dashboard');
-    // // APPOINTMENTs
-    // Route::get('/ophthal/appointments', [OphthalAppointmentController::class, 'index'])->name('ophthal.appointments');
-    // // PATIENTS
-    // Route::get('/ophthal/patients', [OphthalPatientController::class, 'patients'])->name('ophthal.patients');
-    // Route::get('/ophthal/patients/{id}', [OphthalPatientController::class, 'view']);
-    // Route::get('/ophthal/patients/edit/{id}', [OphthalPatientController::class, 'edit']);
-    // Route::post('/ophthal/storePrescription', [OphthalPatientController::class, 'storePrescription'])->name('ophthal.storePrescription');
+    //Patient CRUD
+    Route::get('/ophthal/patients', [OphthalPatientController::class, 'index'])->name('ophthal.patients');
+    Route::get('/ophthal/patients/{id}', [OphthalPatientController::class, 'view']);
+    Route::get('/ophthal/patients/edit/{id}', [OphthalPatientController::class, 'edit']);
+    Route::post('/ophthal/patients/storePrescription', [OphthalPatientController::class, 'storePrescription'])->name('ophthal.patients.storePrescription');
 });
 
 
