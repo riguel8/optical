@@ -324,7 +324,6 @@
                                 <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </div>
-                    
                 </form>
             </div>
         </div>
