@@ -1,4 +1,4 @@
-@extends('template.admin.header')
+@extends('template.admin.layout')
 
 @section('content')
 
@@ -65,10 +65,10 @@
                     <div class="card-body text-center" style="height: 100%;">
                         <div class="slider-product" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <h4 style="margin-top: 10px;"><strong>{{$eyewear->Brand}}</strong></h4>    
-                        <img src="{{ asset('storage/eyewears/' . $eyewear->image) }}" alt="img" style="height: 80%; width: auto; object-fit: contain;">
-                                <button class="btn btn-lg btn-submit w-100 edit-eyewear me-2"  data-id="{{ $eyewear->EyewearID }}" data-bs-toggle="modal" data-bs-target="#editEyewear">
-                                    Edit
-                                </button>               
+                            <img src="{{ asset('storage/eyewears/' . $eyewear->image) }}" alt="img" style="height: 80%; width: auto; object-fit: contain;">
+                            <button class="btn btn-lg btn-submit w-100 edit-eyewear me-2"  data-id="{{ $eyewear->EyewearID }}" data-bs-toggle="modal" data-bs-target="#editEyewear">
+                                Edit
+                            </button>               
                         </div>
                     </div>
                 </div>
@@ -92,20 +92,19 @@
                     @csrf
                     @method('PUT')
                     <div class="row d-flex align-items-stretch">
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label>Eyewear Image</label>
-                                <div class="image-upload">
+                                <div class="image-upload" onclick="document.getElementById('edit_image').click()">
                                     <input id="edit_image" name="image" type="file" accept="image/*">
-                                    <div class="image-uploads">
+                                    <div class="image-uploads" id="imagePreviewContainer">
                                         <img src="{{ asset('assets/img/icons/upload.svg') }}" alt="Upload" id="edit_imagePreview"
                                             style="max-width: 100%; height: 200px; object-fit: contain; border-radius: 4px;">
-                                        <h4 id="edit_imageName">Drag and drop a file to upload</h4>
+                                        <p id="edit_imageName">Drag and drop a file to upload or click to select</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-6 d-flex flex-column">
                             <input type="hidden" id="Eyewear_ID" name="EyewearID" value="">
                             <div class="row">
@@ -176,24 +175,57 @@
     </div>
 </div> 
 
+
 <style>
+    .image-upload {
+        position: relative;
+    }
+
+    .image-upload input[type="file"] {
+        display: none;
+    }
+
     .image-uploads {
         display: flex;
         flex-direction: column;
-        align-items: center; 
-        border: 1px dashed #ccc; 
-        padding: 20px; 
-        border-radius: 4px; 
+        justify-content: center;
+        align-items: center;
+        border: 2px dashed #ccc;
+        padding: 20px;
+        border-radius: 4px;
+        height: 270px;
+        position: relative;
+        cursor: pointer; 
+        background-color: #ffff;
+    }
+
+    .image-uploads:hover {
+        background-color: #ffff;
+    }
+
+    .image-uploads img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #imageName {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
     }
 </style>
 
 
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
         const editButtons = document.querySelectorAll('.edit-eyewear');
         const editForm = document.querySelector('#editEyewearForm');
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-     
+
         editButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const EyewearID = this.getAttribute('data-id');
@@ -218,7 +250,7 @@
                             imagePreview.src = `/storage/eyewears/${data.image}`;
                             imageName.textContent = data.image;
                         } else {
-                            imagePreview.src = "";
+                            imagePreview.src = "{{ asset('assets/img/icons/upload.svg') }}";
                             imageName.textContent = "No image selected";
                         }
                     })
@@ -226,62 +258,67 @@
             });
         });
 
-            document.getElementById("edit_image").addEventListener("change", function () {
-            const file = this.files[0];
-            const imagePreview = document.getElementById("edit_imagePreview");
-            const imageName = document.getElementById("edit_imageName");
+            const imageInput = document.getElementById('edit_image');
+            const imgElement = document.getElementById('edit_imagePreview');
+            const imageNameElement = document.getElementById('edit_imageName');
 
+            imageInput.addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                
                 if (file) {
-                    imageName.textContent = file.name;
                     const reader = new FileReader();
+
                     reader.onload = function (e) {
-                        imagePreview.src = e.target.result;
+                        imgElement.src = e.target.result; 
+                        imgElement.style.display = 'block'; 
+                        imageNameElement.textContent = file.name; 
                     };
-                    reader.readAsDataURL(file);
+
+                    reader.readAsDataURL(file); 
                 } else {
-                    imageName.textContent = "No image selected";
-                    imagePreview.src = "";
+                    imgElement.src = "{{ asset('assets/img/icons/upload.svg') }}";
+                    imageNameElement.textContent = "No image selected"; 
                 }
             });
 
-        editForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+            editForm.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-            const formData = new FormData(this);
-            fetch(editForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message,
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
+                const formData = new FormData(this);
+                fetch(editForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: data.message,
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message,
+                        });
+                    }
+                })
+                .catch(error => {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: data.message,
+                        text: 'An unexpected error occurred. Please try again.',
                     });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An unexpected error occurred. Please try again.',
                 });
             });
         });
-    });
-</script>
+    </script>
 
 @endsection

@@ -132,18 +132,21 @@
                 <a id="toggle_btn" href=""></a>
             </div>
 
-
             @include('template.client.navbar')
+
+        </div>
+
             @include('template.client.sidebar')
             @yield('content')
-      
-            @yield('scripts')
-            
-<footer>
-    <div class="p-2">
-        <p>&copy; 2024 Software Development. All Rights Reserved.</p>
     </div>
-</footer>
+
+    <footer>
+        <div class="p-2">
+            <p>&copy; 2024 Software Development. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    @yield('scripts')
 
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>

@@ -30,13 +30,10 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
  
-
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
 </head>
 <body>
     <div id="global-loader">
@@ -56,15 +53,22 @@
             </div>
 
             @include('template.admin.navbar')
+
+        </div>
+
             @include('template.admin.sidebar')
             @yield('content')
-            @yield('scripts')
 
-<footer>
-    <div class="p-2">
-        <p>&copy; 2024 Software Development. All Rights Reserved.</p>
     </div>
-</footer>
+
+    <footer>
+        <div class="p-2">
+            <p>&copy; 2024 Software Development. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    @yield('scripts')
+
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -81,11 +85,7 @@
 <script src="{{ asset('assets/js/moment.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
-<!-- <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script> -->
-
-<script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
-
-<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 

@@ -54,15 +54,19 @@
             </div>
 
             @include('template.ophthal.navbar')
+
+        </div>
+
             @include('template.ophthal.sidebar')
             @yield('content')
-            @yield('scripts')
 
-<footer>
-    <div class="p-2">
-        <p>&copy; 2024 Software Development. All Rights Reserved.</p>
-    </div>
-</footer>
+    <footer>
+        <div class="p-2">
+            <p>&copy; 2024 Software Development. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    @yield('scripts')
 
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>

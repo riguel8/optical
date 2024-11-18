@@ -29,18 +29,18 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
  
-
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
 </head>
 <body>
-    <div id="global-loader">
+    <!-- <div id="global-loader">
         <div class="whirly-loader"></div>
-    </div>
+    </div> -->
 
     <div class="main-wrapper">
+
         <div class="header">
             <div class="header-left active">
                 <a href="{{ url('staff/dashboard') }}" class="logo">
@@ -53,15 +53,21 @@
             </div>
 
             @include('template.staff.navbar')
+
+        </div>
+
             @include('template.staff.sidebar')
             @yield('content')
-            @yield('scripts')
 
-<footer>
-    <div class="p-2">
-        <p>&copy; 2024 Software Development. All Rights Reserved.</p>
     </div>
-</footer>
+    
+    <footer>
+        <div class="p-2">
+            <p>&copy; 2024 Software Development. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    @yield('scripts')
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -97,9 +103,6 @@
 <script src="{{ asset('assets/plugins/flot/jquery.flot.fillbetween.js') }}"></script>
 <script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
 <script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
-
-<!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
-{{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
 
 <script>
     $(document).ready(function() {
@@ -273,6 +276,5 @@ $(document).ready(function() {
     });
 });
 </script>
-
 </body>
 </html>

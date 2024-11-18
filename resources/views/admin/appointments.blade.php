@@ -1,4 +1,4 @@
-@extends('template.admin.header')
+@extends('template.admin.layout')
 
 @section('content')
 <div class="page-wrapper">
@@ -318,11 +318,11 @@
                                     @endfor
                                 @endfor
                             </div>
+                            <div class="mt-4 d-flex justify-content-end gap-2">
+                                <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
+                                <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                            </div>
                         </div>
-                    <div class="mt-4 d-flex justify-content-end gap-2">
-                        <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
-                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -344,31 +344,31 @@
                 <div class="productdetails">
                     <ul class="product-bar">
                         <li>
-                            <h4><strong>Appointment Schedule:</strong></h4>
+                            <h4><strong>Date/Time</strong></h4>
                             <h6 id="appointmentSchedule"></h6>
                         </li>
                         <li>
-                            <h4><strong>Patient Name:</strong>
+                            <h4><strong>Patient Name</strong>
                             <h6><span id="patientName"></span></h6>
                         </li>
                         <li>
-                            <h4><strong>Age:</strong></h4>
+                            <h4><strong>Age</strong></h4>
                             <h6><span id="patientAge"></span></h6>
                         </li>
                         <li>
-                            <h4><strong>Gender:</strong></h4>
+                            <h4><strong>Gender</strong></h4>
                             <h6><span id="patientGender"></span></h6>
                         </li>
                         <li>
-                            <h4><strong>Contact Number:</strong></h4>
+                            <h4><strong>Contact Number</strong></h4>
                             <h6><span id="contactNumber"></span></h6>
                         </li>
                         <li>
-                            <h4><strong>Address:</strong></h4>
+                            <h4><strong>Address</strong></h4>
                             <h6><span id="patientAddress"></span></h6>
                         </li>
                         <li class="mb-5">
-                            <h4><strong>Status:</strong></h4>
+                            <h4><strong>Status</strong></h4>
                             <h6><span id="appointmentStatus"></span></h6>
                         </li>
                     </ul>
@@ -460,11 +460,11 @@
                                 <span class="arrow"></span>
                                 <label for="edit_status">Appointment Status</label>
                             </div>
+                            <div class="mt-4 d-flex justify-content-end gap-2">
+                                <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
+                                <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                            </div>
                         </div>
-                    <div class="mt-4 d-flex justify-content-end gap-2">
-                        <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
-                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
-                    </div>
                 </form>
             </div>
         </div>
