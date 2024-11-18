@@ -146,9 +146,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 
     // Patient Module
     Route::get('/staff/patients', [StaffPatientController::class, 'index'])->name('staff.patients');
-    Route::get('/staff/patients/{id}', [AdminPatientController::class, 'view']);
-    Route::get('/staff/patients/edit/{id}', [AdminPatientController::class, 'edit']);
-    Route::put('/staff/patients/update/{id}', [AdminPatientController::class, 'update'])->name('staff.patients.update');
+    Route::get('/staff/patients/{id}', [StaffPatientController::class, 'view']);
+    Route::get('/staff/patients/edit/{id}', [StaffPatientController::class, 'edit']);
+    Route::post('/staff/patients/storePrescription', [StaffPatientController::class, 'storePrescription'])->name('ophthal.patients.storePrescription');
 
     // Appointment CRUD
     Route::get('/staff/appointments', [StaffAppointmentController::class, 'index'])->name('staff.appointments');

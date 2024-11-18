@@ -120,16 +120,22 @@
                     <input type="hidden" name="PatientID" id="patientID">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="edit_patientName">Patient Name:</label>
-                            <input type="text" class="form-control" id="edit_patientName" name="edit_patientName" required readonly>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="edit_patientName" name="edit_patientName" required readonly>
+                                <label for="edit_patientName">Patient Name:</label>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="edit_age">Age:</label>
+                            <div class="form-floating">
                             <input type="number" class="form-control" id="edit_age" name="edit_age" required readonly>
+                            <label for="edit_age">Age:</label>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="edit_gender">Gender:</label>
+                            <div class="form-floating">
                             <input type="text" class="form-control" id="edit_gender" name="edit_gender" required readonly>
+                            <label for="edit_gender">Gender:</label>
+                            </div>
                         </div>
                     </div>
 
@@ -183,9 +189,9 @@
                         </div>
                     </div>
 
-                    <div class="modal-footer justify-content-end">
-                        <button class="btn btn-sm btn-primary" type="submit">Save</button>
-                        <button class="btn btn-sm btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    <div class="mt-4 d-flex justify-content-end gap-2">
+                        <button class="btn btn-lg btn-submit col-md-3" type="submit">Save</button>
+                        <button class="btn btn-lg btn-cancel col-md-3" type="button" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -194,193 +200,193 @@
 </div>
 
 
-    <!-- Modal to View Specific Patient -->
-    <div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewPatientLabel">Patient Details</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="productdetails" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
-                        <ul class="product-bar" style="flex: 1; min-width: 250px;">
-                            <li>
-                                <h4><strong>Patient Name:</strong></h4>
-                                <h6 id="patientName"></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Age:</strong></h4>
-                                <h6><span id="patientAge"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Gender:</strong></h4>
-                                <h6><span id="patientGender"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Contact Number:</strong></h4>
-                                <h6><span id="contactNumber"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Address:</strong></h4>
-                                <h6><span id="patientAddress"></span></h6>
-                            </li>
-                        </ul>
-    
-                        <ul style="flex: 1; min-width: 250px; padding-left: 20px; list-style-type: none; text-align: right;">
-                            <li>
-                                <h4><strong>Prescription:</strong></h4>
-                                <h6><span id="prescriptionPrescription"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Lens:</strong></h4>
-                                <h6><span id="prescriptionLens"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Frame:</strong></h4>
-                                <h6><span id="prescriptionFrame"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Details:</strong></h4>
-                                <h6><span id="prescriptionDetails"></span></h6>
-                            </li>
-                            <li>
-                                <h4><strong>Price:</strong></h4>
-                                <h6><span id="prescriptionPrice"></span></h6>
-                            </li>
-                        </ul>
-                    </div>
+<!-- Modal to View Specific Patient -->
+<div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewPatientLabel">Patient Details</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="productdetails" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
+                    <ul class="product-bar" style="flex: 1; min-width: 250px;">
+                        <li>
+                            <h4><strong>Patient Name:</strong></h4>
+                            <h6 id="patientName"></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Age:</strong></h4>
+                            <h6><span id="patientAge"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Gender:</strong></h4>
+                            <h6><span id="patientGender"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Contact Number:</strong></h4>
+                            <h6><span id="contactNumber"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Address:</strong></h4>
+                            <h6><span id="patientAddress"></span></h6>
+                        </li>
+                    </ul>
+
+                    <ul style="flex: 1; min-width: 250px; padding-left: 20px; list-style-type: none; text-align: right;">
+                        <li>
+                            <h4><strong>Prescription:</strong></h4>
+                            <h6><span id="prescriptionPrescription"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Lens:</strong></h4>
+                            <h6><span id="prescriptionLens"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Frame:</strong></h4>
+                            <h6><span id="prescriptionFrame"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Details:</strong></h4>
+                            <h6><span id="prescriptionDetails"></span></h6>
+                        </li>
+                        <li>
+                            <h4><strong>Price:</strong></h4>
+                            <h6><span id="prescriptionPrice"></span></h6>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
   
 
 
 
 
-    @section('scripts')
-        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+@section('scripts')
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
 
-    <!-- Script to fetch data for edit and submit -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const prescriptionModal = document.getElementById('Prescription');
+<!-- Script to fetch data for edit and submit -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const prescriptionModal = document.getElementById('Prescription');
 
-        prescriptionModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const patientID = button.getAttribute('data-id');
+    prescriptionModal.addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        const patientID = button.getAttribute('data-id');
 
-            console.log('Modal triggered for patient ID:', patientID);
+        console.log('Modal triggered for patient ID:', patientID);
 
-            fetch(`/ophthal/patients/edit/${patientID}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Fetched data:', data);
-
-                    if (data.patient) {
-                        document.getElementById('patientID').value = data.patient.PatientID;
-                        document.getElementById('edit_patientName').value = data.patient.complete_name;
-                        document.getElementById('edit_age').value = data.patient.age;
-                        document.getElementById('edit_gender').value = data.patient.gender;
-
-                        document.getElementById('edit_prescription').value = data.prescription?.Prescription || '';
-                        document.getElementById('edit_lens').value = data.prescription?.Lens || '';
-                        document.getElementById('edit_frame').value = data.prescription?.Frame || '';
-                        document.getElementById('edit_price').value = data.prescription?.Price || '';
-                        document.getElementById('edit_prescriptionDetails').value = data.prescription?.PrescriptionDetails || '';
-
-                        document.getElementById('edit_PrescriptionID').value = data.prescription?.PrescriptionID || '';
-                    } else {
-                        console.error("No patient data found.");
-                    }
-                })
-                .catch(error => console.error('Error fetching patient data:', error));
-        });
-
-        // Form submission handling
-        const editForm = document.querySelector("form");
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            fetch(editForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
+        fetch(`/ophthal/patients/edit/${patientID}`)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message,
-                    }).then(() => {
-                        location.reload();
-                    });
+                console.log('Fetched data:', data);
+
+                if (data.patient) {
+                    document.getElementById('patientID').value = data.patient.PatientID;
+                    document.getElementById('edit_patientName').value = data.patient.complete_name;
+                    document.getElementById('edit_age').value = data.patient.age;
+                    document.getElementById('edit_gender').value = data.patient.gender;
+
+                    document.getElementById('edit_prescription').value = data.prescription?.Prescription || '';
+                    document.getElementById('edit_lens').value = data.prescription?.Lens || '';
+                    document.getElementById('edit_frame').value = data.prescription?.Frame || '';
+                    document.getElementById('edit_price').value = data.prescription?.Price || '';
+                    document.getElementById('edit_prescriptionDetails').value = data.prescription?.PrescriptionDetails || '';
+
+                    document.getElementById('edit_PrescriptionID').value = data.prescription?.PrescriptionID || '';
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message,
-                    });
+                    console.error("No patient data found.");
                 }
             })
-            .catch(error => {
+            .catch(error => console.error('Error fetching patient data:', error));
+    });
+
+    // Form submission handling
+    const editForm = document.querySelector("form");
+    editForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        fetch(editForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'An unexpected error occurred. Please try again.',
+                    text: data.message,
                 });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An unexpected error occurred. Please try again.',
             });
         });
     });
+});
 
-    </script>
+</script>
 
 
-        <!-- Script to view specific patient -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const viewButtons = document.querySelectorAll('.view-patient');
-                viewButtons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        const PatientId = this.getAttribute('data-id');
-                        console.log('Fetching details for Patient ID:', PatientId);
+<!-- Script to view specific patient -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const viewButtons = document.querySelectorAll('.view-patient');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const PatientId = this.getAttribute('data-id');
+                console.log('Fetching details for Patient ID:', PatientId);
 
-                        fetch(`/ophthal/patients/${PatientId}`)
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                document.getElementById('patientName').textContent = data.patient.complete_name || '';
-                                document.getElementById('patientAge').textContent = data.patient.age || '';
-                                document.getElementById('patientGender').textContent = data.patient.gender || '';
-                                document.getElementById('contactNumber').textContent = data.patient.contact_number || '';
-                                document.getElementById('patientAddress').textContent = data.patient.address || '';
+                fetch(`/ophthal/patients/${PatientId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('patientName').textContent = data.patient.complete_name || '';
+                        document.getElementById('patientAge').textContent = data.patient.age || '';
+                        document.getElementById('patientGender').textContent = data.patient.gender || '';
+                        document.getElementById('contactNumber').textContent = data.patient.contact_number || '';
+                        document.getElementById('patientAddress').textContent = data.patient.address || '';
 
-                                document.getElementById('prescriptionPrescription').textContent = data.prescription.prescription || 'Not Available';
-                                document.getElementById('prescriptionLens').textContent = data.prescription.lens || 'Not Available';
-                                document.getElementById('prescriptionFrame').textContent = data.prescription.frame || 'Not Available';
-                                document.getElementById('prescriptionDetails').textContent = data.prescription.details || 'Not Available';
-                                document.getElementById('prescriptionPrice').textContent = data.prescription.price || 'Not Available';
-                            })
-                            .catch(error => {
-                                console.error('Error fetching appointment details:', error);
-                                alert('Error fetching patient data.');
-                            });
+                        document.getElementById('prescriptionPrescription').textContent = data.prescription.prescription || 'Not Available';
+                        document.getElementById('prescriptionLens').textContent = data.prescription.lens || 'Not Available';
+                        document.getElementById('prescriptionFrame').textContent = data.prescription.frame || 'Not Available';
+                        document.getElementById('prescriptionDetails').textContent = data.prescription.details || 'Not Available';
+                        document.getElementById('prescriptionPrice').textContent = data.prescription.price || 'Not Available';
+                    })
+                    .catch(error => {
+                        console.error('Error fetching appointment details:', error);
+                        alert('Error fetching patient data.');
                     });
-                });
             });
-        </script>
+        });
+    });
+</script>
         
 
 
