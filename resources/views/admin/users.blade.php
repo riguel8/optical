@@ -1,4 +1,4 @@
-@extends('template.admin.header')
+@extends('template.admin.layout')
 
 @section('content')
 <div class="page-wrapper">
@@ -206,7 +206,7 @@
                             <option value="" disabled selected>User Type</option>
                             <option value="admin">Admin</option>
                             <option value="client">Client</option>
-                            <option value="Staff">Staff</option>
+                            <option value="staff">Staff</option>
                             <option value="ophthal">Ophthal/Doctor</option>
                         </select>
                         <span class="arrow"></span>

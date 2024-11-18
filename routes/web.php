@@ -38,7 +38,7 @@ Route::post('/fetch-response', [PagesController::class, 'fetchResponse'])->name(
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':admin'])->group(function () {
     
     // Dashboard Module
-    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('staff.dashboard');
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/dashboard/get_appointments', [AdminDashboardController::class, 'getAppointments']);
     Route::get('/admin/dashboard/get_appointment_details', [AdminDashboardController::class, 'getAppointmentDetails']);
 
@@ -154,6 +154,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 
     // Patient Module
     Route::get('/staff/patients', [StaffPatientController::class, 'index'])->name('staff.patients');
+    Route::get('/staff/patients/{id}', [AdminPatientController::class, 'view']);
+    Route::get('/staff/patients/edit/{id}', [AdminPatientController::class, 'edit']);
+    Route::put('/staff/patients/update/{id}', [AdminPatientController::class, 'update'])->name('staff.patients.update');
 
     // Appointment CRUD
     Route::get('/staff/appointments', [StaffAppointmentController::class, 'index'])->name('staff.appointments');
