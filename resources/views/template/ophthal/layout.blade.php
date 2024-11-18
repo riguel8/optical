@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>{{ $title ?? 'Delin Optical' }}</title>
 
@@ -31,6 +32,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
+
 </head>
 <body>
     <div id="global-loader">
@@ -40,10 +44,10 @@
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left active">
-                <a href="{{ url('admin/dashboard') }}" class="logo">
+                <a href="{{ url('ophthal/dashboard') }}" class="logo">
                     <img src="{{ asset('assets/img/Dlogo.png') }}" alt="">
                 </a>
-                <a href="{{ url('admin/dashboard') }}" class="logo-small">
+                <a href="{{ url('ophthal/dashboard') }}" class="logo-small">
                     <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
                 </a>
                 <a id="toggle_btn" href=""></a>
@@ -55,7 +59,6 @@
 
             @include('template.ophthal.sidebar')
             @yield('content')
-    </div>
 
     <footer>
         <div class="p-2">
@@ -81,9 +84,10 @@
 <script src="{{ asset('assets/js/moment.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script> --}}
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
+<script src="{{ asset('assets/js/sweetalert2.min.js') }}"></script>
 
 <!-- Commented out scripts -->
 <!-- <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script> -->
@@ -101,10 +105,8 @@
 <script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
 <script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
 
-<!-- Pang modal(di pako sure maong ge lahi nako) - Karl -->
-{{-- <script src="{{ asset('assets/formodal/bootstrap.bundle.min.js') }}"></script> --}}
 
-<script>
+{{-- <script>
     document.getElementById('patientSelect').addEventListener('change', function() {
         var selectedOption = this.options[this.selectedIndex];
         document.getElementById('age').value = selectedOption.getAttribute('data-age');
@@ -112,7 +114,11 @@
         document.getElementById('contact_number').value = selectedOption.getAttribute('data-cnum');
         document.getElementById('address').value = selectedOption.getAttribute('data-address');
     });
-</script>
+</script> --}}
+
+
+
+
 
 <script>
 $(document).ready(function() {
@@ -280,6 +286,8 @@ var checkeventcount = 1,prevTarget;
         }
      });
 </script>
+
+
 
 </body>
 </html>
