@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ophthal;
 
 use App\Http\Controllers\Controller;
 use App\Models\PatientModel;
+use App\Models\User;
 use App\Models\PrescriptionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,9 +53,7 @@ class PatientController extends Controller
             return response()->json(['error' => 'Data not found', 'exception' => $e->getMessage()], 404);
         }
     }
-    
- 
- 
+
  
      // Function to Fetch data to the modal
      public function edit($patientId)
@@ -88,47 +87,56 @@ class PatientController extends Controller
 
      public function storePrescription(Request $request)
      {
-         $validated = $request->validate([
-             'PatientID' => 'required|exists:patients,PatientID',
-             'edit_prescription' => 'required|string',
-             'edit_lens' => 'required|string',
-             'edit_frame' => 'required|string',
-             'edit_price' => 'required|numeric',
-             'edit_PrescriptionDetails' => 'required|string',
-         ]);
-     
-         $user = auth()->user();
-         $doctorID = $user->id;
-     
-         $patient = PatientModel::find($validated['PatientID']);
-         
-         if (!$patient) {
-             return response()->json(['error' => 'Patient not found'], 404);
-         }
-     
-         $prescription = PrescriptionModel::where('PatientID', $validated['PatientID'])->first();
-     
-         if ($prescription) {
-             $prescription->update([
-                 'Lens' => $validated['edit_lens'],
-                 'Frame' => $validated['edit_frame'],
-                 'Price' => $validated['edit_price'],
-                 'Prescription' => $validated['edit_prescription'],
-                 'PrescriptionDetails' => $validated['edit_PrescriptionDetails'],
-             ]);
-             return response()->json(['success' => true, 'message' => 'Prescription updated successfully.']);
-         } else {
-             PrescriptionModel::create([
-                 'PatientID' => $validated['PatientID'],
-                 'Lens' => $validated['edit_lens'],
-                 'Frame' => $validated['edit_frame'],
-                 'Price' => $validated['edit_price'],
-                 'Prescription' => $validated['edit_prescription'],
-                 'PrescriptionDetails' => $validated['edit_PrescriptionDetails'],
-                 'DoctorID' => $doctorID,
-             ]);
-             return response()->json(['success' => true, 'message' => 'Prescription saved successfully.']);
-         }
+        try {
+
+            $validated = $request->validate([
+                'PatientID' => 'required|exists:patients,PatientID',
+                'edit_prescription' => 'required|string',
+                'edit_lens' => 'required|string',
+                'edit_frame' => 'required|string',
+                'edit_price' => 'required|numeric',
+                'edit_PrescriptionDetails' => 'required|string',
+            ]);
+        
+            $user = auth()->user();
+            $doctorID = $user->id;
+        
+            $patient = PatientModel::find($validated['PatientID']);
+            
+            if (!$patient) {
+                return response()->json(['error' => 'Patient not found'], 404);
+            }
+        
+            $prescription = PrescriptionModel::where('PatientID', $validated['PatientID'])->first();
+        
+            if ($prescription) {
+                $prescription->update([
+                    'Lens' => $validated['edit_lens'],
+                    'Frame' => $validated['edit_frame'],
+                    'Price' => $validated['edit_price'],
+                    'Prescription' => $validated['edit_prescription'],
+                    'PrescriptionDetails' => $validated['edit_PrescriptionDetails'],
+                ]);
+            } else {
+                PrescriptionModel::create([
+                    'PatientID' => $validated['PatientID'],
+                    'Lens' => $validated['edit_lens'],
+                    'Frame' => $validated['edit_frame'],
+                    'Price' => $validated['edit_price'],
+                    'Prescription' => $validated['edit_prescription'],
+                    'PrescriptionDetails' => $validated['edit_PrescriptionDetails'],
+                    'DoctorID' => $doctorID,
+                ]);
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Prescription saved successfully.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update User. Please try again.',
+            ]);
+        }
      }
-     
  }

@@ -169,7 +169,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('ophthal.patients.storePrescription', ['PrescriptionID' => $prescription->PrescriptionID ?? '']) }}" method="POST">
+                <form action="{{ route('staff.patients.storePrescription', ['PrescriptionID' => $prescription->PrescriptionID ?? '']) }}" method="POST">
                     @csrf
                     @if (isset($prescription) && $prescription->PrescriptionID)
                         @method('PUT')

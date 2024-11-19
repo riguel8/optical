@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\AppointmentModel;
 use App\Models\PatientModel;
+use App\Models\Chatbot;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Users;   
 
@@ -15,14 +16,16 @@ class AppointmentController extends Controller
     public function index()
     {
         $title = 'Appointments';
-    
+
         $staffId = Auth::id();
     
         $appointments = AppointmentModel::with('patient')
             ->where('StaffID', $staffId)
             ->get();
 
-        return view('client.appointments', compact('title', 'appointments'));
+        $questions = Chatbot::select('ChatbotID', 'Question')->get();
+
+        return view('client.appointments', compact('title', 'questions','appointments'));
     }
 
 
