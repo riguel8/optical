@@ -76,15 +76,16 @@
 											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
 											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
 											<td>
-												@if ($appointment->Status == 'Pending')
-												<span class="bg-lightyellow badges">Pending</span>
-												@elseif ($appointment->Status == 'Confirm')
-												<span class="bg-lightgreen badges">Confirm</span>
-												@elseif ($appointment->Status == 'Completed')
-												<span class="bg-primary badges">Completed</span>
-												@elseif ($appointment->Status == 'Cancelled')
-												<span class="bg-lightred badges">Cancelled</span>
-												@endif
+                                                <button class="btn-accept" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal" title="Accept Appointment">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-check" viewBox="0 0 16 16">
+                                                        <path d="M13.485 3.485a1 1 0 0 1 0 1.414L7 10.414 4.707 8.121a1 1 0 1 1 1.414-1.414L7 7.586l5.879-5.88a1 1 0 0 1 1.414 0z"/>
+                                                    </svg>
+                                                </button>
+                                                <button class="btn-decline" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal" title="Decline Appointment">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x" viewBox="0 0 16 16">
+                                                        <path d="M4.646 4.646a1 1 0 0 1 1.414 0L8 6.586l2.939-2.94a1 1 0 1 1 1.414 1.414L9.414 8l2.939 2.94a1 1 0 0 1-1.414 1.414L8 9.414l-2.939 2.94a1 1 0 0 1-1.414-1.414L6.586 8 3.646 5.06a1 1 0 0 1 0-1.414z"/>
+                                                    </svg>
+                                                </button>
 											</td>
 											<td>
 												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
@@ -471,6 +472,27 @@
     </div>
 </div>
 
+<!-- Modal for Confirming Accept/Decline -->
+<!-- Modal Structure -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to <span id="action-type">Accept</span> this appointment?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm-action">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <style>
@@ -528,6 +550,73 @@
 
     input[type="radio"]:disabled + label {
         border: 1px solid #808080;
+    }
+
+    /* Accept Decline Buttons */
+
+    .btn-accept, .btn-decline {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%; /
+    transition: background-color 0.3s;
+    padding: 0; 
+    text-align: center;
+}
+
+.btn-accept {
+    background-color: #28a745;
+    color: white;
+    font-size: 16px; 
+}
+
+.btn-accept:hover {
+    background-color: #218838;
+}
+
+.btn-decline {
+    background-color: #dc3545;
+    color: white;
+    font-size: 16px;
+}
+
+.btn-decline:hover {
+    background-color: #c82333;
+}
+
+.btn-accept svg, .btn-decline svg {
+    width: 45px;
+    height: 45px;
+}
+
+/*  Modal for Accepting */
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;
+        text-align: center;  
+        height: 200px;  
+    }
+    .modal-footer {
+        display: flex;
+        width: 100%;
+        padding: 20px 0;  
+    }
+
+    .modal-header, .modal-body {
+        width: 100%;
+        text-align: center;
+    }
+
+    .modal-dialog {
+        max-width: 500px; 
+        width: 100%;
     }
 
 </style>
@@ -856,6 +945,66 @@
         });
     });
     </script>
+
+<!-- Script to Accept/Decline Appointment -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let currentAction = ''; 
+    let appointmentId = ''; 
+
+    document.querySelectorAll('.btn-accept').forEach(button => {
+        button.addEventListener('click', function() {
+            currentAction = 'accept';
+            appointmentId = this.getAttribute('data-id');
+            document.getElementById('action-type').textContent = 'Accept';
+        });
+    });
+
+    document.querySelectorAll('.btn-decline').forEach(button => {
+        button.addEventListener('click', function() {
+            currentAction = 'decline';
+            appointmentId = this.getAttribute('data-id');
+            document.getElementById('action-type').textContent = 'Decline';
+        });
+    });
+
+    document.getElementById('confirm-action').addEventListener('click', function() {
+        fetch(`/appointments/${appointmentId}/update-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                status: currentAction === 'accept' ? 'Confirm' : 'Cancelled'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const row = document.querySelector(`tr[data-id='${appointmentId}']`);
+                if (row) {
+                    const statusColumn = row.querySelector('.status-column');
+                    statusColumn.innerHTML = currentAction === 'accept'
+                        ? '<span class="bg-lightgreen badges">Confirmed</span>'
+                        : '<span class="bg-lightred badges">Cancelled</span>';
+                }
+
+                var modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                modal.hide();
+
+                location.reload();
+            } else {
+                alert('Error updating the appointment status');
+            }
+        })
+        .catch(error => {
+            alert('An error occurred. Please try again.');
+        });
+    });
+});
+</script>
+
 
     @endsection
 

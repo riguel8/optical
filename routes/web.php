@@ -61,6 +61,8 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::delete('/admin/appointments/{id}', [AdminAppointmentController::class, 'delete'])->name('admin.appointments.delete');
     // Calendar Time Slot Availability
     Route::get('/appointments/check-availability', [AdminAppointmentController::class, 'checkAvailability']);
+    // Accept or Decline Appointment
+    Route::post('/appointments/{appointment}/update-status', [AdminAppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
 
 
     // Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);

@@ -198,6 +198,20 @@ class AppointmentController extends Controller
         }
     }
 
+    // Accept or Decline Appointment
+    public function updateStatus(Request $request, $id)
+    {
+        $appointment = AppointmentModel::find($id);
+        if (!$appointment) {
+            return response()->json(['success' => false, 'message' => 'Appointment not found']);
+        }
+
+        $appointment->Status = $request->input('status');
+        $appointment->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function delete($id)
     {
         $appointment = AppointmentModel::findOrFail($id);
