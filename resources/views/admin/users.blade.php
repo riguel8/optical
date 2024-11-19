@@ -51,8 +51,8 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>User Type</th>
                                 <th>Email</th>
+                                <th>User Type</th>
                                 <th>Date Created</th>
                                 <th>Actions</th>
                             </tr>
@@ -98,7 +98,7 @@
                     @csrf
                     <input type="hidden" id="id" name="userID" value="">
                     <div class="form-floating mb-3">
-                        <input id="name" type="text" name="name" placeholder="Name" class="form-control" required autofocus value="{{ old('complete_name') }}" />
+                        <input id="name" type="text" name="name" placeholder="Name" class="form-control" required  value="{{ old('complete_name') }}" />
                         <label for="name">Complete Name</label>
                     </div>
 
@@ -192,7 +192,7 @@
                     <input type="hidden" id="id" name="id" value="">
 
                     <div class="form-floating mb-3">
-                        <input id="edit_username" type="text" name="name" placeholder="Name" class="form-control" required autofocus value="{{ old('name') }}" />
+                        <input id="edit_username" type="text" name="name" placeholder="Name" class="form-control" required value="{{ old('name') }}" />
                         <label for="edit_username">Complete Name</label>
                     </div>
 

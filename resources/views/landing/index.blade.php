@@ -274,5 +274,33 @@
         <span>Chat with our Assistant</span>
     </a>
 
+<footer class="text-center">
+    <div class="container pt-4">
+        <section class="mb-10">
+            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button" data-mdb-ripple-color="dark">
+                <i class="fab fa-facebook-f" style="color: #ff9f43;"></i>
+            </a>
+            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
+                <i class="fab fa-twitter" style="color: #ff9f43;"></i>
+            </a>
+            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
+                <i class="fab fa-google" style="color: #ff9f43;"></i>
+            </a>
+            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
+                <i class="fab fa-instagram" style="color: #ff9f43;"></i>
+            </a>
+            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
+                <i class="fab fa-linkedin" style="color: #ff9f43;"></i>
+            </a>
+            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
+                <i class="fab fa-github" style="color: #ff9f43;"></i>
+            </a>
+        </section>
+    </div>
+    <div class="text-center p-3">
+        <p>&copy; 2024 SoftDev, BSIT-4A. All Rights Reserved.</p>
+    </div>
+</footer>
+
 @include('template.footer')
 </header>

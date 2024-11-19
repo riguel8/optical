@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Chatbot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,12 @@ class AccountController extends Controller
     {
         $user = Auth::user(); 
         $title = 'My Account';
-        return view('client.account_details', compact('user', 'title'));
+
+        // Chatbot data
+        $questions = Chatbot::select('ChatbotID', 'Question')->get();
+        
+        return view('client.account_details', compact('user', 'title', 'questions'));
+
     }
     public function update(Request $request, $id)
     {

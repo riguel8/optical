@@ -37,6 +37,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
 
     <style>
         .productset {
@@ -138,6 +139,65 @@
 
             @include('template.client.sidebar')
             @yield('content')
+
+            <!-- Floating Chat Button -->
+            <a id="contactUsBtn" class="chat-float-btn mb-5" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+                <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
+                <span>Chat with our Assistant</span>
+            </a>
+
+            
+    <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-7 col-xl-12 chat-cont-right">
+                    <div class="card mb-0">
+                        <div class="card-header msg_head">
+                            <div class="d-flex bd-highlight">
+                                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <div class="img_cont">
+                                    <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
+                                </div>
+                                <div class="user_info">
+                                    <span><strong id="receiver_name">Delin Optical</strong></span>
+                                    <p class="mb-0">Chatbot</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body msg_card_body chat-scroll">
+                            <ul class="list-unstyled" id="chat-messages"></ul>
+                        </div>
+                        <div class="card-footer">
+                            <div class="input-group justify-content-end">
+                                <div class="btn" role="group">
+                                    @foreach($questions as $question)
+                                        <button type="button" class="btn btn-outline-success m-1 question-btn rounded-pill mb-3" data-chatbot-id="{{ $question->ChatbotID }}">
+                                            {{ $question->Question }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <input class="form-control type_msg mh-auto empty_check" placeholder="Type your message...">
+                                <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     </div>
 
     <footer>
@@ -147,6 +207,127 @@
     </footer>
 
     @yield('scripts')
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var introMessage = "Welcome to Delin Optical! How can we assist you today?";
+    appendMessage('received', introMessage);
+
+    document.querySelectorAll('.question-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var chatbotId = this.getAttribute('data-chatbot-id');
+            var questionText = this.textContent;
+            sendMessage(questionText, chatbotId);
+        });
+    });
+});
+
+function sendMessage(message, chatbotId) {
+    const messageId = 'message-' + new Date().getTime(); 
+    appendMessage('sent', message, messageId);
+
+    scrollToMessage(messageId);
+
+    setTimeout(function() {
+        showTypingIndicator(messageId);
+
+        setTimeout(function() {
+            fetch('{{ route("fetchResponse") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ chatbot_id: chatbotId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                removeTypingIndicator();
+                appendMessage('received', data.answer, messageId);
+
+                scrollToMessage(messageId);
+            });
+        }, 2000); 
+    }, 1000); 
+}
+function showTypingIndicator(messageId) {
+    var chatMessages = document.getElementById('chat-messages');
+    
+    if (!document.querySelector('.typing-indicator')) {
+        var li = document.createElement('li');
+        li.classList.add('media', 'received', 'd-flex', 'typing-indicator');
+        li.id = messageId; 
+        li.innerHTML = `
+            <div class="avatar flex-shrink-0">
+                <img src="{{ asset("assets/img/Dlogo-small.png")}}" alt="Typing..." class="avatar-img rounded-circle">
+            </div>
+            <div class="media-body flex-grow-1">
+                <div class="msg-box">
+                    <div>
+                        <div class="msg-typing">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(li);
+        scrollToMessage(messageId);
+    }
+}
+
+function removeTypingIndicator() {
+    var typingIndicator = document.querySelector('.typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+function appendMessage(type, message, messageId) {
+    var chatMessages = document.getElementById('chat-messages');
+    var li = document.createElement('li');
+    li.classList.add('media', type === 'sent' ? 'sent' : 'received', 'd-flex');
+    li.id = messageId;  
+    li.innerHTML = `
+        <div class="avatar flex-shrink-0">
+            <img src="${window.location.origin + '/assets/img/users/' + (type === 'sent' ? 'noimages.jpg' : 'Dlogo-small.png')}" alt="User Image" class="avatar-img rounded-circle">
+        </div>
+        <div class="media-body flex-grow-1">
+            <div class="msg-box">
+                <div>
+                    <p>${message}</p>
+                    <ul class="chat-msg-info">
+                        <li>
+                            <div class="chat-time">
+                                <span>${new Date().toLocaleTimeString()}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `;
+    chatMessages.appendChild(li);
+}
+
+function scrollToMessage(messageId) {
+    var messageElement = document.getElementById(messageId);
+    if (messageElement) {
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+document.getElementById('chatbotModal').addEventListener('hidden.bs.modal', function () {
+    document.getElementById('chat-messages').innerHTML = '';
+});
+
+
+
+</script>
+
+
 
 <!-- jQuery and Bootstrap -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
@@ -203,62 +384,6 @@ $(document).ready(function() {
 </script>
 
 <script>
-$(document).ready(function() {
-    // Initialize the FullCalendar
-    var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridWeek,dayGridMonth,listDay'
-        },
-        buttonText:{
-            dayGridWeek :"Week",
-            dayGridMonth :"Month",
-            listDay :"Day",
-            listWeek :"Week",
-        },
-        events: {
-            url: '{{ url("dashboard/get_appointments") }}',
-        },
-        eventClick: function(info) {
-            // Get the appointment ID from the clicked event
-            var appointmentId = info.event.id;
-
-            // Fetch appointment details using AJAX
-            $.ajax({
-                url: '{{ url("dashboard/get_appointment_details") }}',
-                method: 'GET',
-                data: { appointmentId: appointmentId },
-                dataType: 'json',
-                success: function(data) {
-                    if (data) {
-                        // Populate the modal with appointment details
-                        var modalContent = `
-                            <p><b>Appointment Schedule:</b> ${new Date(data.DateTime).toLocaleString()}</p>
-                            <p><b>Patient Name:</b> ${data.complete_name}</p>
-                            <p><b>Gender:</b> ${data.gender}</p>
-                            <p><b>Contact #:</b> ${data.contact_number}</p>
-                            <p><b>Address:</b> ${data.address}</p>
-                            <p><b>Status:</b> ${getStatusBadge(data.status)}</p>
-                        `;
-                        $('#viewAppointmentModal .modal-body').html(modalContent);
-                        $('#viewAppointmentModal').modal('show');
-                    } else {
-                        alert('Failed to fetch appointment details.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Failed to fetch appointment details:', error);
-                    alert('Failed to fetch appointment details.');
-                }
-            });
-        }
-    });
-
-    calendar.render();
-});
-
 // Helper function to create status badge
 function getStatusBadge(status) {
     var badgeClass;
@@ -390,36 +515,6 @@ $(document).ready(function() {
             }
          });
 </script>
-
-<!-- script for status color/badge -->
-<script>
-        function getStatusBadge(status) {
-        let badgeClass;
-        let statusText;
-
-        // Use if-else to determine badge class and text
-        if (status === 'Pending') {
-            badgeClass = 'bg-lightyellow badges';
-            statusText = 'Pending';
-        } else if (status === 'Confirm') {
-            badgeClass = 'bg-lightgreen badges';
-            statusText = 'Confirm';
-        } else if (status === 'Completed') {
-            badgeClass = 'bg-lightgreen badges';
-            statusText = 'Completed';
-        } else if (status === 'Cancelled') {
-            badgeClass = 'badges bg-lightred';
-            statusText = 'Cancelled';
-        } else {
-            badgeClass = 'badges';
-            statusText = 'Unknown Status';
-        }
-
-        return `<span class="${badgeClass}">${statusText}</span>`;
-    }
-
-</script>
-
 
 </body>
 </html>

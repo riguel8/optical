@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Eyewear;
+use App\Models\Chatbot;
 use Illuminate\Http\Request;
 
 class EyewearController extends Controller
@@ -39,6 +40,10 @@ class EyewearController extends Controller
         $frameColors = Eyewear::select('FrameColor')->distinct()->get();
         $lensMaterials = Eyewear::select('LensMaterial')->distinct()->get();
 
-        return view('client.eyewears', compact('eyewearProducts', 'brands', 'frameTypes', 'frameColors', 'lensMaterials', 'title'));
+        // Chatbot data
+        $questions = Chatbot::select('ChatbotID', 'Question')->get();
+
+
+        return view('client.eyewears', compact('eyewearProducts', 'brands', 'frameTypes', 'frameColors', 'lensMaterials', 'title', 'questions'));
     } 
 }

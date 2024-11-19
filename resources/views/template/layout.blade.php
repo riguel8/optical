@@ -22,12 +22,11 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/owlcarousel/owl.theme.default.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/landingEyewear.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/landingEyewear.css') }}">
+
 </head>
 <body>
-
-  @yield('content')
 
   <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -195,4 +194,54 @@ document.getElementById('chatbotModal').addEventListener('hidden.bs.modal', func
     document.getElementById('chat-messages').innerHTML = '';
 });
 
+
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script> -->
+<script src="{{ asset("assets/lib/wow/wow.min.js")}}"></script>
+<script src="{{ asset("assets/lib/easing/easing.min.js")}}"></script>
+<script src="{{ asset("assets/lib/waypoints/waypoints.min.js")}}"></script>
+<script src="{{ asset("assets/lib/counterup/counterup.min.js")}}"></script>
+<script src="{{ asset("assets/lib/owlcarousel/owl.carousel.min.js")}}"></script>
+<script src="{{ asset("assets/lib/tempusdominus/js/moment.min.js")}}"></script>
+<script src="{{ asset("assets/lib/tempusdominus/js/moment-timezone.min.js")}}"></script>
+<script src="{{ asset("assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js")}}"></script>
+
+<!-- Template Javascript -->
+<script src="{{ asset("assets/lib/main.js")}}"></script>
+
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+<script src="extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+<script>
+    document.querySelectorAll('.scroll-link').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute('href'));
+        target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    });
+});
+
+</script>
+
+
+
+</body>
+</html>
+
+

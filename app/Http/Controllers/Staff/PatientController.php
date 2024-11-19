@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\PatientModel;
+use App\Models\User;
 use App\Models\PrescriptionModel;
 use Illuminate\Http\Request;
 

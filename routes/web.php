@@ -150,7 +150,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/staff/patients', [StaffPatientController::class, 'index'])->name('staff.patients');
     Route::get('/staff/patients/{id}', [StaffPatientController::class, 'view']);
     Route::get('/staff/patients/edit/{id}', [StaffPatientController::class, 'edit']);
-    Route::post('/staff/patients/storePrescription', [StaffPatientController::class, 'storePrescription'])->name('ophthal.patients.storePrescription');
+    Route::post('/staff/patients/storePrescription', [StaffPatientController::class, 'storePrescription'])->name('staff.patients.storePrescription');
 
     // Appointment CRUD
     Route::get('/staff/appointments', [StaffAppointmentController::class, 'index'])->name('staff.appointments');
