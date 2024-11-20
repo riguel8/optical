@@ -1,0 +1,160 @@
+/* #calendar {
+    max-width: 100%;
+    margin: 0 auto;
+} */
+
+.fc-event:hover,
+.fc-event-selected {
+    color: white !important; /* Set text color to black */
+    background: #212b36 !important; /* Set background color to white */
+    cursor: pointer;
+}
+
+/* Style for list view events when hovered */
+a.fc-list-day-text:hover {
+    color: white !important; /* Ensure the text color is black when hovered */
+}
+
+
+/* Style for events to align dot and title */
+.fc-event {
+    display: block;
+    padding: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #212b36 !important; /* Set default text color to black */
+}
+
+/* Flex container for dot and title */
+.fc-event div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between dot and title */
+}
+
+/* Dot styling */
+.fc-event .dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
+
+/* Time styling below the title */
+.fc-event .event-time {
+    display: block; /* Forces the time to be on its own line */
+    font-size: 12px;
+    color: gray;
+    margin-top: 2px;
+}
+
+/* Prevent layout stretching */
+.fc-event span {
+    display: inline-block; /* Prevents stretching of the title */
+}
+
+.fc-list-event:hover,
+.fc-list-event-selected{
+    color:#212b36 !important; /* Set text color to black */
+    background: #212b36 !important; /* Set background color to white */
+        cursor: pointer;
+}
+
+.custom-select {
+    position: relative;
+}
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.custom-select select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding-right: 30px;
+}
+.arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #000;
+    pointer-events: none;
+}
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.fc .fc-button {
+    background-color: #fafbfe !important; 
+    color: #343a40 !important;
+    border-color: #ccc !important;
+}
+.fc .fc-button:hover {
+    background-color: #212b36 !important; 
+    color: #fafbfe !important;
+}
+
+@media (max-width: 768px) {
+    .fc .fc-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .fc .fc-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .fc .fc-toolbar-chunk {
+        flex: 100%;
+        text-align: center;
+    }
+
+    .fc .fc-button {
+        margin: 5px;
+        font-size: 12px;
+    }
+
+    .calendar-legend {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .fc-event div:first-child {
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+
+    .fc-event .dot {
+        height: 8px;
+        width: 8px;
+    }
+
+    .fc-event .event-time {
+        font-size: 11px;
+    }
+
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.legend-item {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.legend-color {
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+}

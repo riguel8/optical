@@ -1,0 +1,97 @@
+ /* Time CSS */
+ .time-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.time-box {
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Time radio button size */
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+label.btn-outline-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 45px;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+input[type="radio"]:disabled + label {
+    background-color: #d3d3d3;
+    color: #808080;
+    cursor: not-allowed;
+    opacity: 0.6;
+}    
+
+/* Style for disabled time buttons */
+input[type="radio"]:disabled + label {
+background-color: #d3d3d3;
+color: #808080;
+cursor: not-allowed;
+}
+
+input[type="radio"]:disabled + label:hover {
+    background-color: #a9a9a9; 
+}
+
+input[type="radio"]:disabled + label {
+    border: 1px solid #808080;
+}
+
+/* Accept Decline Buttons */
+
+.btn-accept, .btn-decline {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%; /
+    transition: background-color 0.3s;
+    padding: 0; 
+    text-align: center;
+}
+
+.btn-accept {
+background-color: #28a745;
+color: white;
+font-size: 16px; 
+}
+
+.btn-accept:hover {
+background-color: #218838;
+}
+
+.btn-decline {
+background-color: #dc3545;
+color: white;
+font-size: 16px;
+}
+
+.btn-decline:hover {
+background-color: #c82333;
+}
+
+.btn-accept svg, .btn-decline svg {
+width: 45px;
+height: 45px;
+}
+

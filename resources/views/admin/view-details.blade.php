@@ -9,7 +9,10 @@
                 <div class="col-sm-12">
                     <h3 class="page-title">Full details of a product</h3>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{url("admin/eyewears")}}">Eyewear</a></li>
+                        <iconify-icon icon="eva:arrow-back-outline" width="18" height="18"></iconify-icon>
+                        <li class="breadcrumb-item">
+                            <a href="{{url("admin/eyewears")}}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Back to eyewear list">Eyewear</a>
+                        </li>
                         <li class="breadcrumb-item active">Product Details</li>
                     </ul>
                 </div>
@@ -66,7 +69,7 @@
                         <div class="slider-product" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                         <h4 style="margin-top: 10px;"><strong>{{$eyewear->Brand}}</strong></h4>    
                             <img src="{{ asset('storage/eyewears/' . $eyewear->image) }}" alt="img" style="height: 80%; width: auto; object-fit: contain;">
-                            <button class="btn btn-lg btn-submit w-100 edit-eyewear me-2"  data-id="{{ $eyewear->EyewearID }}" data-bs-toggle="modal" data-bs-target="#editEyewear">
+                            <button class="btn btn-md btn-success w-100 edit-eyewear"  data-id="{{ $eyewear->EyewearID }}" data-bs-toggle="modal" data-bs-target="#editEyewear">
                                 Edit
                             </button>               
                         </div>
@@ -175,150 +178,7 @@
     </div>
 </div> 
 
-
-<style>
-    .image-upload {
-        position: relative;
-    }
-
-    .image-upload input[type="file"] {
-        display: none;
-    }
-
-    .image-uploads {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: 2px dashed #ccc;
-        padding: 20px;
-        border-radius: 4px;
-        height: 270px;
-        position: relative;
-        cursor: pointer; 
-        background-color: #ffff;
-    }
-
-    .image-uploads:hover {
-        background-color: #ffff;
-    }
-
-    .image-uploads img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    #imageName {
-        font-size: 14px;
-        color: #666;
-        text-align: center;
-    }
-</style>
-
-
-
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const editButtons = document.querySelectorAll('.edit-eyewear');
-        const editForm = document.querySelector('#editEyewearForm');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        editButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const EyewearID = this.getAttribute('data-id');
-                document.getElementById('Eyewear_ID').value = EyewearID;
-                editForm.action = `/admin/eyewears/update/${EyewearID}`;
-                
-                fetch(`/admin/eyewears/edit/${EyewearID}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('edit_brand').value = data.Brand;
-                        document.getElementById('edit_model').value = data.Model;
-                        document.getElementById('edit_frame_type').value = data.FrameType;
-                        document.getElementById('edit_frame_color').value = data.FrameColor;
-                        document.getElementById('edit_lens_type').value = data.LensType;
-                        document.getElementById('edit_lens_material').value = data.LensMaterial;
-                        document.getElementById('edit_quantity_available').value = data.QuantityAvailable;
-                        document.getElementById('edit_price').value = data.Price;
-
-                        const imagePreview = document.getElementById("edit_imagePreview");
-                        const imageName = document.getElementById("edit_imageName");
-                        if (data.image) {
-                            imagePreview.src = `/storage/eyewears/${data.image}`;
-                            imageName.textContent = data.image;
-                        } else {
-                            imagePreview.src = "{{ asset('assets/img/icons/upload.svg') }}";
-                            imageName.textContent = "No image selected";
-                        }
-                    })
-                    .catch(error => console.error('Error fetching Eyewear details:', error));
-            });
-        });
-
-            const imageInput = document.getElementById('edit_image');
-            const imgElement = document.getElementById('edit_imagePreview');
-            const imageNameElement = document.getElementById('edit_imageName');
-
-            imageInput.addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        imgElement.src = e.target.result; 
-                        imgElement.style.display = 'block'; 
-                        imageNameElement.textContent = file.name; 
-                    };
-
-                    reader.readAsDataURL(file); 
-                } else {
-                    imgElement.src = "{{ asset('assets/img/icons/upload.svg') }}";
-                    imageNameElement.textContent = "No image selected"; 
-                }
-            });
-
-            editForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const formData = new FormData(this);
-                fetch(editForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: data.message,
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: data.message,
-                        });
-                    }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An unexpected error occurred. Please try again.',
-                    });
-                });
-            });
-        });
-    </script>
-
+    @section('scripts')
+        <script src="{{ asset('assets/js/admin/eyewear/edit-update.js') }}"></script>
+    @endsection
 @endsection

@@ -1,50 +1,6 @@
-@include('template.layout')
+@extends('template.landing.layout')
 
-<header class="topheader py-0 sticky-top" id="top">
-<div class="landingpage">
-    <div class="main-wrapper" id="home">
-        <header class="topheader py-0 sticky-top" id="top">
-            <div class="container">
-                <nav class="navbar navbar-expand-md navbar-light ps-0">
-                    <a class="navbar-brand logo-img" href="{{ url('/') }}">
-                        <img src="{{ asset('assets/img/Dlogo1.png') }}" alt="logo" />
-                    </a>
-                    <button class="navbar-toggler navbar-toggler-right border-0 p-0 fs-8" type="button" data-bs-toggle="offcanvas" href="#right-sidebar">
-                        <iconify-icon icon="solar:hamburger-menu-line-duotone"></iconify-icon>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav ms-auto stylish-nav">
-                            <li class="nav-item">
-                                <a class="nav-link scroll-link" href="#home">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link scroll-link" href="#about">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link scroll-link" href="#eyewears">Eyewear</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link scroll-link" href="#services">Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link scroll-link" href="#ophthalmologist">Ophthalmologist</a>
-                            </li>
-                            @if (Route::has('login'))
-                                @auth
-                                    <li class="nav-item ms-3 mt-2 mt-md-0">
-                                        <a class="btn btn-primary" href="{{ url(session('usertype') . '/dashboard') }}">Dashboard</a>
-                                    </li>
-                                @else
-                                    <li class="nav-item ms-3 mt-2 mt-md-0">
-                                        <a class="btn btn-primary" href="{{ route('login') }}">Login</a>
-                                    </li>
-                                @endauth
-                            @endif
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </header>
+@section('content')
 
         <!-- Carousel Start -->
         <div class="container-fluid p-0 mb-5">
@@ -203,104 +159,76 @@
             </div>
         </div>
         <!-- Service End -->
-        <!-- Contact us -->
-    <div class="container-xxl py-5 section-padding" id="contact" style="scroll-margin-top: 60px;">
-        <div class="container">
-            <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
-                <h2 class="text-warning"><strong>CONTACT US</strong></h2>
-                <p>We'd love to speak with you. Feel free to reach out using the details below.</p>
-            </div>
-            
-            <div class="contact-card">
-                <!-- Left side with contact details -->
-                <div class="contact-details">
-                    <h3 class="mb-3"><strong>Get In Touch</strong></h3>
-                    <p>We would love to speak with you. Feel free to reach out using the below details:</p>
-                    <ul>
-                        <li>
-                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                            <span>09123456789</span>
-                        </li>
-                        <li>
-                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                            <span>09123456789</span>
-                        </li>
-                        <li>
-                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                            <span>09123456789</span>
-                        </li>
-                        <li>
-                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                            <span>09123456789</span>
-                        </li>
-                        <li>
-                            <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                            <span>09123456789</span>
-                        </li>
-                        <li>
-                            <iconify-icon icon="nrk:some-email"></iconify-icon>
-                            <span>customerservice@delinoptical.com</span>
-                        </li>
-                    </ul>
-                </div>
 
-                <!-- Right side with contact form -->
-                <div class="contact-form">
-                    <form action="" method="POST">
-                        @csrf
-                        <div class="form-floating mb-3">
-                            <input class="form-control" type="text" id="name" placeholder="Enter Name" name="name" required>
-                            <label for="name">Name</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control" type="email" id="email" placeholder="Enter Email" name="email" required>
-                            <label for="email">Email</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" placeholder="Enter Message" id="message" name="message" rows="4" style="height: 150px" required></textarea>
-                            <label for="message">Message</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
+        <!-- Contact us -->
+        <div class="container-xxl py-5 section-padding" id="contact" style="scroll-margin-top: 60px;">
+            <div class="container">
+                <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
+                    <h2 class="text-warning"><strong>CONTACT US</strong></h2>
+                    <p>We'd love to speak with you. Feel free to reach out using the details below.</p>
+                </div>
+                
+                <div class="contact-card">
+                    <!-- Left side with contact details -->
+                    <div class="contact-details">
+                        <h3 class="mb-3"><strong>Get In Touch</strong></h3>
+                        <p>We would love to speak with you. Feel free to reach out using the below details:</p>
+                        <ul>
+                            <li>
+                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                                <span>09123456789</span>
+                            </li>
+                            <li>
+                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                                <span>09123456789</span>
+                            </li>
+                            <li>
+                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                                <span>09123456789</span>
+                            </li>
+                            <li>
+                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                                <span>09123456789</span>
+                            </li>
+                            <li>
+                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
+                                <span>09123456789</span>
+                            </li>
+                            <li>
+                                <iconify-icon icon="nrk:some-email"></iconify-icon>
+                                <span>customerservice@delinoptical.com</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Right side with contact form -->
+                    <div class="contact-form">
+                        <form action="" method="POST">
+                            @csrf
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="text" id="name" placeholder="Enter Name" name="name" required>
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" type="email" id="email" placeholder="Enter Email" name="email" required>
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" placeholder="Enter Message" id="message" name="message" rows="4" style="height: 150px" required></textarea>
+                                <label for="message">Message</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Contact us end -->
+        <!-- Contact us end -->
 
-    <!-- Floating Chat Button -->
-    <a id="contactUsBtn" class="chat-float-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
-        <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
-        <span>Chat with our Assistant</span>
-    </a>
+        <!-- Floating Chat Button -->
+        <a id="contactUsBtn" class="chat-float-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+            <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
+            <span>Chat with our Assistant</span>
+        </a>
 
-<footer class="text-center">
-    <div class="container pt-4">
-        <section class="mb-10">
-            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button" data-mdb-ripple-color="dark">
-                <i class="fab fa-facebook-f" style="color: #ff9f43;"></i>
-            </a>
-            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                <i class="fab fa-twitter" style="color: #ff9f43;"></i>
-            </a>
-            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                <i class="fab fa-google" style="color: #ff9f43;"></i>
-            </a>
-            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                <i class="fab fa-instagram" style="color: #ff9f43;"></i>
-            </a>
-            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                <i class="fab fa-linkedin" style="color: #ff9f43;"></i>
-            </a>
-            <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                <i class="fab fa-github" style="color: #ff9f43;"></i>
-            </a>
-        </section>
-    </div>
-    <div class="text-center p-3">
-        <p>&copy; 2024 SoftDev, BSIT-4A. All Rights Reserved.</p>
-    </div>
-</footer>
-
-@include('template.footer')
-</header>
+@endsection

@@ -62,7 +62,7 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     // Calendar Time Slot Availability
     Route::get('/appointments/check-availability', [AdminAppointmentController::class, 'checkAvailability']);
     // Accept or Decline Appointment
-    Route::post('/appointments/{appointment}/update-status', [AdminAppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+    Route::post('/admin/appointments/{appointment}/update-status', [AdminAppointmentController::class, 'updateAdminStatus'])->name('admin.appointments.updateAdminStatus');
 
 
     // Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);
@@ -161,7 +161,8 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::delete('/staff/appointments/{id}', [StaffAppointmentController::class, 'delete'])->name('staff.appointments.delete');
     // Calendar Time Slot Availability
     Route::get('/appointments/check-staff-availability', [StaffAppointmentController::class, 'checkstaffAvailability']);
-
+    // Accept or Decline Appointment
+    Route::post('/staff/appointments/{appointment}/update-status', [StaffAppointmentController::class, 'updateStaffStatus'])->name('staff.appointments.updateStaffStatus');
 
     // Eyewear CRUD
     Route::get('/staff/eyewears', [StaffEyewearController::class, 'index'])->name('staff.eyewears');

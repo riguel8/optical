@@ -26,14 +26,7 @@
 					</ul>
 
 					<div class="tab-content">
-						<div class="table-top">
-							<div class="search-set">
-								<div class="search-input">
-									<a class="btn btn-searchset">
-										<img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
-									</a>
-								</div>
-							</div>
+                        <div class="table-top">
 							<div class="wordset">
 								<ul>
 									<li>
@@ -46,9 +39,9 @@
 											<img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img">
 										</a>
 									</li>
-									<li>
-										<a class="print-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="print">
-											<img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img">
+                                    <li>
+										<a class="btn-archive text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Archive Appointments">
+                                            <iconify-icon icon="ic:outline-archive" width="24" height="24"></iconify-icon>
 										</a>
 									</li>
 								</ul>
@@ -76,15 +69,16 @@
 											<td>{{ $appointment->patient->complete_name ?? 'N/A' }}</td>
 											<td>{{ $appointment->patient->age ?? 'N/A' }}</td>
 											<td>
-												@if ($appointment->Status == 'Pending')
-												<span class="bg-lightyellow badges">Pending</span>
-												@elseif ($appointment->Status == 'Confirm')
-												<span class="bg-lightgreen badges">Confirm</span>
-												@elseif ($appointment->Status == 'Completed')
-												<span class="bg-primary badges">Completed</span>
-												@elseif ($appointment->Status == 'Cancelled')
-												<span class="bg-lightred badges">Cancelled</span>
-												@endif
+                                                <button class="btn-accept" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-check" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="Accept Appointment">
+                                                        <path d="M13.485 3.485a1 1 0 0 1 0 1.414L7 10.414 4.707 8.121a1 1 0 1 1 1.414-1.414L7 7.586l5.879-5.88a1 1 0 0 1 1.414 0z"/>
+                                                    </svg>
+                                                </button>
+                                                <button class="btn-decline" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal" >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="Decline Appointment">
+                                                        <path d="M4.646 4.646a1 1 0 0 1 1.414 0L8 6.586l2.939-2.94a1 1 0 1 1 1.414 1.414L9.414 8l2.939 2.94a1 1 0 0 1-1.414 1.414L8 9.414l-2.939 2.94a1 1 0 0 1-1.414-1.414L6.586 8 3.646 5.06a1 1 0 0 1 0-1.414z"/>
+                                                    </svg>
+                                                </button>
 											</td>
 											<td>
 												<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
@@ -469,392 +463,92 @@
     </div>
 </div>
 
+<!-- Modal for Confirming Accept/Decline -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="text-align: center; width: 100%;" class="modal-title">Confirm Action</h4>
+                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                Are you sure you want to <span id="action-type" style="font-weight: bold; color: #007bff;">Accept</span> this appointment?
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button class="btn btn-sm btn-submit me-2" id="confirm-action" type="submit">Confirm</button>
+                <button class="btn btn-sm btn-cancel" type="button" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<style>
+    @section('scripts')
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>    
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
-    /* Time CSS */
-    .time-selection {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    .time-box {
-        padding: 8px 12px;
-        border-radius: 5px;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    /* Time radio button size */
-    input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-    }
-
-    label.btn-outline-primary {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 80px;
-        height: 45px;
-        font-size: 14px;
-        border-radius: 4px;
-        padding: 8px;
-    }
-
-    input[type="radio"]:disabled + label {
-        background-color: #d3d3d3;
-        color: #808080;
-        cursor: not-allowed;
-        opacity: 0.6;
-    }    
-
-    /* Style for disabled time buttons */
-    input[type="radio"]:disabled + label {
-    background-color: #d3d3d3;
-    color: #808080;
-    cursor: not-allowed;
-    }
-
-    input[type="radio"]:disabled + label:hover {
-        background-color: #a9a9a9; 
-    }
-
-    input[type="radio"]:disabled + label {
-        border: 1px solid #808080;
-    }
-
-</style>
-
-@section('scripts')
-
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
-
-
-    
-        <!-- Script to check time slot -->
+        <script src="{{ asset("assets/js/staff/appointment/appointmentform.js")}}"></script>
+        <script src="{{ asset("assets/js/staff/appointment/view-appointment.js")}}"></script>
+        <script src="{{ asset("assets/js/staff/appointment/accept-decline-appointment.js")}}"></script>
+        <script src="{{ asset("assets/js/staff/appointment/edit-update.js")}}"></script>
+        <script src="{{ asset("assets/js/staff/appointment/datetime-slot.js")}}"></script>
+        
+        <!-- Delete modal -->
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const addAppointmentDateInput = document.getElementById('appointmentDate');
-                const editAppointmentDateInput = document.getElementById('edit_appointmentDate');
-                
-                const addTimeSelectionInputs = document.querySelectorAll('input[name="appointment_time"]');
-                const editTimeSelectionInputs = document.querySelectorAll('input[name="edit_appointment_time"]');
-                
-                function resetModalState(timeSelectionInputs) {
-                    timeSelectionInputs.forEach(input => {
-                        input.disabled = false;
-                        input.checked = false;
-                    });
-                }
-        
-                function checkAvailability(date, timeSelectionInputs) {
-                    fetch(`/appointments/check-staff-availability?date=${date}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Availability Check:', data);
-                            timeSelectionInputs.forEach(function (timeInput) {
-                                const appointmentTime = timeInput.value;
-                                const timeSlotAvailable = !data.unavailableSlots.includes(appointmentTime);
-        
-                                timeInput.disabled = !timeSlotAvailable;
-                            });
-                        })
-                        .catch(error => console.error('Error checking availability:', error));
-                }
-        
-                if (addAppointmentDateInput) {
-                    addAppointmentDateInput.addEventListener('change', function () {
-                        const selectedDate = addAppointmentDateInput.value;
-                        console.log('Selected Date (Add Appointment): ', selectedDate);
-                        checkAvailability(selectedDate, addTimeSelectionInputs);
-                    });
-                }
-        
-                if (editAppointmentDateInput) {
-                    editAppointmentDateInput.addEventListener('change', function () {
-                        const selectedDate = editAppointmentDateInput.value;
-                        console.log('Selected Date (Edit Appointment): ', selectedDate);
-                        checkAvailability(selectedDate, editTimeSelectionInputs);
-                    });
-                }
-        
-                addTimeSelectionInputs.forEach(function (timeInput) {
-                    timeInput.addEventListener('change', function () {
-                        const selectedTime = timeInput.checked ? timeInput.value : null;
-                        console.log('Selected Time (Add): ', selectedTime);
-                    });
-                });
-        
-                editTimeSelectionInputs.forEach(function (timeInput) {
-                    timeInput.addEventListener('change', function () {
-                        const selectedTime = timeInput.checked ? timeInput.value : null;
-                        console.log('Selected Time (Edit): ', selectedTime);
-                    });
-                });
-        
-                $('#addAppointment').on('show.bs.modal', function () {
-                    resetModalState(addTimeSelectionInputs);
-                    addAppointmentDateInput.value = '';
-                });
-        
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
 
-                $('#editAppointment').on('show.bs.modal', function () {
-                    resetModalState(editTimeSelectionInputs);
-                    editAppointmentDateInput.value = '';
-                });
-            });
-        </script>
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); 
+                    const id = this.getAttribute('data-id'); 
 
-        <!-- Script to Limit the selection of date in the calendar (Edit & Add) -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const today = new Date();
-                const tomorrow = new Date(today);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                const minDate = tomorrow.toISOString().split("T")[0];
-
-                const appointmentDateInput = document.getElementById("appointmentDate");
-                const editAppointmentDateInput = document.getElementById("edit_appointmentDate");
-
-                if (appointmentDateInput) {
-                    appointmentDateInput.setAttribute("min", minDate);
-                }
-
-                if (editAppointmentDateInput) {
-                    editAppointmentDateInput.setAttribute("min", minDate);
-                }
-            });
-        </script>
-
-
-    <!-- View Appointment -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const viewButtons = document.querySelectorAll('.view-appointment');
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const AppointmentId = this.getAttribute('data-id');
-                    console.log('Fetching details for appointment ID:', AppointmentId);
-
-                    fetch(`/staff/appointments/${AppointmentId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            const appointmentDateTime = new Date(data.appointment.DateTime);
-                            const formattedDate = formatAppointmentDate(appointmentDateTime);
-
-                            document.getElementById('appointmentSchedule').textContent = formattedDate;
-                            document.getElementById('patientName').textContent = data.patient.complete_name;
-                            document.getElementById('patientAge').textContent = data.patient.age;
-                            document.getElementById('patientGender').textContent = data.patient.gender;
-                            document.getElementById('contactNumber').textContent = data.patient.contact_number;
-                            document.getElementById('patientAddress').textContent = data.patient.address;
-                            document.getElementById('appointmentStatus').innerHTML = getStatusBadge(data.appointment.Status);
-                        })
-                        .catch(error => console.error('Error fetching appointment details:', error));
-                });
-            });
-        });
-
-        function formatAppointmentDate(date) {
-            const options = { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric', 
-                hour: 'numeric', 
-                minute: 'numeric', 
-                second: 'numeric', 
-                hour12: true 
-            };
-            
-            const formattedDate = date.toLocaleString('en-US', options);
-            const [datePart, timePart] = formattedDate.split(', ');
-            return `${datePart}, ${timePart}`;
-        }
-    </script>
-
-
-        <!-- Script to open Edit and Update Appointments-->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            const editButtons = document.querySelectorAll('.edit-appointment');
-            const editForm = document.querySelector('#editAppointmentForm');
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            editButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const AppointmentID = this.getAttribute('data-id');
-                    document.getElementById('appointment_id').value = AppointmentID;
-                    editForm.action = `/staff/appointments/update/${AppointmentID}`;
-
-                    fetch(`/staff/appointments/edit/${AppointmentID}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            document.getElementById('edit_cname').value = data.patient.complete_name;
-                            document.getElementById('edit_age').value = data.patient.age;
-                            document.getElementById('edit_floatingSelect').value = data.patient.gender;
-                            document.getElementById('edit_contact_number').value = data.patient.contact_number;
-                            document.getElementById('edit_address').value = data.patient.address;
-                            
-                            document.getElementById('edit_status').value = data.appointment.Status;
-
-                            document.getElementById('edit_appointmentDate').value = data.appointment.DateTime.split(' ')[0]; // Date only (YYYY-MM-DD)
-                        
-                            document.querySelectorAll('input[name="edit_appointment_time"]').forEach(timeInput => {
-                            timeInput.checked = false;
-                        });
-
-                            // disableTimeSlots(data.takenSlots);
-                        })
-                        .catch(error => console.error('Error fetching appointment details:', error));
-
-                        
-                });
-            });
-
-            editForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const appointmentDate = document.getElementById('edit_appointmentDate').value;
-            const appointmentTime = document.querySelector('input[name="edit_appointment_time"]:checked')?.value;
-
-
-            if (!appointmentDate || !appointmentTime) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Please select both the appointment date and time.',
-                });
-                return;
-            }
-
-            const dateTime = `${appointmentDate} ${appointmentTime}:00`;
-
-            document.getElementById('edit_appointmentDateTime').value = dateTime;
-
-                const formData = new FormData(this);
-                formData.append('DateTime', dateTime);
-                fetch(editForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: data.message,
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: data.message,
-                        });
-                    }
-                })
-                .catch(error => {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An unexpected error occurred. Please try again.',
+                        title: 'Are you sure?',
+                        text: 'You won\'t be able to revert this!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ff9f43',
+                        cancelButtonColor: '#dc3545',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/staff/appointments/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                                    'Accept': 'application/json',
+                                },
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Appointment has been deleted.',
+                                        'success',
+                                    ).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'There was a problem deleting the Appointment.',
+                                        'error'
+                                    );
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                        }
                     });
                 });
             });
         });
-
-
-    //
-    function disableTimeSlots(takenSlots) {
-            const timeSelectionInputs = document.querySelectorAll('input[name="appointment_time"]');
-            
-            console.log("Disabling time slots...");
-
-            timeSelectionInputs.forEach(function (timeInput) {
-                const appointmentTime = timeInput.value;
-                const timeSlotAvailable = !takenSlots.includes(appointmentTime);
-
-                console.log(`Checking time slot: ${appointmentTime}, Available: ${timeSlotAvailable}`);
-
-                if (timeSlotAvailable) {
-                    timeInput.disabled = false;
-                } else {
-                    timeInput.disabled = true;
-                }
-            });
-        }
-    </script>
-
-    
-    <!-- Delete modal -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const deleteButtons = document.querySelectorAll('.btn-delete');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault(); 
-                const id = this.getAttribute('data-id'); 
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ff9f43',
-                    cancelButtonColor: '#dc3545',
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch(`/staff/appointments/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}', 
-                                'Accept': 'application/json',
-                            },
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Appointment has been deleted.',
-                                    'success',
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Error!',
-                                    'There was a problem deleting the Appointment.',
-                                    'error'
-                                );
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    }
-                });
-            });
-        });
-    });
-    </script>
-
+        </script>
     @endsection
 
 @endsection
