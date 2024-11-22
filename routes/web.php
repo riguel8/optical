@@ -49,8 +49,11 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     // Patient (View & Edit)
     Route::get('/admin/patients', [AdminPatientController::class, 'index'])->name('admin.patients');
     Route::get('/admin/patients/{id}', [AdminPatientController::class, 'view']);
+    // To Store Walk-in Patient with Prescription
+    Route::post('/admin/patients/store', [AdminPatientController::class, 'store'])->name('admin.patients.store');
+    // To Add Prescription for Patient from Appointments
     Route::get('/admin/patients/edit/{id}', [AdminPatientController::class, 'edit']);
-    Route::put('/admin/patients/update/{id}', [AdminPatientController::class, 'update'])->name('admin.patients.update');
+    Route::post('/admin/patients/update', [AdminPatientController::class, 'update'])->name('admin.patients.update');
     
     // Appointment CRUD
     Route::get('/admin/appointments', [AdminAppointmentController::class, 'index'])->name('admin.appointments');
@@ -132,9 +135,12 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 
     //Patient CRUD
     Route::get('/ophthal/patients', [OphthalPatientController::class, 'index'])->name('ophthal.patients');
-    Route::get('/ophthal/patients/{id}', [OphthalPatientController::class, 'view']);
+    Route::get('/ophthal/patients/{id}', [StaffPatientController::class, 'view']);
+    // To Store Walk-in Patient with Prescription
+    Route::post('/ophthal/patients/store', [OphthalPatientController::class, 'store'])->name('ophthal.patients.store');
+    // To Add Prescription for Patient from Appointments
     Route::get('/ophthal/patients/edit/{id}', [OphthalPatientController::class, 'edit']);
-    Route::post('/ophthal/patients/storePrescription', [OphthalPatientController::class, 'storePrescription'])->name('ophthal.patients.storePrescription');
+    Route::post('/ophthal/patients/update', [OphthalPatientController::class, 'update'])->name('ophthal.patients.update');
 });
 
 
@@ -149,8 +155,11 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     // Patient Module
     Route::get('/staff/patients', [StaffPatientController::class, 'index'])->name('staff.patients');
     Route::get('/staff/patients/{id}', [StaffPatientController::class, 'view']);
+    // To Store Walk-in Patient with Prescription
+    Route::post('/staff/patients/store', [StaffPatientController::class, 'store'])->name('staff.patients.store');
+    // To Add Prescription for Patient from Appointments
     Route::get('/staff/patients/edit/{id}', [StaffPatientController::class, 'edit']);
-    Route::post('/staff/patients/storePrescription', [StaffPatientController::class, 'storePrescription'])->name('staff.patients.storePrescription');
+    Route::post('/staff/patients/update', [StaffPatientController::class, 'update'])->name('staff.patients.update');
 
     // Appointment CRUD
     Route::get('/staff/appointments', [StaffAppointmentController::class, 'index'])->name('staff.appointments');
