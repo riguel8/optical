@@ -16,7 +16,94 @@
             </div>
         </div>
 
-        <div class="card">
+        <section class="comp-section comp-cards">
+                <div class="table-top">
+                    <div class="search-set">
+                        <div class="search-input">
+                            <a href="#" class="btn btn-searchset">
+                                <img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="wordset">
+                        <ul>
+                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img"></a></li>
+                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            <div class="row">
+                @foreach ($eyewears as $eyewear)
+                <div class="col-12 col-sm-6 col-lg-3 d-flex">
+                    <div class="card flex-fill bg-white">
+                        @if ($eyewear->image)
+                            <img alt="Card Image" 
+                                src="{{ asset('storage/eyewears/' . $eyewear->image) }}" 
+                                class="card-img-top img-fluid d-block w-100" 
+                                style="height: 150px; object-fit: cover;">
+                        @else
+                            <div class="d-flex justify-content-center align-items-center" 
+                                style="height: 200px; background-color: #f8f9fa;">
+                                <span class="text-muted">No Image</span>
+                            </div>
+                        @endif
+                        <div class="card-header text-center">
+                            <h5 class="card-title mb-0">{{ $eyewear->Brand }}</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text" style="height: 40px; overflow: hidden;">{{ $eyewear->Model }}</p>
+                            <p class="card-text text-danger" style="height: 30px;">₱{{ number_format($eyewear->Price, 2) }}</p>
+
+                            <div class="d-flex justify-content-center">
+                            <a class="me-3" href="{{ route('staff.view-details', $eyewear->EyewearID) }}">
+                                            <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Eyewear">
+                                        </a>
+                                        <a class="me-3 edit-eyewear" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#editEyewear">
+                                            <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Eyewear">
+                                        </a>
+                                        <a class="btn-delete" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Eyewear">
+                                        </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </section>
+
+        <!-- <section class="comp-section comp-cards">
+            <div class="row">
+                @foreach ($eyewears as $eyewear)
+                <div class="col-12 col-sm-6 col-lg-4 d-flex">
+                    <div class="card flex-fill bg-white">
+                        @if ($eyewear->image)
+                            <img alt="Card Image" src="{{ asset('storage/eyewears/' . $eyewear->image) }}" 
+                                class="card-img-top img-fluid d-block w-100" 
+                                style="max-width: 100%; max-height: 150px; height: auto; object-fit: cover;">
+                        @else
+                            <span class="d-block text-center py-3">No Image</span>
+                        @endif
+                        <div class="card-header text-center">
+                            <h5 class="card-title mb-0">{{ $eyewear->Brand }}</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">{{ $eyewear->Model }}</p>
+                            <p class="card-text text-danger">₱{{ number_format($eyewear->Price, 2) }}</p>
+                            <div class="d-flex justify-content-between">
+                                <a class="btn btn-sm btn-outline-info flex-fill mx-1" href="{{ route('staff.view-details', $eyewear->EyewearID) }}">View</a>
+                                <a class="btn btn-sm btn-outline-success flex-fill mx-1 edit-eyewear" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#editEyewear">Edit</a>
+                                <a class="btn btn-sm btn-outline-danger flex-fill mx-1 btn-delete" data-id="{{ $eyewear->EyewearID }}" 
+                                href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </section> -->
+
+        <!-- <div class="card">
             <div class="card-body">
                 <div class="table-top">
                     <div class="search-set">
@@ -40,13 +127,11 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <!-- <th>Image</th> -->
+                                <th>Image</th>
                                 <th>Brand</th>
                                 <th>Model</th>
                                 <th>Frame Type</th>
-                                <!-- <th>Frame Color</th> -->
                                 <th>Lens Type</th>
-                                <!-- <th>Lens Material</th> -->
                                 <th>Qty</th>
                                 <th>Price</th>
                                 <th>Action</th>
@@ -56,19 +141,17 @@
                             @foreach ($eyewears as $eyewear)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <!-- <td>
+                                    <td>
                                         @if ($eyewear->image)
                                             <img src="{{ asset('storage/eyewears/' . $eyewear->image) }}" class="object-cover rounded" width="40" height="40" />
                                         @else
                                             <span>No Image</span>
                                         @endif
-                                    </td> -->
+                                    </td>
                                     <td>{{ $eyewear->Brand }}</td>
                                     <td>{{ $eyewear->Model }}</td>
                                     <td>{{ $eyewear->FrameType ?? 'N/A' }}</td>
-                                    <!-- <td>{{ $eyewear->FrameColor ?? 'N/A' }}</td> -->
                                     <td>{{ $eyewear->LensType ?? 'N/A' }}</td>
-                                    <!-- <td>{{ $eyewear->LensMaterial ?? 'N/A' }}</td> -->
                                     <td>{{ $eyewear->QuantityAvailable }}</td>
                                     <td>₱{{ number_format($eyewear->Price, 2) }}</td>
                                     <td>
@@ -90,7 +173,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Add Eyewear Modal -->
 <div class="modal fade" id="addeyewear" tabindex="-1" aria-labelledby="addeyewearLabel" aria-hidden="true">
@@ -287,286 +370,72 @@
     </div>
 </div> 
 
+    @section('scripts')
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>    
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
-<style>
-    .image-upload {
-        position: relative;
-    }
+        <script src="{{ asset('assets/js/staff/eyewear/add-preview.js') }}"></script>
+        <script src="{{ asset('assets/js/staff/eyewear/edit-update.js') }}"></script>
+        <script>
+            window.storeEyewearRoute = "{{ route('staff.eyewears.store') }}";
+            window.deleteEyewearRoute = "{{ route('staff.eyewears') }}";
+            window.uploadIconUrl = "{{ asset('assets/img/icons/upload.svg') }}";
+        </script>
+        <!-- <script src="{{ asset('assets/js/staff/eyewear/delete.js') }}"></script> -->
+        <script>
+        // DELETE MODAL
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
 
-    .image-upload input[type="file"] {
-        display: none;
-    }
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); 
+                    const id = this.getAttribute('data-id'); 
 
-    .image-uploads {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: 2px dashed #ccc;
-        padding: 20px;
-        border-radius: 4px;
-        height: 270px;
-        position: relative;
-        cursor: pointer; 
-        background-color: #ffff;
-    }
-
-    .image-uploads:hover {
-        background-color: #ffff;
-    }
-
-    .image-uploads img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    #imageName {
-        font-size: 14px;
-        color: #666;
-        text-align: center;
-    }
-</style>
-
-
-@section('scripts')
-
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-        const editButtons = document.querySelectorAll('.edit-eyewear');
-        const editForm = document.querySelector('#editEyewearForm');
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    
-        editButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const EyewearID = this.getAttribute('data-id');
-                document.getElementById('Eyewear_ID').value = EyewearID;
-                editForm.action = `/staff/eyewears/update/${EyewearID}`;
-                
-                fetch(`/staff/eyewears/edit/${EyewearID}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('edit_brand').value = data.Brand;
-                        document.getElementById('edit_model').value = data.Model;
-                        document.getElementById('edit_frame_type').value = data.FrameType;
-                        document.getElementById('edit_frame_color').value = data.FrameColor;
-                        document.getElementById('edit_lens_type').value = data.LensType;
-                        document.getElementById('edit_lens_material').value = data.LensMaterial;
-                        document.getElementById('edit_quantity_available').value = data.QuantityAvailable;
-                        document.getElementById('edit_price').value = data.Price;
-
-                        const imagePreview = document.getElementById("edit_imagePreview");
-                        const imageName = document.getElementById("edit_imageName");
-                        if (data.image) {
-                            imagePreview.src = `/storage/eyewears/${data.image}`;
-                            imageName.textContent = data.image;
-                        } else {
-                            imagePreview.src = "{{ asset('assets/img/icons/upload.svg') }}";
-                            imageName.textContent = "No image selected";
-                        }
-                    })
-                    .catch(error => console.error('Error fetching Eyewear details:', error));
-            });
-        });
-
-            const imageInput = document.getElementById('edit_image');
-            const imgElement = document.getElementById('edit_imagePreview');
-            const imageNameElement = document.getElementById('edit_imageName');
-
-            imageInput.addEventListener('change', function (event) {
-                const file = event.target.files[0];
-                
-                if (file) {
-                    const reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        imgElement.src = e.target.result; 
-                        imgElement.style.display = 'block'; 
-                        imageNameElement.textContent = file.name; 
-                    };
-
-                    reader.readAsDataURL(file); 
-                } else {
-                    imgElement.src = "{{ asset('assets/img/icons/upload.svg') }}";
-                    imageNameElement.textContent = "No image selected"; 
-                }
-            });
-
-            editForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const formData = new FormData(this);
-                fetch(editForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: data.message,
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: data.message,
-                        });
-                    }
-                })
-                .catch(error => {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An unexpected error occurred. Please try again.',
+                        title: 'Are you sure?',
+                        text: 'You won\'t be able to revert this!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ff9f43',
+                        cancelButtonColor: '#dc3545',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/staff/eyewears/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                                    'Accept': 'application/json',
+                                },
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Eyewear has been deleted.',
+                                        'success',
+                                    ).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'There was a problem deleting the eyewear.',
+                                        'error'
+                                    );
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                        }
                     });
                 });
             });
         });
-    </script>
-
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const imageInput = document.getElementById('image');
-            const imgElement = document.getElementById('imagePreview');
-            const imageNameElement = document.getElementById('imageName');
-
-            imageInput.onchange = function(e) {
-                const file = e.target.files[0]; 
-
-                if (file) {
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(event) {
-                        imgElement.src = event.target.result; 
-                        imgElement.style.display = 'block';
-                        imageNameElement.textContent = file.name;
-                    };
-
-                    reader.readAsDataURL(file); 
-                } else {
-                    imgElement.style.display = 'none'; 
-                    imageNameElement.textContent = 'Drag and drop a file to upload'; 
-                }
-            };
-        });
-    
-        const addEyewearModal = document.getElementById('addeyewear');
-        addEyewearModal.addEventListener('hidden.bs.modal', function () {
-            document.getElementById('addEyewearForm').reset(); 
-            document.getElementById('imagePreview').src = "{{ asset('assets/img/icons/upload.svg') }}"; 
-            document.getElementById('imageName').textContent = 'Drag and drop a file to upload'; 
-        });
-
-        // ADD SUCCESSFUL MODAL
-    document.getElementById('addEyewearForm').onsubmit = function (event) {
-        event.preventDefault();
-        const formData = new FormData(this);
-
-        fetch('{{ route("staff.eyewears.store") }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: data.message,
-                }).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message,
-                });
-            }
-        })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An unexpected error occurred. Please try again.',
-            });
-        });
-    };
-
-        // DELETE MODAL
-    document.addEventListener('DOMContentLoaded', function() {
-        const deleteButtons = document.querySelectorAll('.btn-delete');
-
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault(); 
-                const id = this.getAttribute('data-id'); 
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ff9f43',
-                    cancelButtonColor: '#dc3545',
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        fetch(`/staff/eyewears/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}', 
-                                'Accept': 'application/json',
-                            },
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Eyewear has been deleted.',
-                                    'success',
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Error!',
-                                    'There was a problem deleting the eyewear.',
-                                    'error'
-                                );
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    }
-                });
-            });
-        });
-    });
-
-    </script>
-
-
-@endsection
+        </script>
+    @endsection
 @endsection

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('age')->nullable();
             $table->string('contact_number', 11)->nullable();
             $table->string('address', 255)->nullable();
-            $table->dateTime('date')->nullable()->default(now());
+            $table->dateTime('DateTime')->nullable()->default(now());
             $table->timestamps(); 
         });
     }

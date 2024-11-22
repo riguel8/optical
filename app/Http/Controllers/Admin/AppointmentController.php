@@ -199,7 +199,7 @@ class AppointmentController extends Controller
     }
 
     // Accept or Decline Appointment
-    public function updateStatus(Request $request, $id)
+    public function updateAdminStatus(Request $request, $id)
     {
         $appointment = AppointmentModel::find($id);
         if (!$appointment) {
