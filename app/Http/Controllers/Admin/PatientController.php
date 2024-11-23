@@ -16,6 +16,7 @@ class PatientController extends Controller
         $patients = PatientModel::whereHas('appointments', function($query) {
             $query->whereIn('appointments.Status', ['Confirm','Completed']);
         })
+        ->orderBy('complete_name', 'asc')
         ->get();
 
         return view('admin.patients', compact('patients', 'title'));

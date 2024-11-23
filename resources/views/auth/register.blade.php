@@ -45,7 +45,7 @@
 									@enderror
                                 </div>
 
-								<div class="col-md-12 mb-4">
+								<div class="col-md-12 mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
                                         <div class="form-floating input-icon">
@@ -59,7 +59,7 @@
                                     @enderror
                                 </div>
 
-								<div class="col-md-12 mb-4">
+								<div class="col-md-12 mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
                                         <div class="form-floating input-icon">

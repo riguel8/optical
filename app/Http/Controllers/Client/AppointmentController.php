@@ -21,6 +21,7 @@ class AppointmentController extends Controller
     
         $appointments = AppointmentModel::with('patient')
             ->where('StaffID', $staffId)
+            ->orderBy('DateTime', 'desc')
             ->get();
 
         $questions = Chatbot::select('ChatbotID', 'Question')->get();

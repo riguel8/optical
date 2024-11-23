@@ -1,0 +1,156 @@
+/* General Modal Adjustments */
+#chatbotModal .modal-dialog {
+    max-width: 95%; /* Reduce modal width on smaller screens */
+    margin: 1rem auto; /* Add breathing room around modal */
+}
+
+#chatbotModal .modal-content {
+    border-radius: 10px;
+}
+
+/* Header Responsiveness */
+#chatbotModal .modal-header {
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+#chatbotModal .modal-header .btn-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+/* Chat Interface Styling */
+.chat-cont-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.msg_card_body {
+    max-height: 300px; /* Prevent overflow on smaller screens */
+    overflow-y: auto;
+}
+
+/* Adjust Message Input Area */
+#chatbotModal .card-footer {
+    flex-wrap: wrap;
+}
+
+#chatbotModal .input-group {
+    flex-direction: row;
+    width: 100%;
+}
+
+#chatbotModal .btn_send {
+    padding: 10px;
+}
+
+/* Button Adjustments */
+.question-btn {
+    font-size: 0.875rem; /* Slightly smaller buttons for mobile */
+    padding: 8px 12px;
+}
+
+/* Floating Chat Button Styling */
+.chat-float-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1b2850;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-float-btn span {
+    font-size: 1rem;
+}
+
+/* Mobile-Specific Adjustments */
+@media (max-width: 768px) {
+    #chatbotModal .modal-dialog {
+        max-width: 100%; /* Full width for very small devices */
+        margin: 0;
+    }
+
+    #chatbotModal .modal-header h5 {
+        font-size: 1rem; /* Reduce title font size */
+    }
+
+    #chatbotModal .user_info span {
+        font-size: 0.9rem;
+    }
+
+    #chatbotModal .card-body {
+        padding: 10px; /* Reduce padding for mobile */
+    }
+
+    #chatbotModal .card-footer .btn {
+        flex-wrap: wrap; /* Allow buttons to wrap */
+    }
+
+    #chatbotModal .question-btn {
+        width: 100%; /* Make buttons full width */
+        margin-bottom: 5px;
+    }
+
+    .input-group .form-control {
+        font-size: 0.875rem;
+    }
+}
+
+/* Very Small Devices */
+@media (max-width: 480px) {
+    #chatbotModal .modal-header h5 {
+        font-size: 0.9rem;
+    }
+
+    #chatbotModal .user_info span {
+        font-size: 0.85rem;
+    }
+
+    .question-btn {
+        padding: 5px;
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Responsive Styling for Floating Chat Button */
+@media (max-width: 768px) {
+    .chat-float-btn {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        gap: 6px;
+    }
+
+    .chat-float-btn span {
+        font-size: 0.85rem;
+    }
+}
+
+/* Further adjustments for very small screens */
+@media (max-width: 480px) {
+    .chat-float-btn {
+        bottom: 8px;
+        right: 8px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        gap: 4px;
+    }
+
+    .chat-float-btn span {
+        font-size: 0.75rem;
+    }
+}
+
+
