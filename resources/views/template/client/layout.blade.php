@@ -34,10 +34,9 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/appointmentcard.css') }}">
 
     <style>
         .productset {
@@ -148,47 +147,48 @@
 
             
     <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="col-lg-7 col-xl-12 chat-cont-right">
-                    <div class="card mb-0">
-                        <div class="card-header msg_head">
-                            <div class="d-flex bd-highlight">
-                                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
-                                    <i class="fas fa-chevron-left"></i>
-                                </a>
-                                <div class="img_cont">
-                                    <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
-                                </div>
-                                <div class="user_info">
-                                    <span><strong id="receiver_name">Delin Optical</strong></span>
-                                    <p class="mb-0">Chatbot</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body msg_card_body chat-scroll">
-                            <ul class="list-unstyled" id="chat-messages"></ul>
-                        </div>
-                        <div class="card-footer">
-                            <div class="input-group justify-content-end">
-                                <div class="btn" role="group">
-                                    @foreach($questions as $question)
-                                        <button type="button" class="btn btn-outline-success m-1 question-btn rounded-pill mb-3" data-chatbot-id="{{ $question->ChatbotID }}">
-                                            {{ $question->Question }}
-                                        </button>
-                                    @endforeach
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
+                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-7 col-xl-12 chat-cont-right">
+                        <div class="card mb-0">
+                            <div class="card-header msg_head">
+                                <div class="d-flex bd-highlight">
+                                    <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                    <div class="img_cont">
+                                        <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
+                                    </div>
+                                    <div class="user_info">
+                                        <span><strong id="receiver_name">Delin Optical</strong></span>
+                                        <p class="mb-0">Chatbot</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="input-group">
-                                <input class="form-control type_msg mh-auto empty_check" placeholder="Type your message...">
-                                <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            <div class="card-body msg_card_body chat-scroll">
+                                <ul class="list-unstyled" id="chat-messages"></ul>
+                            </div>
+                            <div class="card-footer">
+                                <div class="input-group justify-content-end">
+                                    <div class="btn" role="group">
+                                        @foreach($questions as $question)
+                                            <button type="button" class="btn btn-outline-success m-1 question-btn rounded-pill mb-3" data-chatbot-id="{{ $question->ChatbotID }}">
+                                                {{ $question->Question }}
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input class="form-control type_msg mh-auto empty_check" placeholder="Type your message...">
+                                    <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,6 @@
             </div>
         </div>
     </div>
-</div>
 
     </div>
 
@@ -207,6 +206,145 @@
     </footer>
 
     @yield('scripts')
+
+
+
+<!-- jQuery and Bootstrap -->
+<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Additional JS -->
+<script src="{{ asset('assets/js/feather.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/js/bs-init.js') }}"></script>
+<script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+
+<!-- External Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+<script src="{{ asset('assets/js/moment.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/script.js') }}"></script>
+<script src="{{ asset("assets/js/showmodal.js")}}"></script>
+
+<script>
+// Helper function to create status badge
+function getStatusBadge(status) {
+    var badgeClass;
+    var statusText;
+
+    // Determine the badge class and text based on status
+    switch (status) {
+        case 'Pending':
+            badgeClass = 'bg-lightyellow badges';
+            statusText = 'Pending';
+            break;
+        case 'Confirm':
+            badgeClass = 'bg-lightgreen badges';
+            statusText = 'Confirm';
+            break;
+        case 'Cancelled':
+            badgeClass = 'bg-lightred badges';
+            statusText = 'Cancelled';
+            break;
+        default:
+            badgeClass = '';
+            statusText = status;
+            break;
+    }
+
+    // Return the HTML string for the badge
+    return `<span class="${badgeClass}">${statusText}</span>`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#addAppointmentForm').submit(function(e) {
+        e.preventDefault(); 
+        
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'New appointment was added successfully',
+                        confirmButtonColor: '#ff9f43',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ url('/client/appointments') }}";
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to add appointment: ' + response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing your request. Please try again later.'
+                });
+            }
+        });
+    });
+});
+</script>
+
+<script>
+    // Restore filter state from local storage on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.filter-group').forEach(function (group) {
+            const toggle = group.querySelector('.filter-toggle');
+            const collapseElement = group.querySelector('.collapse');
+            const symbol = toggle.querySelector('.toggle-symbol');
+            const filterId = collapseElement.id;
+
+            // Check local storage for the state of this filter
+            const isExpanded = localStorage.getItem(filterId) === 'true';
+
+            if (isExpanded) {
+                collapseElement.classList.add('show');
+                symbol.textContent = '-';
+            } else {
+                collapseElement.classList.remove('show');
+                symbol.textContent = '+';
+            }
+
+            // Set up the click event listener for toggling
+            toggle.addEventListener('click', function () {
+                const isCurrentlyExpanded = collapseElement.classList.contains('show');
+
+                // Toggle the state
+                if (isCurrentlyExpanded) {
+                    collapseElement.classList.remove('show');
+                    symbol.textContent = '+';
+                    localStorage.setItem(filterId, 'false');
+                } else {
+                    collapseElement.classList.add('show');
+                    symbol.textContent = '-';
+                    localStorage.setItem(filterId, 'true');
+                }
+            });
+        });
+    });
+</script>
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -326,196 +464,6 @@ document.getElementById('chatbotModal').addEventListener('hidden.bs.modal', func
 
 
 </script>
-
-
-
-<!-- jQuery and Bootstrap -->
-<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-<!-- Additional JS -->
-<script src="{{ asset('assets/js/feather.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/bs-init.js') }}"></script>
-<script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
-
-<!-- Plugins -->
-<script src="{{ asset('assets/plugins/flot/jquery.flot.js') }}"></script>
-<script src="{{ asset('assets/plugins/flot/jquery.flot.fillbetween.js') }}"></script>
-<script src="{{ asset('assets/plugins/flot/jquery.flot.pie.js') }}"></script>
-<script src="{{ asset('assets/plugins/flot/chart-data.js') }}"></script>
-
-<!-- Commented out scripts -->
-<!-- <script src="{{ asset('assets/js/dataTables.buttons.min.js') }}"></script> -->
-<script src="{{ asset('assets/js/jszip.min.js') }}"></script>
-<script src="{{ asset('assets/js/pdfmake.min.js') }}"></script>
-<script src="{{ asset('assets/js/vfs_fonts.js') }}"></script>
-<script src="{{ asset('assets/js/xlsx.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('assets/js/buttons.print.min.js') }}"></script>
-<!-- <script src="{{ asset('assets/js/listTable.js') }}"></script> -->
-
-<!-- External Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-
-<script>
-$(document).ready(function() {
-    // Event listeners for PDF, Excel, and Print buttons
-    $('.pdf-btn').on('click', function() {
-        table.button('.buttons-pdf').trigger();
-    });
-
-    $('.excel-btn').on('click', function() {
-        table.button('.buttons-excel').trigger();
-    });
-
-    $('.print-btn').on('click', function() {
-        window.print();
-    });
-});
-</script>
-
-<script>
-// Helper function to create status badge
-function getStatusBadge(status) {
-    var badgeClass;
-    var statusText;
-
-    // Determine the badge class and text based on status
-    switch (status) {
-        case 'Pending':
-            badgeClass = 'bg-lightyellow badges';
-            statusText = 'Pending';
-            break;
-        case 'Confirm':
-            badgeClass = 'bg-lightgreen badges';
-            statusText = 'Confirm';
-            break;
-        case 'Cancelled':
-            badgeClass = 'bg-lightred badges';
-            statusText = 'Cancelled';
-            break;
-        default:
-            badgeClass = '';
-            statusText = status;
-            break;
-    }
-
-    // Return the HTML string for the badge
-    return `<span class="${badgeClass}">${statusText}</span>`;
-}
-</script>
-
-<script>
-$(document).ready(function() {
-    $('#addAppointmentForm').submit(function(e) {
-        e.preventDefault(); 
-        
-        var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'New appointment was added successfully',
-                        confirmButtonColor: '#ff9f43',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "{{ url('/client/appointments') }}";
-                        }
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to add appointment: ' + response.message
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while processing your request. Please try again later.'
-                });
-            }
-        });
-    });
-});
-</script>
-
-<script>
-    // Restore filter state from local storage on page load
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.filter-group').forEach(function (group) {
-            const toggle = group.querySelector('.filter-toggle');
-            const collapseElement = group.querySelector('.collapse');
-            const symbol = toggle.querySelector('.toggle-symbol');
-            const filterId = collapseElement.id;
-
-            // Check local storage for the state of this filter
-            const isExpanded = localStorage.getItem(filterId) === 'true';
-
-            if (isExpanded) {
-                collapseElement.classList.add('show');
-                symbol.textContent = '-';
-            } else {
-                collapseElement.classList.remove('show');
-                symbol.textContent = '+';
-            }
-
-            // Set up the click event listener for toggling
-            toggle.addEventListener('click', function () {
-                const isCurrentlyExpanded = collapseElement.classList.contains('show');
-
-                // Toggle the state
-                if (isCurrentlyExpanded) {
-                    collapseElement.classList.remove('show');
-                    symbol.textContent = '+';
-                    localStorage.setItem(filterId, 'false');
-                } else {
-                    collapseElement.classList.add('show');
-                    symbol.textContent = '-';
-                    localStorage.setItem(filterId, 'true');
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    var checkeventcount = 1,prevTarget;
-        $('.modal').on('show.bs.modal', function (e) {
-            if(typeof prevTarget == 'undefined' || (checkeventcount==1 && e.target!=prevTarget))
-            {  
-              prevTarget = e.target;
-              checkeventcount++;
-              e.preventDefault();
-              $(e.target).appendTo('body').modal('show');
-            }
-            else if(e.target==prevTarget && checkeventcount==2)
-            {
-              checkeventcount--;
-            }
-         });
-</script>
-
 </body>
 </html>
 

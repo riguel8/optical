@@ -16,7 +16,13 @@
                                 </b>
                             </a>
 
-                            <x-auth-session-status class="mb-4" :status="session('status')" />
+                            @if (session('status'))
+                                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                                    {{ session('status') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
 
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
@@ -34,7 +40,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-12 mb-4">
+                                <div class="col-md-12 mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
                                         <div class="form-floating input-icon">

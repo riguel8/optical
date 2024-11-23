@@ -49,8 +49,8 @@
                             @foreach ($chatbots as $chatbot)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$chatbot->Question}}</td>
-                                    <td>{{$chatbot->Response}}</td>
+                                    <td>{{ Str::limit($chatbot->Question, 50, '...') }}</td>
+                                    <td>{{ Str::limit($chatbot->Response, 50, '...') }}</td>
                                     <td>
                                         <!-- <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a> -->
                                         <a class="me-3 edit-chatbot" data-id="{{ $chatbot->ChatbotID }}" href="#" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <textarea style="height: 100px" class="form-control" id="response" placeholder="Enter Response" name="Response" rows="3" required></textarea>
+                        <textarea style="height: 150px" class="form-control" id="response" placeholder="Enter Response" name="Response" rows="3" required></textarea>
                         <label for="response">Response</label>
                     </div>
 
@@ -124,7 +124,7 @@
                         <label for="edit_question">Question?</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <textarea style="height: 100px" class="form-control" id="edit_response" placeholder="Enter Response" name="Response" required>{{ old('Response') }}</textarea>
+                        <textarea style="height: 150px" class="form-control" id="edit_response" placeholder="Enter Response" name="Response" required>{{ old('Response') }}</textarea>
                         <label for="edit_response">Response</label>
                     </div>
                     <div class="mt-auto d-flex justify-content-end gap-2">

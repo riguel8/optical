@@ -22,6 +22,7 @@ class PatientController extends Controller
         ->orWhereHas('prescription', function($query) {
             $query->where('prescriptions.PresStatus', 'Completed');
         })
+        ->orderBy('complete_name', 'asc')
         ->get();
     
         return view('admin.patients', compact('patients', 'title'));

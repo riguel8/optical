@@ -1,0 +1,112 @@
+/* General Card Styling */
+.appointment-card {
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.appointment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Vertical Line with Dynamic Colors (Desktop) */
+.details-section {
+border-left: 5px solid #eaeaea; /* Default */
+padding-left: 1.5rem;
+}
+
+/* Horizontal Line for Mobile View */
+.details-section.horizontal-line {
+border-left: none;
+border-top: 5px solid #eaeaea; /* Default */
+padding-left: 0;
+padding-top: 1rem;
+}
+
+/* Dynamic Line Colors */
+.border-status-pending {
+border-color: #f90; /* Orange for Pending */
+}
+
+.border-status-confirm {
+border-color: #28c76f; /* Blue for Confirm */
+}
+
+/* Section Title Styling */
+.section-title {
+font-size: 1rem;
+font-weight: 600;
+color: #7367F0;
+margin-bottom: 0.5rem;
+}
+
+/* Badge Styling */
+.status-badge .badge {
+font-size: 0.85rem;
+font-weight: 600;
+padding: 0.4em 1.2em;
+border-radius: 20px;
+}
+.status-pending {
+background-color: #f90; /* Orange */
+color: #fff;
+}
+
+.status-confirm {
+background-color: #28c76f; /* green */
+color: #fff;
+}
+
+/* Button Styling */
+.action-buttons .btn {
+font-size: 0.85rem;
+font-weight: 600;
+padding: 0.5em 1.2em;
+border-radius: 25px;
+transition: all 0.2s ease-in-out;
+}
+
+.action-buttons .btn:hover {
+transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+/* Adjust card padding and layout */
+.appointment-card {
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Vertical line becomes horizontal */
+.details-section {
+    border-left: none;
+    border-top: 5px solid #eaeaea; /* Default Horizontal Line */
+    padding-left: 0;
+    padding-top: 1rem;
+}
+
+.border-status-pending {
+    border-top-color: #f90; /* Orange for Pending */
+}
+
+.border-status-confirm {
+    border-top-color: #28c76f; /* Green for Confirm */
+}
+
+/* Responsive column stacking */
+.row .col-md-4 {
+    margin-bottom: 1rem;
+}
+
+/* Center buttons on mobile */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+}

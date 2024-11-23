@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/chatbot.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/landingEyewear.css') }}">
 
 </head>

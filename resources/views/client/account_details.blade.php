@@ -52,7 +52,7 @@
                         </div>
                     
                         <div class="col-lg-6 col-sm-12">
-                            <div class="form-floating input-icon">
+                            <div class="form-floating input-icon  mb-3">
                                 <input id="edit_password" type="password" name="password" class="form-control" placeholder="New Password" minlength="8">
                                 <i class="fa fa-eye-slash"></i>
                                 <label for="edit_password">New Password</label>

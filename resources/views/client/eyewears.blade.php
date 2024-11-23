@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <a href="{{ route('client.eyewears') }}" class="btn btn-outline-primary btn-sm mt-3">Reset Filters</a>
+                            <a href="{{ route('client.eyewears') }}" class="btn btn-primary btn-sm mt-3">Reset Filters</a>
                         </div>
                     </form>
                 </div>
@@ -102,14 +102,15 @@
                         </div>
                     @else
                         @foreach($eyewearProducts as $product)
-                        <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="col-lg-4 col-md-6 col-sm-6 d-flex">
                             <div class="productset flex-fill text-center">
                                 <div class="productsetimg">
-                                    <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" class="img-fluid">
+                                    <img src="{{ asset('storage/eyewears/' . $product->image) }}" alt="Eyewear" 
+                                    class="img-fluid img-fluid d-block w-100" style="height: 150px; object-fit: cover;">
                                 </div>
                                 <div class="productsetcontent">
-                                    <h4>{{ $product->Brand }}&nbsp;{{ $product->Model }}</h4>
-                                    <h6>₱{{ number_format($product->Price, 2) }}</h6>
+                                    <h4 style="height: 40px; overflow: hidden;">{{ $product->Brand }}&nbsp;{{ $product->Model }}</h4>
+                                    <h6 class="card-text text-danger" style="height: 30px;">₱{{ number_format($product->Price, 2) }}</h6>
                                 </div>
                             </div>
                         </div>

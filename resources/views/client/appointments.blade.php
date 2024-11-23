@@ -15,50 +15,107 @@
 			</div>
 		</div>
 
+		<section class="comp-section">
+			<div class="card bg-white">
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+						<li class="nav-item">
+							<a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Pending Requests</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Confirmed Appointments</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane show active" id="solid-justified-tab1">
+							@php
+								$pendingAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Pending');
+							@endphp
 
-		@foreach ($appointments as $appointment)
-		<div class="appointment-card mb-4">
-			<div class="card-left">
-				<h2 class="card-title"><strong>Appointment Schedule</strong></h2>
-				<div class="card-content">
-					<p><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
-					<p><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
-				</div>
-				<div class="card-details">
-					<h3>Your Details</h3>
-					<p><strong>Name:</strong> {{ $appointment->patient->complete_name }}</p>
-					<p><strong>Age:</strong> {{ $appointment->patient->age }}</p>
-					<p><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
+							@if ($pendingAppointments->isEmpty())
+								<p class="text-center py-4">No pending requests available.</p>
+							@else
+								@foreach ($pendingAppointments as $appointment)
+									<div class="appointment-card p-4 rounded shadow-sm mb-4">
+										<div class="row align-items-justify">
+											<div class="col-md-4 col-12">
+												<div class="details-section border-status-pending">
+													<h6 class="section-title mb-3">Personal Details</h6>
+													<p class="mb-1"><strong>Name:</strong> {{ $appointment->patient->complete_name }}</p>
+													<p class="mb-1"><strong>Age:</strong> {{ $appointment->patient->age }}</p>
+													<p class="mb-0"><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
+												</div>
+											</div>
+											<div class="col-md-4 col-12">
+												<h6 class="section-title mb-3">Appointment Schedule</h6>
+												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
+												<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
+											</div>
+											<div class="col-md-4 col-12 text-md-end text-center">
+												<div class="status-badge mb-5">
+													<span class="badges status-pending"><strong>Pending</strong></span>
+												</div>
+												<div class="action-buttons mt-3">
+													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+													</a>
+													<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								@endforeach
+							@endif
+						</div>
+
+						<div class="tab-pane" id="solid-justified-tab2">
+							@php
+								$confirmedAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Confirm');
+							@endphp
+
+							@if ($confirmedAppointments->isEmpty())
+								<p class="text-center py-4">No confirmed appointments available.</p>
+							@else
+								@foreach ($confirmedAppointments as $appointment)
+									<div class="appointment-card p-4 rounded shadow-sm mb-4">
+										<div class="row align-items-justify">
+											<div class="col-md-4 col-12">
+												<div class="details-section border-status-confirm">
+													<h6 class="section-title mb-3">Personal Details</h6>
+													<p class="mb-1"><strong>Name:</strong> {{ $appointment->patient->complete_name }}</p>
+													<p class="mb-1"><strong>Age:</strong> {{ $appointment->patient->age }}</p>
+													<p class="mb-0"><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
+												</div>
+											</div>
+											<div class="col-md-4 col-12">
+												<h6 class="section-title mb-3">Appointment Schedule</h6>
+												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
+												<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
+											</div>
+											<div class="col-md-4 col-12 text-md-end text-center">
+												<div class="status-badge  mb-5">
+													<span class="badges status-confirm"><strong>Confirm</strong></span>
+												</div>
+												<div class="action-buttons mt-3">
+													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+													</a>
+													<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								@endforeach
+							@endif
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="card-status">
-				<h3><strong>Status:</strong></h3>
-				@if ($appointment->Status == 'Pending')
-				<span class="bg-lightyellow badges">Pending</span>
-				@elseif ($appointment->Status == 'Confirm')
-				<span class="bg-lightgreen badges">Confirm</span>
-				@elseif ($appointment->Status == 'Completed')
-				<span class="bg-primary badges">Completed</span>
-				@elseif ($appointment->Status == 'Cancelled')
-				<span class="bg-lightred badges">Cancelled</span>
-				@endif
-				<br>
-				<br>
-				<div class="card-buttons">
-					<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
-						<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
-					</a>
-					<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
-						<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
-					</a>
-				</div>
-			</div>
-		</div>
-	@endforeach
-	</div>
-</div>
-	
-	
+		</section>
 
 	
 <!-- Add Appointment -->
@@ -126,11 +183,11 @@
 									@endfor
 								@endfor
 							</div>
+							<div class="mt-4 d-flex justify-content-end gap-2">
+								<button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
+								<button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+							</div>
 						</div>
-					<div class="mt-4 d-flex justify-content-end gap-2">
-						<button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
-						<button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
-					</div>
 				</form>
 			</div>
 		</div>
@@ -149,7 +206,7 @@
 				<div class="productdetails">
 					<ul class="product-bar">
 						<li>
-							<h4><strong>Appointment Schedule:</strong></h4>
+							<h4><strong>Date/Time:</strong></h4>
 							<h6 id="appointmentSchedule"></h6>
 						</li>
 						<li>
@@ -254,11 +311,11 @@
                                     @endfor
                                 @endfor
                             </div>
+							<div class="mt-4 d-flex justify-content-end gap-2">
+								<button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
+								<button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+							</div>
                         </div>
-                    <div class="mt-4 d-flex justify-content-end gap-2">
-                        <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
-                        <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -322,68 +379,7 @@
 	input[type="radio"]:disabled + label {
 		border: 1px solid #808080;
 	}
-
-	/* CSS for Appointment Card */
-
-	.appointment-card {
-		background-color: #e9e8e8;
-		border-radius: 10px;
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		transition: transform 0.5s ease, box-shadow 0.5s ease;
-		padding-left: 20px;
-		padding-right: 20px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		max-width: 1200px;
-		width: 100%;
-		height: 250px;
-	}
-
-	.appointment-card:hover {
-		transform: translateY(-10px);
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-	}
-
-	.card-title {
-		font-size: 1rem;
-		color: #333;
-		margin-bottom: 5px;
-	}
-
-	.card-left {
-		flex: 2;
-	}
-
-	.card-content p,
-	.card-status p{
-		font-size: 0.85rem;
-		color: #555;
-		margin: 5px 0;
-	}
-
-	.card-status h3,
-	.card-details h3 {
-		font-size: 0.85rem;
-		color: #666;
-		margin-top: 15px;
-	}
-
-	.card-details p{
-		font-size: 0.5rem;
-		color: #777;
-		opacity: 0.8;
-		margin: 5px 0;
-	}
-
-	.card-details {
-		font-size: 0.7rem;
-		color: #777;
-		opacity: 0.8;
-	}
-
 </style>
-
 
 @section('scripts')
     

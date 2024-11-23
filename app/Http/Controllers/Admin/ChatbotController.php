@@ -19,8 +19,8 @@ class ChatbotController extends Controller
         try {
             // Validate the request
             $validation = $request->validate([
-                'Question' => 'required|string|max:255',
-                'Response' => 'required|string|max:255',
+                'Question' => 'required|string',
+                'Response' => 'required|string',
             ]);
 
             Chatbot::create($validation);
