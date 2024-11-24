@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\PrescriptionModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\AmountModel;
+use App\Models\AppointmentModel;
 
 
 class PatientController extends Controller
@@ -90,6 +91,7 @@ class PatientController extends Controller
         $patient = PatientModel::findOrFail($id);
         $prescription = PrescriptionModel::where('PatientID', $id)->first();
         $amount = $prescription ? AmountModel::find($prescription->AmountID) : null;
+        $appointment = AppointmentModel::where('PatientID', $id)->first();
     
         return response()->json([
             'patient' => $patient,
@@ -114,6 +116,9 @@ class PatientController extends Controller
                 'Balance' => null,
                 'Payment' => null,
             ],
+            'appointment' => $appointment ?? (object)[
+                'AppointmentID' => null,
+            ],
         ]);
     }
     
@@ -121,7 +126,7 @@ class PatientController extends Controller
     //Function to Update the Appointment
     public function update(Request $request)
     {
-        try{ 
+        try {
             $patient = PatientModel::findOrFail($request->edit_patientId);
             $patient->update([
                 'complete_name' => $request->edit_name,
@@ -130,11 +135,10 @@ class PatientController extends Controller
                 'contact_number' => $request->edit_contact,
                 'address' => $request->edit_address,
             ]);
-
+    
             $amount = AmountModel::updateOrCreate(
                 ['AmountID' => $request->edit_amountId],
                 [
-                    // 'patient_id' => $patient->PatientID,
                     'TotalAmount' => $request->edit_totalAmount,
                     'Deposit' => $request->edit_deposit,
                     'MOP' => $request->edit_modeOfPayment,
@@ -142,12 +146,12 @@ class PatientController extends Controller
                     'Payment' => $request->edit_status,
                 ]
             );
-        
+
             $prescription = PrescriptionModel::updateOrCreate(
                 ['PrescriptionID' => $request->edit_prescriptionId],
                 [
                     'PatientID' => $patient->PatientID,
-                    'AmountID' =>  $amount->AmountID,
+                    'AmountID' => $amount->AmountID,
                     'DoctorID' => auth()->id(),
                     'Prescription' => $request->edit_prescription,
                     'ODgrade' => $request->edit_ODgrade,
@@ -161,18 +165,28 @@ class PatientController extends Controller
                     'PrescriptionDetails' => $request->edit_prescriptionDetails,
                 ]
             );
+    
+            if ($request->edit_appointmentId) {
+                $appointment = AppointmentModel::find($request->edit_appointmentId);
+    
+                if ($appointment) {
+                    $appointment->update([
+                        'Status' => 'Completed',
+                    ]);
+                }
+            }
             return response()->json([
                 'status' => 'success',
                 'message' => 'Patient updated successfully!',
             ]);
-    
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to updated patient.',
+                'message' => 'Failed to update patient.',
             ]);
         }
     }
+    
 
 
     // Function to Store Walk-in Patients

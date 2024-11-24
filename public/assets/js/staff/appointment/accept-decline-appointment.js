@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById('confirm-action').addEventListener('click', function() {
+        const appointmentNote = document.getElementById('AppointmentNote').value;  
+
         fetch(`/staff/appointments/${appointmentId}/update-status`, {
             method: 'POST',
             headers: {
@@ -26,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
-                status: currentAction === 'accept' ? 'Confirm' : 'Cancelled'
+                status: currentAction === 'accept' ? 'Confirm' : 'Cancelled',
+                note: appointmentNote 
             })
         })
         .then(response => response.json())

@@ -205,10 +205,15 @@ class AppointmentController extends Controller
         if (!$appointment) {
             return response()->json(['success' => false, 'message' => 'Appointment not found']);
         }
-
+    
         $appointment->Status = $request->input('status');
+    
+        if ($request->has('note')) {
+            $appointment->Notes = $request->input('note');
+        }
+    
         $appointment->save();
-
+    
         return response()->json(['success' => true]);
     }
 
