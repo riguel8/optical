@@ -62,7 +62,17 @@
                                 <tr>
                                     <td>{{ $user->name}}</td>
                                     <td>{{ $user->email}}</td>
-                                    <td>{{ $user->usertype}}</td>
+                                    <td>
+                                        @if ($user->usertype == 'staff')
+                                        <span class="bg-lightyellow badges">Staff</span>
+                                        @elseif ($user->usertype == 'admin')
+                                        <span class="bg-lightgreen badges">Admin</span>
+                                        @elseif ($user->usertype == 'client')
+                                        <span class="bg-primary badges">Client</span>
+                                        @elseif ($user->usertype == 'ophthal')
+                                        <span class="bg-lightred badges">Doctor</span>
+                                        @endif
+                                    </td>
                                     <td>{{ \Carbon\Carbon::parse($user->created_at)->format('F j, Y') }}</td>
                                     <td>
                                         <a class="me-3 view-user" href="#" data-id="{{ $user->id }}" data-bs-toggle="modal" data-bs-target="#viewUser">
