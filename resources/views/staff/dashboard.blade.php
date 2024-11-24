@@ -98,9 +98,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                    <button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="padding: 30px;">
                     <div class="productdetails">
                         <ul class="product-bar">
                             <li>
@@ -144,11 +146,11 @@
             <div class="modal-content w-100">
                 <div class="modal-header">
                     <h4 class="modal-title">New Appointment</h4>
-                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                    <button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="padding: 30px;">
                     <form id="addAppointmentForm" method="POST" action="{{ route('staff.appointments.store') }}">
                         @csrf
                         <input type="hidden" id="patient_id" name="patientID" value="">

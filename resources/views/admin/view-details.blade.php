@@ -90,7 +90,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form method="POST" action="" id="editEyewearForm" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -166,8 +166,8 @@
                                 </div>
                             </div>
 
-                            <div class="mt-auto d-flex justify-content-end gap-2">
-                                <button class="btn btn-lg btn-submit w-100" type="submit">Update Changes</button>
+                            <div class="mt-auto d-flex justify-content-end gap-3">
+                                <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Update Changes</button>
                                 <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </div>

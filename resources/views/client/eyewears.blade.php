@@ -98,7 +98,9 @@
                 <div class="row eyewear-products mt-3">
                     @if($eyewearProducts->isEmpty())
                         <div class="col-12">
-                            <p>No products found.</p>
+                            <div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
+                                {{ __('No products found') }}
+                            </div>
                         </div>
                     @else
                         @foreach($eyewearProducts as $product)
