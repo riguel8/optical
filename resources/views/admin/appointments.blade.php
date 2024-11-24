@@ -480,6 +480,9 @@
             <div class="modal-body text-center" style="padding: 30px;">
                 Are you sure you want to <span id="action-type" style="font-weight: bold; color: #007bff;">Accept</span> this appointment?
             </div>
+            <div class="modal-body text-center" style="padding: 1px">
+                Add Note: <input type="text" id="AppointmentNote" name="AppointmentNote" required>
+            </div>
             <div class="modal-footer justify-content-center">
                 <button class="btn btn-sm btn-submit me-2" id="confirm-action" type="submit">Confirm</button>
                 <button class="btn btn-sm btn-cancel" type="button" data-bs-dismiss="modal">Cancel</button>

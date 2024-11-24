@@ -9,6 +9,7 @@ use App\Models\PrescriptionModel;
 use App\Models\AmountModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\AppointmentModel;
 
 
 
@@ -88,6 +89,7 @@ public function edit($id)
     $patient = PatientModel::findOrFail($id);
     $prescription = PrescriptionModel::where('PatientID', $id)->first();
     $amount = $prescription ? AmountModel::find($prescription->AmountID) : null;
+    $appointment = AppointmentModel::where('PatientID', $id)->first();
 
     return response()->json([
         'patient' => $patient,
@@ -112,6 +114,9 @@ public function edit($id)
             'Balance' => null,
             'Payment' => null,
         ],
+        'appointment' => $appointment ?? (object)[
+            'AppointmentID' => null,
+        ],
     ]);
 }
     
@@ -121,7 +126,7 @@ public function edit($id)
 //Function to Update the Appointment
 public function update(Request $request)
 {
-    try{ 
+    try {
         $patient = PatientModel::findOrFail($request->edit_patientId);
         $patient->update([
             'complete_name' => $request->edit_name,
@@ -134,7 +139,6 @@ public function update(Request $request)
         $amount = AmountModel::updateOrCreate(
             ['AmountID' => $request->edit_amountId],
             [
-                // 'patient_id' => $patient->PatientID,
                 'TotalAmount' => $request->edit_totalAmount,
                 'Deposit' => $request->edit_deposit,
                 'MOP' => $request->edit_modeOfPayment,
@@ -142,12 +146,12 @@ public function update(Request $request)
                 'Payment' => $request->edit_status,
             ]
         );
-    
+
         $prescription = PrescriptionModel::updateOrCreate(
             ['PrescriptionID' => $request->edit_prescriptionId],
             [
                 'PatientID' => $patient->PatientID,
-                'AmountID' =>  $amount->AmountID,
+                'AmountID' => $amount->AmountID,
                 'DoctorID' => auth()->id(),
                 'Prescription' => $request->edit_prescription,
                 'ODgrade' => $request->edit_ODgrade,
@@ -161,15 +165,24 @@ public function update(Request $request)
                 'PrescriptionDetails' => $request->edit_prescriptionDetails,
             ]
         );
+
+        if ($request->edit_appointmentId) {
+            $appointment = AppointmentModel::find($request->edit_appointmentId);
+
+            if ($appointment) {
+                $appointment->update([
+                    'Status' => 'Completed',
+                ]);
+            }
+        }
         return response()->json([
             'status' => 'success',
             'message' => 'Patient updated successfully!',
         ]);
-
     } catch (\Exception $e) {
         return response()->json([
             'status' => 'error',
-            'message' => 'Failed to updated patient.',
+            'message' => 'Failed to update patient.',
         ]);
     }
 }
