@@ -254,11 +254,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">New Appointment</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form id="addAppointmentForm" method="POST" action="{{ route('staff.appointments.store') }}">
                     @csrf
                     <input type="hidden" id="patient_id" name="patientID" value="">
@@ -330,9 +330,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <div class="productdetails">
                     <ul class="product-bar">
                         <li>
@@ -377,11 +379,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Appointment</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form method="POST" action="" id="editAppointmentForm">
                     @csrf
                     @method('PUT')
@@ -469,11 +471,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 style="text-align: center; width: 100%;" class="modal-title">Confirm Action</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body text-center" style="padding: 30px;">
                 Are you sure you want to <span id="action-type" style="font-weight: bold; color: #007bff;">Accept</span> this appointment?
             </div>
             <div class="modal-footer justify-content-center">

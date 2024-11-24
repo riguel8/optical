@@ -49,8 +49,8 @@
                             @foreach ($chatbots as $chatbot)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$chatbot->Question}}</td>
-                                    <td>{{$chatbot->Response}}</td>
+                                    <td>{{ Str::limit($chatbot->Question, 50, '...') }}</td>
+                                    <td>{{ Str::limit($chatbot->Response, 50, '...') }}</td>
                                     <td>
                                         <!-- <a class="me-3" href="#"><img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img"></a> -->
                                         <a class="me-3 edit-chatbot" data-id="{{ $chatbot->ChatbotID }}" href="#" data-bs-toggle="modal" data-bs-target="#editModal">
@@ -76,11 +76,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">Add new Question and Response</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button type="button" class="close" aria-label="Close" data-bs-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form id="addForm" method="POST" action="{{ route('staff.chatbot.store') }}">
                     @csrf
                     <input type="hidden" id="chatbot_id" name="ChatbotID" value="">
@@ -110,11 +110,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Question and Response</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form method="POST" action="" id="editChatbotForm">
                     @csrf
                     @method('PUT')

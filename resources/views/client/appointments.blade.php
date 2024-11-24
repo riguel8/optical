@@ -33,7 +33,11 @@
 							@endphp
 
 							@if ($pendingAppointments->isEmpty())
-								<p class="text-center py-4">No pending requests available.</p>
+								<div class="col-12">
+									<div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
+										{{ __('No pending requests available.') }}
+									</div>
+								</div>
 							@else
 								@foreach ($pendingAppointments as $appointment)
 									<div class="appointment-card p-4 rounded shadow-sm mb-4">
@@ -76,7 +80,11 @@
 							@endphp
 
 							@if ($confirmedAppointments->isEmpty())
-								<p class="text-center py-4">No confirmed appointments available.</p>
+								<div class="col-12">
+									<div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
+										{{ __('No confirmed appointments available.') }}
+									</div>
+								</div>
 							@else
 								@foreach ($confirmedAppointments as $appointment)
 									<div class="appointment-card p-4 rounded shadow-sm mb-4">
@@ -124,11 +132,11 @@
 		<div class="modal-content w-100">
 			<div class="modal-header">
 				<h4 class="modal-title">New Appointment</h4>
-				<button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+				<button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="padding: 30px;">
 				<form id="addAppointmentForm" method="POST" action="{{ route('client.appointments.store') }}">
 					@csrf
 					<input type="hidden" id="patient_id" name="patientID" value="">
@@ -200,9 +208,11 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 style="text-align: center; width: 100%;" class="modal-title" id="viewAppointmentLabel">Appointment Details</h4>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+				<button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="padding:30px">
 				<div class="productdetails">
 					<ul class="product-bar">
 						<li>
@@ -247,11 +257,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Appointment</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding:30px;">
                 <form method="POST" action="" id="editAppointmentForm">
                     @csrf
                     @method('PUT')

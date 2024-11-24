@@ -81,7 +81,6 @@ public function view($id)
     }
 }
     
-    
 
 // Function to Fetch data to the modal
 public function edit($id)
@@ -119,54 +118,64 @@ public function edit($id)
     
     
 
+//Function to Update the Appointment
 public function update(Request $request)
 {
-    $patient = PatientModel::findOrFail($request->edit_patientId);
-    $patient->update([
-        'complete_name' => $request->edit_name,
-        'gender' => $request->edit_gender,
-        'age' => $request->edit_age,
-        'contact_number' => $request->edit_contact,
-        'address' => $request->edit_address,
-    ]);
+    try{ 
+        $patient = PatientModel::findOrFail($request->edit_patientId);
+        $patient->update([
+            'complete_name' => $request->edit_name,
+            'gender' => $request->edit_gender,
+            'age' => $request->edit_age,
+            'contact_number' => $request->edit_contact,
+            'address' => $request->edit_address,
+        ]);
 
-    $amount = AmountModel::updateOrCreate(
-        ['AmountID' => $request->edit_amountId],
-        [
-            // 'patient_id' => $patient->PatientID,
-            'TotalAmount' => $request->edit_totalAmount,
-            'Deposit' => $request->edit_deposit,
-            'MOP' => $request->edit_modeOfPayment,
-            'Balance' => $request->edit_balance,
-            'Payment' => $request->edit_status,
-        ]
-    );
-
-    $prescription = PrescriptionModel::updateOrCreate(
-        ['PrescriptionID' => $request->edit_prescriptionId],
-        [
-            'PatientID' => $patient->PatientID,
-            'AmountID' =>  $amount->AmountID,
-            'DoctorID' => auth()->id(),
-            'Prescription' => $request->edit_prescription,
-            'ODgrade' => $request->edit_ODgrade,
-            'OSgrade' => $request->edit_OSgrade,
-            'OUgrade' => $request->edit_OUgrade,
-            'Lens' => $request->edit_lens,
-            'LensType' => $request->edit_lensType,
-            'Frame' => $request->edit_frame,
-            'ADD' => $request->edit_add,
-            'PD' => $request->edit_pd,
-            'PrescriptionDetails' => $request->edit_prescriptionDetails,
-        ]
-    );
-
-
-    return redirect()->back()->with('success', 'Patient updated successfully!');
-}
+        $amount = AmountModel::updateOrCreate(
+            ['AmountID' => $request->edit_amountId],
+            [
+                // 'patient_id' => $patient->PatientID,
+                'TotalAmount' => $request->edit_totalAmount,
+                'Deposit' => $request->edit_deposit,
+                'MOP' => $request->edit_modeOfPayment,
+                'Balance' => $request->edit_balance,
+                'Payment' => $request->edit_status,
+            ]
+        );
     
+        $prescription = PrescriptionModel::updateOrCreate(
+            ['PrescriptionID' => $request->edit_prescriptionId],
+            [
+                'PatientID' => $patient->PatientID,
+                'AmountID' =>  $amount->AmountID,
+                'DoctorID' => auth()->id(),
+                'Prescription' => $request->edit_prescription,
+                'ODgrade' => $request->edit_ODgrade,
+                'OSgrade' => $request->edit_OSgrade,
+                'OUgrade' => $request->edit_OUgrade,
+                'Lens' => $request->edit_lens,
+                'LensType' => $request->edit_lensType,
+                'Frame' => $request->edit_frame,
+                'ADD' => $request->edit_add,
+                'PD' => $request->edit_pd,
+                'PrescriptionDetails' => $request->edit_prescriptionDetails,
+            ]
+        );
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Patient updated successfully!',
+        ]);
 
-// Function to store Walk-in Patients
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to updated patient.',
+        ]);
+    }
+}
+
+
+// Function to Store Walk-in Patients
 public function store(Request $request)
 {
     $validated = $request->validate([

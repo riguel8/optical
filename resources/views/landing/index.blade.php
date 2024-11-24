@@ -57,12 +57,12 @@
             </div>
         </div>
 
+        <!-- Eyewear Section -->
         <div class="container-xl py-5 section-padding" id="eyewears" style="scroll-margin-top: 60px;">
             <div class="text-center wow fadeInUp mb-5" data-wow-delay="0.1s">
                 <h2 class="text-warning"><strong>EYEWEAR</strong></h2>
                 <h5>Elevate your vision, enhance your style.</h5>
             </div>
-            <!-- Start of the carousel -->
             <div id="eyewearCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                 @if(isset($groupedByBrand) && $groupedByBrand->count())
@@ -89,27 +89,27 @@
                             </div>
                         </div>
                         @endforeach
+                        <button class="carousel-control-prev" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"></div>
                     @endforeach
                 @else
-                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h5 class="mt-5">No product available.</h5>
+                    <div class="col-12 justify-content-center align-items-center">
+                        <div class="alert alert-info px-4 py-2 text-center text-sm text-gray-500 wow fadeInUp" data-wow-delay="0.1s" colspan="6">
+                            {{ __('No products available.') }}
+                        </div>
                     </div>
                 @endif
                 </div>
-                
-                <!-- Carousel Controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#eyewearCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-                <!-- Swiper Pagination -->
-            <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"></div>
             </div> 
         </div>
+        <!-- Eyewears End -->
 
         <!-- Service Start -->
         <div class="container-xxl py-5 section-padding" id="services" style="scroll-margin-top: 130px; background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;" >

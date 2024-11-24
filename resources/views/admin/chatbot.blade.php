@@ -76,11 +76,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">Add new Question and Response</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form id="addForm" method="POST" action="{{ route('admin.chatbot.store') }}">
                     @csrf
                     <input type="hidden" id="chatbot_id" name="ChatbotID" value="">
@@ -110,11 +110,11 @@
         <div class="modal-content w-100">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Question and Response</h4>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form method="POST" action="" id="editChatbotForm">
                     @csrf
                     @method('PUT')

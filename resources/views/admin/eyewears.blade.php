@@ -17,60 +17,66 @@
         </div>
 
         <section class="comp-section comp-cards">
-                <div class="table-top">
-                    <div class="search-set">
-                        <div class="search-input">
-                            <a href="#" class="btn btn-searchset">
-                                <img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="wordset">
-                        <ul>
-                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img"></a></li>
-                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img"></a></li>
-                        </ul>
+            <div class="table-top">
+                <div class="search-set">
+                    <div class="search-input">
+                        <a href="#" class="btn btn-searchset">
+                            <img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
+                        </a>
                     </div>
                 </div>
+                <!-- <div class="wordset">
+                    <ul>
+                        <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img"></a></li>
+                        <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img"></a></li>
+                    </ul>
+                </div> -->
+            </div>
             <div class="row">
-                @foreach ($eyewears as $eyewear)
-                <div class="col-12 col-sm-6 col-lg-3 d-flex">
-                    <div class="card flex-fill bg-white">
-                        @if ($eyewear->image)
-                            <img alt="Card Image" 
-                                src="{{ asset('storage/eyewears/' . $eyewear->image) }}" 
-                                class="card-img-top img-fluid d-block w-100" 
-                                style="height: 150px; object-fit: cover;">
-                        @else
-                            <div class="d-flex justify-content-center align-items-center" 
-                                style="height: 200px; background-color: #f8f9fa;">
-                                <span class="text-muted">No Image</span>
+                @forelse ($eyewears as $eyewear)
+                    <div class="col-12 col-sm-6 col-lg-3 d-flex">
+                        <div class="card flex-fill bg-white">
+                            @if ($eyewear->image)
+                                <img alt="Card Image" 
+                                    src="{{ asset('storage/eyewears/' . $eyewear->image) }}" 
+                                    class="card-img-top img-fluid d-block w-100" 
+                                    style="height: 150px; object-fit: cover;">
+                            @else
+                                <div class="d-flex justify-content-center align-items-center" 
+                                    style="height: 200px; background-color: #f8f9fa;">
+                                    <span class="text-muted">No Image</span>
+                                </div>
+                            @endif
+                            <div class="card-header text-center">
+                                <h5 class="card-title mb-0">{{ $eyewear->Brand }}</h5>
                             </div>
-                        @endif
-                        <div class="card-header text-center">
-                            <h5 class="card-title mb-0">{{ $eyewear->Brand }}</h5>
-                        </div>
-                        <div class="card-body text-center">
-                            <p class="card-text" style="height: 40px; overflow: hidden;">{{ $eyewear->Model }}</p>
-                            <p class="card-text text-danger" style="height: 30px;">₱{{ number_format($eyewear->Price, 2) }}</p>
-
-                            <div class="d-flex justify-content-center">
-                            <a class="me-3" href="{{ route('admin.view-details', $eyewear->EyewearID) }}">
-                                            <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Eyewear">
-                                        </a>
-                                        <a class="me-3 edit-eyewear" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#editEyewear">
-                                            <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Eyewear">
-                                        </a>
-                                        <a class="btn-delete" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                            <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Eyewear">
-                                        </a>
+                            <div class="card-body text-center">
+                                <p class="card-text" style="height: 40px; overflow: hidden;">{{ $eyewear->Model }}</p>
+                                <p class="card-text text-danger" style="height: 30px;">₱{{ number_format($eyewear->Price, 2) }}</p>
+                                <div class="d-flex justify-content-center">
+                                    <a class="me-3" href="{{ route('admin.view-details', $eyewear->EyewearID) }}">
+                                        <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Eyewear">
+                                    </a>
+                                    <a class="me-3 edit-eyewear" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#editEyewear">
+                                        <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Eyewear">
+                                    </a>
+                                    <a class="btn-delete" data-id="{{ $eyewear->EyewearID }}" href="#" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Eyewear">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                @empty
+                    <div class="col-12">
+                        <div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
+                            {{ __('No products found') }}
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </section>
+
 
         <!-- <section class="comp-section comp-cards">
             <div class="row">
@@ -185,7 +191,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form id="addEyewearForm" method="POST" action="{{ route('admin.eyewears.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="row d-flex align-items-stretch">
@@ -282,7 +288,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="padding: 30px;">
                 <form method="POST" action="" id="editEyewearForm" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -358,8 +364,8 @@
                                 </div>
                             </div>
 
-                            <div class="mt-auto d-flex justify-content-end gap-2">
-                                <button class="btn btn-lg btn-submit w-100" type="submit">Update Changes</button>
+                            <div class="mt-auto d-flex justify-content-end gap-3">
+                                <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Update Changes</button>
                                 <button class="btn btn-lg btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
                             </div>
                         </div>
