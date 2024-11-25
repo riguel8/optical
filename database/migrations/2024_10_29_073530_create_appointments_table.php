@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('PatientID')->references('PatientID')->on('patients')->onDelete('cascade');
             $table->foreignId('StaffID')->references('id')->on('users')->onDelete('cascade'); 
             $table->dateTime('DateTime');
-            $table->enum('Status', ['pending', 'completed', 'canceled'])->default('pending');
+            $table->enum('Status', ['Pending', 'Confirm', 'Completed', 'Canceled'])->default('Pending');
             $table->text('Notes')->nullable();
             $table->timestamps(); 
         });

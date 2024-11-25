@@ -228,7 +228,7 @@
         <!-- Floating Chat Button -->
         <a id="contactUsBtn" class="chat-float-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
             <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
-            <span>Chat with our Assistant</span>
+            <!-- <span>Chat with our Assistant</span> -->
         </a>
 
 @endsection

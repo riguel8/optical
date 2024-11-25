@@ -100,7 +100,9 @@
 											<div class="col-md-4 col-12">
 												<h6 class="section-title mb-3">Appointment Schedule</h6>
 												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
-												<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
+												<p class="mb-1"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
+												<p class="mb-0"><strong>Note:</strong> {{ $appointment->Notes }}</p>
+
 											</div>
 											<div class="col-md-4 col-12 text-md-end text-center">
 												<div class="status-badge  mb-5">
@@ -124,6 +126,7 @@
 				</div>
 			</div>
 		</section>
+
 
 	
 <!-- Add Appointment -->
@@ -332,69 +335,15 @@
     </div>
 </div>
 
+</div>
+</div>
 
 
 <style>
 
-	/* Time CSS */
-	.time-selection {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-	}
-	.time-box {
-		padding: 8px 12px;
-		border-radius: 5px;
-		font-size: 14px;
-		cursor: pointer;
-		transition: background-color 0.3s ease;
-	}
-
-	/* Time radio button size */
-	input[type="radio"] {
-		width: 20px;
-		height: 20px;
-		margin-right: 10px;
-	}
-
-	label.btn-outline-primary {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 80px;
-		height: 45px;
-		font-size: 14px;
-		border-radius: 4px;
-		padding: 8px;
-	}
-
-	input[type="radio"]:disabled + label {
-		background-color: #d3d3d3;
-		color: #808080;
-		cursor: not-allowed;
-		opacity: 0.6;
-	}    
-
-	/* Style for disabled time buttons */
-	input[type="radio"]:disabled + label {
-		background-color: #d3d3d3;
-		color: #808080;
-		cursor: not-allowed;
-	}
-
-	input[type="radio"]:disabled + label:hover {
-		background-color: #a9a9a9; 
-	}
-
-	input[type="radio"]:disabled + label {
-		border: 1px solid #808080;
-	}
 </style>
 
 @section('scripts')
-    
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
 	<!-- Script to check time slot -->
 	<script>

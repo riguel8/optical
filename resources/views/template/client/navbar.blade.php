@@ -8,25 +8,6 @@
 
 <ul class="nav user-menu">
 
-    <li class="nav-item">
-        <div class="top-nav-search">
-            <a href="" class="responsive-search">
-                <i class="fa fa-search"></i>
-            </a>
-            <form action="#">
-                <div class="searchinputs">
-                    <input type="text" placeholder="Search Here ...">
-                    <div class="search-addon">
-                        <span><img src="{{ asset('assets/img/icons/closes.svg') }}" alt="img"></span>
-                    </div>
-                </div>
-                <a class="btn" id="searchdiv">
-                    <img src="{{ asset('assets/img/icons/search.svg') }}" alt="img">
-                </a>
-            </form>
-        </div>
-    </li>
-
     <li class="nav-item dropdown has-arrow main-drop">
         <a href="#" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
             <span class="user-img">
@@ -70,6 +51,11 @@
     <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="#">My Profile</a>
         <a class="dropdown-item" href="#">Settings</a>
-        <a class="dropdown-item" href="{{ url('logout') }}">Logout</a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <a class="dropdown-item" href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                Logout
+            </a>
+        </form>
     </div>
 </div>

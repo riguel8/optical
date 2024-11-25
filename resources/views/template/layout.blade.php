@@ -36,7 +36,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
-                <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                <button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
