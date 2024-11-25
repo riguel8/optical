@@ -31,8 +31,8 @@ class AppointmentController extends Controller
             ->toArray();
 
         $timeSlots = [];
-        for ($hour = 10; $hour <= 19; $hour++) {
-            for ($minute = 0; $minute < 60; $minute += 20) {
+        for ($hour = 10; $hour <= 21; $hour++) {
+            for ($minute = 0; $minute < 60; $minute += 30) {
                 $timeSlots[] = sprintf('%02d:%02d', $hour, $minute);
             }
         }
@@ -109,6 +109,7 @@ class AppointmentController extends Controller
                 'appointment' => [
                     'DateTime' => $appointment->DateTime,
                     'Status' => $appointment->Status,
+                    'Notes'  => $appointment->Notes,
                 ],
                 'patient' => [
                     'complete_name' => $appointment->patient->complete_name,
@@ -132,6 +133,7 @@ class AppointmentController extends Controller
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
+            'Notes' => 'nullable|string',
             'contact_number' => 'required|string',
             'address' => 'required|string',
         ]);
@@ -140,6 +142,11 @@ class AppointmentController extends Controller
             $appointment = AppointmentModel::findOrFail($id);
             $appointment->DateTime = $request->input('DateTime');
             $appointment->Status = $request->input('Status');
+            if ($request->has('Notes') && $request->input('Notes') !== null) {
+                $appointment->Notes = $request->input('Notes');
+            } else {
+                $appointment->Notes = null;
+            }
             $appointment->save();
 
             $patient = $appointment->patient;

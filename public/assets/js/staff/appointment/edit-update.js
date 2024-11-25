@@ -20,7 +20,7 @@
                         document.getElementById('edit_address').value = data.patient.address;
                         
                         document.getElementById('edit_status').value = data.appointment.Status;
-
+                        document.getElementById('edit_appointmentNote').value = data.appointment.Notes;
                         document.getElementById('edit_appointmentDate').value = data.appointment.DateTime.split(' ')[0]; // Date only (YYYY-MM-DD)
                     
                         document.querySelectorAll('input[name="edit_appointment_time"]').forEach(timeInput => {

@@ -304,8 +304,8 @@
                             </div>
                             <h5 class="mt-4">Select Time</h5>
                             <div class="time-selection d-flex flex-wrap gap-2">
-                                @for ($hour = 10; $hour <= 19; $hour++)
-                                    @for ($minute = 0; $minute < 60; $minute += 20)
+                                @for ($hour = 10; $hour <= 21; $hour++)
+                                    @for ($minute = 0; $minute < 60; $minute += 30)
                                         <input type="radio" class="btn-check" name="appointment_time" id="time-{{ $hour }}-{{ $minute }}" value="{{ sprintf('%02d:%02d', $hour, $minute) }}" required>
                                         <label class="btn btn-outline-primary time-box" for="time-{{ $hour }}-{{ $minute }}">
                                             {{ date('g:i A', strtotime(sprintf('%02d:%02d', $hour, $minute))) }}
@@ -434,8 +434,8 @@
                             </div>
                             <h5 class="mt-4">Select Time</h5>
                            <div class="time-selection d-flex flex-wrap gap-2">
-                                @for ($hour = 10; $hour <= 19; $hour++)
-                                    @for ($minute = 0; $minute < 60; $minute += 20)
+                                @for ($hour = 10; $hour <= 21; $hour++)
+                                    @for ($minute = 0; $minute < 60; $minute += 30)
                                         <input type="radio" class="btn-check" name="edit_appointment_time" id="edit_time-{{ $hour }}-{{ $minute }}" value="{{ sprintf('%02d:%02d', $hour, $minute) }}" required>
                                         <label class="btn btn-outline-primary time-box" for="edit_time-{{ $hour }}-{{ $minute }}">
                                             {{ date('g:i A', strtotime(sprintf('%02d:%02d', $hour, $minute))) }}
@@ -453,6 +453,10 @@
                                 </select>
                                 <span class="arrow"></span>
                                 <label for="edit_status">Appointment Status</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="edit_appointmentNote" class="form-control" placeholder="Enter Note" name="Notes" />
+                                <label for="edit_appointmentNote"> Appointment Note </label>
                             </div>
                             <div class="mt-4 d-flex justify-content-end gap-2">
                                 <button class="btn btn-lg btn-submit w-100 me-2" type="submit">Submit</button>
