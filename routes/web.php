@@ -22,6 +22,7 @@ use App\Http\Controllers\Client\EyewearController as ClientEyewearController;
 use App\Http\Controllers\Client\AppointmentController as ClientAppointmentController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
 use App\Http\Controllers\Client\AccountController as ClientAccountController;
+use App\Http\Controllers\Client\PrescriptionController as ClientPrescriptionController;
 // OPHTHAL
 use App\Http\Controllers\Ophthal\DashboardController as OphthalDashboardController;
 use App\Http\Controllers\Ophthal\AppointmentController as OphthalAppointmentController;
@@ -116,6 +117,10 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/client/appointments/{id}', [ClientAppointmentController::class, 'view']);
     // Calendar Time Slot Availability
     Route::get('/appointments/check-client-availability', [ClientAppointmentController::class, 'checkclientAvailability']);
+
+    // Prescription View
+    Route::get('/client/prescription', [ClientPrescriptionController::class, 'index'])->name('client.prescription');
+    Route::get('/client/prescription/{id}', [ClientPrescriptionController::class, 'show']);
 
     // Eyewear View
     Route::get('/client/eyewears', [ClientEyewearController::class, 'index'])->name('client.eyewears');

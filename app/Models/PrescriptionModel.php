@@ -32,11 +32,6 @@ class PrescriptionModel extends Model
         'updated_at',
     ];
 
-    public function patient()
-    {
-        return $this->belongsTo(PatientModel::class, 'PatientID');
-    }
-
     public function doctor()
     {
         return $this->belongsTo(UserModel::class, 'DoctorID')->where('usertype', 'ophthal');
@@ -45,5 +40,16 @@ class PrescriptionModel extends Model
     public function amount()
     {
         return $this->belongsTo(AmountModel::class, 'AmountID');
+    }
+    // Define the relationship with the AppointmentModel using PatientID
+    public function appointment()
+    {
+        return $this->hasOne(AppointmentModel::class, 'PatientID', 'PatientID');
+    }
+
+    // Define the relationship with the PatientModel
+    public function patient()
+    {
+        return $this->belongsTo(PatientModel::class, 'PatientID', 'PatientID');
     }
 }

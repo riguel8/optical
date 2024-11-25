@@ -15,6 +15,12 @@
                         <span>Appointment</span>
                     </a>
                 </li>
+                <li class="{{ request()->is('client/prescription') ? 'active' : '' }}">
+                    <a href="{{ url('client/prescription') }}">
+                        <iconify-icon icon="mdi:prescription" width="20" height="20"></iconify-icon>
+                        <span>Prescription</span>
+                    </a>
+                </li>
                 <li class="{{ request()->is('client/eyewears') ? 'active' : '' }}">
                     <a href="{{ url('client/eyewears') }}">
                         <iconify-icon icon="material-symbols:eyeglasses" width="20" height="20"></iconify-icon>

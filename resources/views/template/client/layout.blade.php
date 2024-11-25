@@ -37,83 +37,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/appointmentcard.css') }}">
-
-    <style>
-        .productset {
-            max-height: 200; 
-            overflow: hidden; 
-            text-align: center; 
-        }
-
-        .productsetimg img {
-            max-height: 150px; 
-            object-fit: cover; 
-            width: 100%; 
-        }
-
-        .productsetcontent {
-            padding: 10px; 
-        }
-
-        .filter-sidebar {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .filter-link {
-            color: #637381;
-            text-decoration: none;
-        }
-
-        .filter-link:hover {
-            color: #1b2850;
-        }
-
-        .filter-toggle {
-            cursor: pointer;
-            color: black;
-        }
-
-        .filter-toggle:hover {
-            color: #1b2850;
-        }
-
-        .filter-group .filter-toggle {
-            cursor: pointer;
-        }
-
-        .filter-group .toggle-symbol {
-            font-weight: bold;
-            transition: transform 0.2s;
-        }
-
-        .filter-group .collapse.show + .filter-toggle .toggle-symbol {
-            transform: rotate(45deg);
-        }
-        .collapse {
-            display: none;
-        }
-
-        .collapse.show {
-            display: block;
-        }
-        .input-icon {
-            position: relative;
-        }
-        .input-icon input {
-            padding-right: 30px; 
-        }
-        .input-icon i {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/eyewearfilter.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/time-select.css') }}">
 </head>
 <body>
     <div id="global-loader">
@@ -141,53 +66,63 @@
 
             <!-- Floating Chat Button -->
             <a id="contactUsBtn" class="chat-float-btn mb-5" data-bs-toggle="modal" data-bs-target="#chatbotModal">
-                <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
-                <span>Chat with our Assistant</span>
+                <iconify-icon icon="simple-icons:chatbot" width="24" height="24" data-bs-toggle="tooltip" title="Chat with our Assistant"></iconify-icon>
+                <!-- <span>Chat with our Assistant</span> -->
             </a>
 
             
     <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
-                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+                    <button class="close" type="button" aria-label="Close" data-bs-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="col-lg-7 col-xl-12 chat-cont-right">
-                        <div class="card mb-0">
-                            <div class="card-header msg_head">
-                                <div class="d-flex bd-highlight">
-                                    <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </a>
-                                    <div class="img_cont">
-                                        <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
+                    <div class="content">
+                        <div class="row">
+                            <div class="chat-window">
+                                <div class="chat-cont-right">
+                                    <div class="card mb-0">
+                                        <div class="card-header msg_head">
+                                            <div class="d-flex bd-highlight align-items-center">
+                                                <a id="back_user_list" href="javascript:void(0)" class="back-user-list d-lg-none me-2">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </a>
+                                                <div class="img_cont">
+                                                    <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="Chatbot Logo">
+                                                </div>
+                                                <div class="user_info">
+                                                    <span><strong id="receiver_name">Delin Optical</strong></span>
+                                                    <p class="mb-0">Chatbot</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body msg_card_body chat-scroll">
+                                            <ul class="list-unstyled" id="chat-messages"></ul>
+                                        </div>
+                                        <div class="card-footer">
+                                 
+                                            <div class="d-flex justify-content-end">
+                                                <div class="text-end">
+                                                    @foreach($questions as $question)
+                                                        <button type="button" class="btn btn-outline-success m-1 question-btn rounded-pill mb-3" data-chatbot-id="{{ $question->ChatbotID }}">
+                                                            {{ $question->Question }}
+                                                        </button>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group">
+                                                <input class="form-control type_msg mh-auto empty_check" placeholder="Type your message...">
+                                                <button class="btn btn-primary btn_send">
+                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="user_info">
-                                        <span><strong id="receiver_name">Delin Optical</strong></span>
-                                        <p class="mb-0">Chatbot</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body msg_card_body chat-scroll">
-                                <ul class="list-unstyled" id="chat-messages"></ul>
-                            </div>
-                            <div class="card-footer">
-                                <div class="input-group justify-content-end">
-                                    <div class="btn" role="group">
-                                        @foreach($questions as $question)
-                                            <button type="button" class="btn btn-outline-success m-1 question-btn rounded-pill mb-3" data-chatbot-id="{{ $question->ChatbotID }}">
-                                                {{ $question->Question }}
-                                            </button>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="input-group">
-                                    <input class="form-control type_msg mh-auto empty_check" placeholder="Type your message...">
-                                    <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -196,6 +131,7 @@
             </div>
         </div>
     </div>
+
 
     </div>
 
