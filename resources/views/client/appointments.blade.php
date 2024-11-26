@@ -25,6 +25,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Confirmed Appointments</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#solid-justified-tab3" data-bs-toggle="tab">Cancelled Appointments</a>
+						</li>
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane show active" id="solid-justified-tab1">
@@ -112,9 +115,9 @@
 													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
 														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
 													</a>
-													<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+													{{-- <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
 														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
-													</a>
+													</a> --}}
 												</div>
 											</div>
 										</div>
@@ -122,6 +125,56 @@
 								@endforeach
 							@endif
 						</div>
+
+						<div class="tab-pane" id="solid-justified-tab3">
+							@php
+								$confirmedAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Cancelled');
+							@endphp
+
+							@if ($confirmedAppointments->isEmpty())
+								<div class="col-12">
+									<div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
+										{{ __('No confirmed appointments available.') }}
+									</div>
+								</div>
+							@else
+								@foreach ($confirmedAppointments as $appointment)
+									<div class="appointment-card p-4 rounded shadow-sm mb-4">
+										<div class="row align-items-justify">
+											<div class="col-md-4 col-12">
+												<div class="details-section border-status-confirm">
+													<h6 class="section-title mb-3">Personal Details</h6>
+													<p class="mb-1"><strong>Name:</strong> {{ $appointment->patient->complete_name }}</p>
+													<p class="mb-1"><strong>Age:</strong> {{ $appointment->patient->age }}</p>
+													<p class="mb-0"><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
+												</div>
+											</div>
+											<div class="col-md-4 col-12">
+												<h6 class="section-title mb-3">Appointment Schedule</h6>
+												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
+												<p class="mb-1"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
+												<p class="mb-0"><strong>Note:</strong> {{ $appointment->Notes }}</p>
+
+											</div>
+											<div class="col-md-4 col-12 text-md-end text-center">
+												<div class="status-badge  mb-5">
+													<span class="bg-lightred badges"><strong>Cancelled</strong></span>
+												</div>
+												<div class="action-buttons mt-3">
+													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+													</a>
+													{{-- <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+													</a> --}}
+												</div>
+											</div>
+										</div>
+									</div>
+								@endforeach
+							@endif
+						</div>
+
 					</div>
 				</div>
 			</div>

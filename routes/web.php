@@ -137,8 +137,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/ophthal/dashboard/get_appointments', [OphthalDashboardController::class, 'getAppointments']);
     Route::get('/ophthal/dashboard/get_appointment_details', [OphthalDashboardController::class, 'getAppointmentDetails']);
 
-    // Inside the existing middleware group for 'ophthal'
+    // Appointments
     Route::get('/ophthal/appointments', [OphthalAppointmentController::class, 'index'])->name('ophthal.appointments');
+    Route::get('/ophthal/appointments/{id}', [OphthalAppointmentController::class, 'view']);
 
     //Patient CRUD
     Route::get('/ophthal/patients', [OphthalPatientController::class, 'index'])->name('ophthal.patients');

@@ -89,6 +89,7 @@ class PatientController extends Controller
         $patient = PatientModel::findOrFail($id);
         $prescription = PrescriptionModel::where('PatientID', $id)->first();
         $amount = $prescription ? AmountModel::find($prescription->AmountID) : null;
+        $appointment = AppointmentModel::where('PatientID', $id)->first();
 
         return response()->json([
             'patient' => $patient,
@@ -112,6 +113,9 @@ class PatientController extends Controller
                 'MOP' => null,
                 'Balance' => null,
                 'Payment' => null,
+            ],
+            'appointment' => $appointment ?? (object)[
+                'AppointmentID' => null,
             ],
         ]);
     }
