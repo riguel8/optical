@@ -18,7 +18,7 @@ class PatientController extends Controller
     {
         $title = 'Patients';
         $patients = PatientModel::whereHas('appointments', function($query) {
-            $query->whereIn('appointments.Status', ['Confirm', 'Completed']);
+            $query->where('appointments.Status', 'Confirm');
         })
         ->orWhereHas('prescription', function($query) {
             $query->where('prescriptions.PresStatus', 'Completed');

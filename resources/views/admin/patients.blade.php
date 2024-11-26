@@ -16,76 +16,147 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div class="table-top">
-                    <div class="search-set">
-                        <div class="search-input">
-                            <a href="#" class="btn btn-searchset">
-                                <img src="{{ asset('assets/img/icons/search-white.svg') }}" alt="img">
-                            </a>
+        <section class="comp-section">
+			<div class="card bg-white">
+
+				<div class="card-body">
+					<ul class="nav nav-tabs nav-tabs-solid nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Ongoing Prescription</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Completed Prescription</a></li>
+					</ul>
+
+					<div class="tab-content">
+                        <div class="table-top">
+							<div class="wordset">
+								<ul>
+									<li>
+										<a class="pdf-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
+											<img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img">
+										</a>
+									</li>
+									<li>
+										<a class="excel-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="excel">
+											<img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img">
+										</a>
+									</li>
+                                    <li>
+										<a class="btn-archive text-danger" data-bs-toggle="tooltip" data-bs-placement="top" title="Archive Patient">
+                                            <iconify-icon icon="ic:outline-archive" width="24" height="24"></iconify-icon>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+                        <div class="tab-pane show active" id="solid-justified-tab1">
+                            <div class="table-responsive">
+                                <table class="table datanew">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>Age</th>
+                                            <th>Prescription</th>
+                                            <th>Lens</th>
+                                            <th>Frame</th>
+                                            {{-- <th>Price</th> --}}
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($patients as $patient)
+										    @if ($patient->appointments !== null && $patient->appointments->Status == 'Confirm')
+                                            <tr>
+                                                <td>{{ $patient->complete_name}}</td>
+                                                <td>{{ $patient->age}}</td>
+
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->Prescription ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Prescription ?? 'No Prescription Yet' }}
+                                                </td>
+                                                
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->Lens ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Lens ?? 'No Lens Yet' }}
+                                                </td>
+
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->Frame ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
+                                                </td>
+
+                                                {{-- <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Price ?? 'N/A' }}
+                                                </td> --}}
+                                                <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F-j-Y') }}</td>
+                                                <td>
+                                                    <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
+                                                        <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Patient">
+                                                    </a>
+                                                    <a class="me-3 prescription edit-patient-btn" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#editPatient"  data-context="edit-patient">
+                                                        <img src="{{ asset('assets/img/icons/add-pres.png') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Prescription">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="solid-justified-tab2">
+                            <div class="table-responsive">
+                                <table class="table datanew">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>Age</th>
+                                            <th>Prescription</th>
+                                            <th>Lens</th>
+                                            <th>Frame</th>
+                                            {{-- <th>Price</th> --}}
+                                            <th>Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($patients as $patient)
+                                            @if ($patient->prescription !== null && $patient->prescription->PresStatus == 'Completed')
+                                            <tr>
+                                                <td>{{ $patient->complete_name}}</td>
+                                                <td>{{ $patient->age}}</td>
+
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->Prescription ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Prescription ?? 'No Prescription Yet' }}
+                                                </td>
+                                                
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->Lens ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Lens ?? 'No Lens Yet' }}
+                                                </td>
+
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->Frame ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
+                                                </td>
+
+                                                {{-- <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
+                                                    {{ $patient->prescription->Price ?? 'N/A' }}
+                                                </td> --}}
+                                                <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F-j-Y') }}</td>
+                                                <td>
+                                                    <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
+                                                        <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Patient">
+                                                    </a>
+                                                    <a class="me-3 prescription edit-patient-btn" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#editPatient"  data-context="edit-patient">
+                                                        <img src="{{ asset('assets/img/icons/add-pres.png') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Prescription">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="wordset">
-                        <ul>
-                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="img"></a></li>
-                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="{{ asset('assets/img/icons/excel.svg') }}" alt="img"></a></li>
-                            <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img"></a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="table datanew">
-                        <thead>
-                            <tr>
-                                <th>Patient Name</th>
-                                <th>Age</th>
-                                <th>Prescription</th>
-                                <th>Lens</th>
-                                <th>Frame</th>
-                                {{-- <th>Price</th> --}}
-                                <th>Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($patients as $patient)
-                                <tr>
-                                    <td>{{ $patient->complete_name}}</td>
-                                    <td>{{ $patient->age}}</td>
-
-                                    <td class="{{ isset($patient->prescription) && $patient->prescription->Prescription ? '' : 'text-red' }}">
-                                        {{ $patient->prescription->Prescription ?? 'No Prescription Yet' }}
-                                    </td>
-                                    
-                                    <td class="{{ isset($patient->prescription) && $patient->prescription->Lens ? '' : 'text-red' }}">
-                                        {{ $patient->prescription->Lens ?? 'No Lens Yet' }}
-                                    </td>
-
-                                    <td class="{{ isset($patient->prescription) && $patient->prescription->Frame ? '' : 'text-red' }}">
-                                        {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
-                                    </td>
-
-                                    {{-- <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
-                                        {{ $patient->prescription->Price ?? 'N/A' }}
-                                    </td> --}}
-                                    <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F-j-Y') }}</td>
-                                    <td>
-                                        <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
-                                            <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Patient">
-                                        </a>
-                                        <a class="me-3 prescription edit-patient-btn" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#editPatient"  data-context="edit-patient">
-                                            <img src="{{ asset('assets/img/icons/add-pres.png') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Prescription">
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 
@@ -474,6 +545,8 @@
     
     
 
+   
+
 <!-- Modal to View Specific Patient -->
 <div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -570,7 +643,6 @@
         </div>
     </div>
 </div>
-
 
 
 <style>

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\AppointmentModel;
 use App\Models\PatientModel;
 use App\Models\Eyewear;
+use App\Models\User;
+use App\Models\AmountModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,11 +17,21 @@ class DashboardController extends Controller
     {
         $title = 'Dashboard';
 
-        $patientCount = PatientModel::count();
+        // $patientCount = PatientModel::count();
+        $totalSales = AmountModel::sum('TotalAmount');
+        $clientcount = User::where('usertype','client')->count();
+
+        $patientCount = PatientModel::whereHas('prescription', function($query){
+            $query->where('PresStatus','Completed');
+        })->orWhereHas('appointments', function($query){
+            $query->where('Status','Completed');
+        })->count();
+
+        $staffcount = User::where('usertype','staff')->count();
         $appointmentCount = AppointmentModel::count();
         $eyewearCount = Eyewear::count();
 
-        return view('staff.dashboard', compact( 'patientCount', 'appointmentCount', 'eyewearCount', 'title'));
+        return view('staff.dashboard', compact( 'totalSales','clientcount','patientCount', 'staffcount', 'appointmentCount', 'eyewearCount', 'title'));
     }
 
     public function getAppointments()

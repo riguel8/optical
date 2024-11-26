@@ -45,12 +45,12 @@
                             <span> Reports</span>
                         </a>
                     </li>
-                    <li class="{{ request()->is('admin/system-info') ? 'active' : '' }}">
+                    <!-- <li class="{{ request()->is('admin/system-info') ? 'active' : '' }}">
                         <a href="{{ url('admin/system-info') }}">
                             <iconify-icon icon="mdi:settings-sync-outline" width="20" height="20"></iconify-icon>
                             <span> Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                 @endif
             </ul>
         </div>

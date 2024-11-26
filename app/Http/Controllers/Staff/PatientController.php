@@ -19,10 +19,10 @@ public function index(Request $request)
 {
     $title = 'Patients';
     $patients = PatientModel::whereHas('appointments', function($query) {
-        $query->whereIn('appointments.Status', ['Confirm', 'Completed']);
+        $query->where('Status', 'Confirm');
     })
     ->orWhereHas('prescription', function($query) {
-        $query->where('prescriptions.PresStatus', 'Completed');
+        $query->where('PresStatus', 'Completed');
     })
     ->get();
 
