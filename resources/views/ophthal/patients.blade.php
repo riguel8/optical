@@ -360,6 +360,7 @@
                 <input type="hidden" id="edit_patientId" name="edit_patientId">
                 <input type="hidden" id="edit_prescriptionId" name="edit_prescriptionId">
                 <input type="hidden" id="edit_amountId" name="edit_amountId">
+                <input type="hiden" id="edit_appointmentId" name="edit_appointmentId">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editPatientLabel">Edit Patient</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -1028,6 +1029,7 @@
                         document.getElementById("edit_patientId").value = data.patient.PatientID || "";
                         document.getElementById("edit_prescriptionId").value = data.prescription.PrescriptionID || "";
                         document.getElementById("edit_amountId").value = data.amount.AmountID || "";
+                        document.getElementById("edit_appointmentId").value = data.appointment.AppointmentID || "";
     
                         document.getElementById("edit_name").value = data.patient.complete_name || "";
                         document.getElementById("edit_gender").value = data.patient.gender || "";
