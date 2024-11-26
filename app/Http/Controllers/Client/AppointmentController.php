@@ -40,8 +40,8 @@ class AppointmentController extends Controller
             ->toArray();
 
         $timeSlots = [];
-        for ($hour = 10; $hour <= 19; $hour++) {
-            for ($minute = 0; $minute < 60; $minute += 20) {
+        for ($hour = 10; $hour <= 21; $hour++) {
+            for ($minute = 0; $minute < 60; $minute += 30) {
                 $timeSlots[] = sprintf('%02d:%02d', $hour, $minute);
             }
         }
@@ -105,36 +105,25 @@ class AppointmentController extends Controller
     }
 
    // Function to Fetch Appointment Information
-   public function edit($id)
-   {
-       try {
-           $appointment = AppointmentModel::with('patient')->findOrFail($id);
-           $formattedDate = $appointment->DateTime->format('Y-m-d');
-           $takenSlots = AppointmentModel::whereDate('DateTime', $formattedDate)
-                ->pluck('DateTime')
-                ->map(function ($dateTime) {
-                    return $dateTime->format('H:i');
-                })
-                ->toArray();
-   
-           return response()->json([
-               'appointment' => [
-                   // 'DateTime' => $formattedDate,
-                //    'Status' => $appointment->Status,
-               ],
-               'patient' => [
-                   'complete_name' => $appointment->patient->complete_name,
-                   'age' => $appointment->patient->age,
-                   'gender' => $appointment->patient->gender,
-                   'contact_number' => $appointment->patient->contact_number,
-                   'address' => $appointment->patient->address,
-               ],
-               'takenSlots' => $takenSlots,
-           ]);
-       } catch (\Exception $e) {
-           return response()->json(['error' => 'Data not found'], 404);
-       }
-   }
+public function edit($id)
+{
+    $appointment = AppointmentModel::findOrFail($id);
+    $patient = PatientModel::find($appointment->PatientID);
+
+    $formattedDateTime = Carbon::parse($appointment->DateTime)->format('Y-m-d\TH:i:s');
+    $takenSlots = AppointmentModel::whereDate('DateTime', $appointment->DateTime->toDateString())
+        ->pluck('DateTime')
+        ->map(fn($dt) => Carbon::parse($dt)->format('H:i'))
+        ->toArray();
+
+    return response()->json([
+        'appointment' => [
+            'DateTime' => $formattedDateTime,
+        ],
+        'patient' => $patient,
+        'takenSlots' => $takenSlots,
+    ]);
+}
    
    
    //Function to Update the Appointment

@@ -239,8 +239,8 @@
                                 </div>
                                 <h5 class="mt-4">Select Time</h5>
                                 <div class="time-selection d-flex flex-wrap gap-2">
-                                    @for ($hour = 10; $hour <= 19; $hour++)
-                                        @for ($minute = 0; $minute < 60; $minute += 20)
+                                    @for ($hour = 10; $hour <= 21; $hour++)
+                                        @for ($minute = 0; $minute < 60; $minute += 30)
                                             <input type="radio" class="btn-check" name="appointment_time" id="time-{{ $hour }}-{{ $minute }}" value="{{ sprintf('%02d:%02d', $hour, $minute) }}" required>
                                             <label class="btn btn-outline-primary time-box" for="time-{{ $hour }}-{{ $minute }}">
                                                 {{ date('g:i A', strtotime(sprintf('%02d:%02d', $hour, $minute))) }}
