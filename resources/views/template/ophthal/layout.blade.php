@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/calendar.css') }}">
 
 </head>
 <body>
@@ -82,71 +83,9 @@
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script src="{{ asset('assets/js/moment.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="{{ asset("assets/js/showmodal.js")}}"></script>
-
-{{-- <script>
-    document.getElementById('patientSelect').addEventListener('change', function() {
-        var selectedOption = this.options[this.selectedIndex];
-        document.getElementById('age').value = selectedOption.getAttribute('data-age');
-        document.getElementById('gender').value = selectedOption.getAttribute('data-gender');
-        document.getElementById('contact_number').value = selectedOption.getAttribute('data-cnum');
-        document.getElementById('address').value = selectedOption.getAttribute('data-address');
-    });
-</script> --}}
-
-
-<!-- Sweet Alert for adding Patient -->
-<!-- <script>
-    $(document).ready(function() {
-        $('#addPatient form').submit(function(e) {
-            e.preventDefault(); 
-            
-            var formData = $(this).serialize();
-    
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: formData,
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success!',
-                            text: response.message,
-                            confirmButtonColor: '#ff9f43',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = "{{ route('ophthal.patients') }}"; 
-                            }
-                        });
-                    } else if (response.status === 'error') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message,
-                            confirmButtonColor: '#ff9f43',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'An error occurred while processing your request. Please try again later.'
-                    });
-                }
-            });
-        });
-    });
-</script> -->
-
 </body>
 </html>

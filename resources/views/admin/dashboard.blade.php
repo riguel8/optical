@@ -11,6 +11,50 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-sm-6 col-12">
+                    <div class="dash-widget dash2">
+                        <div class="dash-widgetimg">
+                            <span><img src="{{ asset("assets/img/icons/group-color.png")}}" alt="img"></span>
+                        </div>
+                        <div class="dash-widgetcontent">
+                            <h5><span class="counters" data-count="{{ $clientcount }}"></span></h5>
+                            <h6>Total Clients</h6>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="dash-widget dash1">
+                        <div class="dash-widgetimg">
+                            <span><img src="{{ asset("assets/img/icons/dash2.svg")}}" alt="img"></span>
+                        </div>
+                        <div class="dash-widgetcontent">
+                            <h5>₱<span class="counters" data-count="{{ $totalSales }}"></span></h5>
+                            <h6>Total Sales</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="dash-widget dash2">
+                        <div class="dash-widgetimg">
+                            <span><img src="assets/img/icons/dash3.svg" alt="img"></span>
+                        </div>
+                        <div class="dash-widgetcontent">
+                            <h5>$<span class="counters" data-count="385656.50">385,656.50</span></h5>
+                            <h6>Total Sale Amount</h6>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-lg-6 col-sm-6 col-12">
+                    <div class="dash-widget dash3">
+                        <div class="dash-widgetimg">
+                            <span><img src="{{ asset("assets/img/icons/dash4.svg")}}" alt="img"></span>
+                        </div>
+                        <div class="dash-widgetcontent">
+                            <h5>₱<span class="counters" data-count="{{ $totalSales }}"></span></h5>
+                            <h6>Total Sale Amount</h6>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count">
@@ -26,7 +70,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count das1">
                         <div class="dash-counts">
-                            <h4>4</h4>
+                            <h4>{{ $staffcount }}</h4>
                             <h5>Staff</h5>
                         </div>
                         <div class="dash-imgs">
@@ -88,7 +132,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

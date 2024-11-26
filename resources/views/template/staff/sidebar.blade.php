@@ -39,12 +39,12 @@
                             <span> Reports</span>
                         </a>
                     </li>
-                    <li class="{{ request()->is('staff/settings') ? 'active' : '' }}">
+                    <!-- <li class="{{ request()->is('staff/settings') ? 'active' : '' }}">
                         <a href="" class="disabled">
                             <iconify-icon icon="mdi:settings-sync-outline" width="20" height="20"></iconify-icon>
                             <span> Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                 @endif
             </ul>
         </div>

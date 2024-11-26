@@ -66,7 +66,7 @@ class EyewearController extends Controller
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = time() . '_' . $image->getClientOriginalName(); 
-                $image->storeAs('eyewears', $imageName, 'public'); 
+                $image->move(public_path('storage/eyewears'), $imageName);
                 $validation['image'] = $imageName; 
             }
 
@@ -119,7 +119,7 @@ class EyewearController extends Controller
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = time() . '_' . $image->getClientOriginalName(); 
-                $image->storeAs('eyewears', $imageName, 'public'); 
+                $image->move(public_path('storage/eyewears'), $imageName);
                 $eyewear['image'] = $imageName; 
             }
 
