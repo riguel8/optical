@@ -39,6 +39,12 @@
                             <span> Reports</span>
                         </a>
                     </li>
+                    <li class="{{ request()->is('staff/messages') ? 'active' : '' }}">
+                        <a href="{{ url('staff/messages') }}">
+                            <iconify-icon icon="tabler:message-chatbot" width="20" height="20"></iconify-icon>
+                            <span> Messages</span>
+                        </a>
+                    </li>
                     <!-- <li class="{{ request()->is('staff/settings') ? 'active' : '' }}">
                         <a href="" class="disabled">
                             <iconify-icon icon="mdi:settings-sync-outline" width="20" height="20"></iconify-icon>

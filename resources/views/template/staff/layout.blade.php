@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/appointment-timeslot.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/image-upload.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/chat-tab.css') }}">
 
 </head>
 <body>
@@ -63,6 +64,12 @@
             @yield('content')
 
     </div>
+
+    <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+    <script>
+        window.CURRENT_USER_ID = @json(auth()->id());
+    </script>
+    <script src="{{ asset('assets/js/staff/chats/staff-chatting-system.js') }}"></script>
     
     <footer>
         <div class="p-2">
