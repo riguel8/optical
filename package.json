@@ -20,6 +20,8 @@
         "@fullcalendar/core": "^6.1.15",
         "@fullcalendar/daygrid": "^6.1.15",
         "ckeditor5": "^43.3.1",
-        "ckeditor5-premium-features": "^43.3.1"
+        "ckeditor5-premium-features": "^43.3.1",
+        "laravel-echo": "^1.17.1",
+        "pusher-js": "^8.4.0-rc2"
     }
 }

@@ -17,12 +17,14 @@ use App\Http\Controllers\Staff\AppointmentController as StaffAppointmentControll
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\PatientController as StaffPatientController;
 use App\Http\Controllers\Staff\ChatbotController as StaffChatbotController;
+use App\Http\Controllers\Staff\MessagesController as StaffMessagesController;
 // CLIENT
 use App\Http\Controllers\Client\EyewearController as ClientEyewearController;
 use App\Http\Controllers\Client\AppointmentController as ClientAppointmentController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
 use App\Http\Controllers\Client\AccountController as ClientAccountController;
 use App\Http\Controllers\Client\PrescriptionController as ClientPrescriptionController;
+use App\Http\Controllers\Client\MessagesController as ClientMessagesController;
 // OPHTHAL
 use App\Http\Controllers\Ophthal\DashboardController as OphthalDashboardController;
 use App\Http\Controllers\Ophthal\AppointmentController as OphthalAppointmentController;
@@ -30,6 +32,7 @@ use App\Http\Controllers\Ophthal\PatientController as OphthalPatientController;
 
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Illuminate\Support\Facades\Broadcast;
 
 // Default Route for Pages
 Route::get('/', [PagesController::class, 'index'])->name('landing');
@@ -201,6 +204,10 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/staff/chatbot/edit/{id}', [StaffChatbotController::class, 'edit']);
     Route::put('/staff/chatbot/update/{id}', [StaffChatbotController::class, 'update'])->name('staff.chatbot.update');
     Route::delete('/staff/chatbot/{id}', [StaffChatbotController::class, 'delete'])->name('staff.chatbot.delete');
+
+
+    // Messages
+    Route::get('/staff/messages', [StaffMessagesController::class, 'index'])->name('staff.messages');
 });
 
 // 404 Override
@@ -215,6 +222,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
+// --------------- CHAAATSSSS
+Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
+    return $user->conversations->contains('id', $conversationId);
+    
+});
+Route::get('/staff/conversation/{conversation}/messages', [StaffMessagesController::class, 'fetchMessages']);
+Route::post('/staff/conversation/{conversationId}/send-message', [StaffMessagesController::class, 'sendMessage']);
+
+
+Route::get('/client/conversations/{client_id}', [ClientMessagesController::class, 'getConversation']);
+Route::get('/client/conversation/{conversation_id}/messages', [ClientMessagesController::class, 'fetchMessages']);
+Route::post('/client/conversation/{conversation_id}/send-message', [ClientMessagesController::class, 'sendMessage']);
+Route::get('/client/conversation/{userId}', [ClientMessagesController::class, 'getConversation']);
+
+
+Broadcast::channel('private-chat.{userId}', function ($user, $userId) {
+    return (int) $user->id === (int) $userId;
+});
 
 require __DIR__.'/auth.php';
 
