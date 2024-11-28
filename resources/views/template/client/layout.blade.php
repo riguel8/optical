@@ -157,6 +157,7 @@
 <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
 <!-- External Scripts -->
+<!-- <script src="{{ asset('assets/js/iconify-icon.min.js') }}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 <script src="{{ asset('assets/js/moment.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>

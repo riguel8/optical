@@ -473,23 +473,33 @@
 
 <!-- Modal for Confirming Accept/Decline -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 style="text-align: center; width: 100%;" class="modal-title">Confirm Action</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h4 style="text-align: center; width: 100%;" class="modal-title" id="confirmModalLabel">Confirm Action</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
             </div>
-            <div class="modal-body text-center" style="padding: 30px;">
-                Are you sure you want to <span id="action-type" style="font-weight: bold; color: #007bff;">Accept</span> this appointment?
-            </div>
-            <div class="modal-body text-center" style="padding: 1px">
-                Add Note: <input type="text" id="AppointmentNote" name="AppointmentNote" required>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button class="btn btn-sm btn-submit me-2" id="confirm-action" type="submit">Confirm</button>
-                <button class="btn btn-sm btn-cancel" type="button" data-bs-dismiss="modal">Cancel</button>
+            <div class="modal-body text-center" style="padding:30px;">
+                <p>Are you sure you want to <span id="action-type" class="fw-bold text-primary">Accept</span> this appointment?</p>
+                <div class="col-md-12">
+                    <div class="form-floating mb-3">
+                        <input 
+                            type="text" 
+                            id="AppointmentNote" 
+                            class="form-control" 
+                            placeholder="Enter Note" 
+                            name="AppointmentNote" 
+                            required 
+                        />
+                        <label for="AppointmentNote">Add Note</label>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <button class="btn btn-sm btn-submit w-100 me-2" id="confirm-action" type="submit">Confirm</button>
+                    <button class="btn btn-sm btn-cancel w-100" type="button" data-bs-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>

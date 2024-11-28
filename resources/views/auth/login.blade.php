@@ -31,7 +31,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-envelope"></i></span>
                                         <div class="form-floating">
-                                            <input id="email" type="email" name="email" placeholder="Email" class="form-control" required autofocus value="{{ old('email') }}" />
+                                            <input id="email" type="email" name="email" placeholder="Email" class="form-control" value="{{ old('email') }}" required autofocus autocomplete="username"/>
                                             <label for="email">Email Address</label>
                                         </div>
                                     </div>

@@ -21,10 +21,17 @@
                             </div>
 
                             @if (session('status') == 'verification-link-sent')
+                                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                                    {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+                            <!-- @if (session('status') == 'verification-link-sent')
                                 <div class="mb-4 font-medium text-sm text-success">
                                     {{ __('A new verification link has been sent to the email address you provided during registration.') }}
                                 </div>
-                            @endif
+                            @endif -->
 
                             <div class="d-flex align-items-center justify-content-between mt-4">
                                 <form method="POST" action="{{ route('verification.send') }}">

@@ -7,10 +7,10 @@
             <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="w-100" src="{{ asset('assets/img/carousel1.jpg') }}" alt="Image" style="max-height: 450px;">
+                        <img class="w-100" src="{{ asset('assets/img/carousel1.jpg') }}" alt="Image" style="height: 450px;">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 img-small-height" src="{{ asset('assets/img/carousel2.jpg') }}" alt="Image" style="max-height: 450px;">
+                        <img class="w-100 img-small-height" src="{{ asset('assets/img/carousel2.jpg') }}" alt="Image" style="height: 450px;">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">
@@ -35,7 +35,7 @@
                         <p class="mb-4">Computerized eye examination. 30 years in providing good quality eyecare in the province of Bukidnon.</p>
                         <p><strong>Address: 2nd Level Robinsons Place Valencia, Sayre Highway, Brgy. Hagkol, Valencia City, Bukidnon, Philippines</strong></p>
                         <!-- <a id="contactUsBtn" class="btn btn-outline-primary py-3 px-5 mt-2" data-bs-toggle="modal" data-bs-target="#chatbotModal">Contact Us</a> -->
-                        <a href="#contact" class="btn btn-outline-primary py-3 px-5 mt-2 scroll-link" >Contact Us</a>
+                        <a href="#contact" class="btn btn-outline-success py-3 px-5 mt-2 scroll-link" >CONTACT US</a>
                     </div>
                     <div class="col-lg-6">
                         <div class="row g-3">
