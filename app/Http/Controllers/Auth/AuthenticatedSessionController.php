@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
             case 'ophthal':
                 return redirect('ophthal/dashboard');
             default:
-                return redirect()->intended(route('/'));
+                return redirect()->intended(route('landing'));
         }
     }
 

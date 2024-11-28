@@ -66,7 +66,12 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     // Calendar Time Slot Availability
     Route::get('/appointments/check-availability', [AdminAppointmentController::class, 'checkAvailability']);
     // Accept or Decline Appointment
-    Route::post('/admin/appointments/{appointment}/update-status', [AdminAppointmentController::class, 'updateAdminStatus'])->name('admin.appointments.updateAdminStatus');
+    // Route::post('/admin/appointments/{appointment}/update-status', [AdminAppointmentController::class, 'updateAdminStatus'])->name('admin.appointments.updateAdminStatus');
+    // SEND EMAIL
+    // In routes/web.php or routes/api.php depending on your setup
+    Route::post('/admin/appointments/{id}/update-status', [AdminAppointmentController::class, 'updateAdminStatus']);
+
+    Route::post('/admin/appointments/{appointmentId}/send-email', [AdminAppointmentController::class, 'sendEmailNotification']);
 
 
     // Route::get('/admin/appointments/{id}', [AdminAppointmentController::class, 'view']);

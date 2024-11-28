@@ -23,7 +23,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-user"></i></span>
                                         <div class="form-floating">
-                                            <input id="name" type="text" class="form-control" placeholder="Enter name" name="name" value="{{ old('name') }}" required autofocus />
+                                            <input id="name" type="text" class="form-control" placeholder="Enter name" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" />
 											<label for="name">Name</label>
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-envelope"></i></span>
                                         <div class="form-floating">
-                                            <input id="email" type="email" name="email" placeholder="Email" class="form-control" required autofocus value="{{ old('email') }}" />
+                                            <input id="email" type="email" name="email" placeholder="Email" class="form-control" value="{{ old('email') }}" required autocomplete="username"/>
                                             <label for="email">Email Address</label>
                                         </div>
                                     </div>
@@ -49,7 +49,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
                                         <div class="form-floating input-icon">
-                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required autocomplete="new-password">
                                             <i class="fa fa-eye-slash"></i>
                                             <label for="password">Password</label>
                                         </div>
@@ -63,7 +63,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
                                         <div class="form-floating input-icon">
-										<input type="password"  id="password_confirmation" class="form-control"  placeholder="Confirm password" name="password_confirmation" required />
+										<input type="password"  id="password_confirmation" class="form-control"  placeholder="Confirm password" name="password_confirmation" required autocomplete="new-password" />
                                             <i class="fa fa-eye-slash"></i>
                                             <label for="password_confirmation">Confirm password</label>   
                                         </div>

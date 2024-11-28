@@ -33,8 +33,14 @@ class AppointmentModel extends Model
     {
         return $this->belongsTo(PatientModel::class, 'PatientID', 'PatientID');
     }
+    // public function staff()
+    // {
+    //     return $this->belongsTo(UserModel::class, 'id');
+    // }
     public function staff()
-    {
-        return $this->belongsTo(UserModel::class, 'id');
-    }
+{
+    return $this->belongsTo(UserModel::class, 'StaffID', 'id');  // Correct relationship
+}
+
+
 }
