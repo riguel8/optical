@@ -8,7 +8,7 @@
 
 <ul class="nav user-menu">
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <div class="top-nav-search">
             <a href="" class="responsive-search">
                 <i class="fa fa-search"></i>
@@ -25,7 +25,7 @@
                 </a>
             </form>
         </div>
-    </li>
+    </li> -->
 
     <li class="nav-item dropdown has-arrow main-drop">
         <a href="#" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
@@ -50,7 +50,7 @@
                 <!-- <a class="dropdown-item" href="#">
                     <iconify-icon class="me-2" icon="iconamoon:profile-circle-fill" width="20" height="20"></iconify-icon> My Profile
                 </a> -->
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item"  href="{{ url('ophthal/account-details') }}">
                     <iconify-icon class="me-2" icon="material-symbols:settings" width="20" height="20"></iconify-icon>Settings
                 </a>
                 <hr class="m-0">
@@ -68,8 +68,8 @@
 <div class="dropdown mobile-user-menu">
     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
     <div class="dropdown-menu dropdown-menu-right">
-        <!-- <a class="dropdown-item" href="#">My Profile</a>
-        <a class="dropdown-item" href="#">Settings</a> -->
+        <!-- <a class="dropdown-item" href="#">My Profile</a> -->
+        <a class="dropdown-item"  href="{{ url('ophthal/account-details') }}">Settings</a>
         <form method="POST" action="{{ route('logout') }}">
         @csrf
             <a class="dropdown-item" href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>

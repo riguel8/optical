@@ -18,6 +18,7 @@ use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\PatientController as StaffPatientController;
 use App\Http\Controllers\Staff\ChatbotController as StaffChatbotController;
 use App\Http\Controllers\Staff\MessagesController as StaffMessagesController;
+use App\Http\Controllers\Staff\AccountController as StaffAccountController;
 // CLIENT
 use App\Http\Controllers\Client\EyewearController as ClientEyewearController;
 use App\Http\Controllers\Client\AppointmentController as ClientAppointmentController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\Client\MessagesController as ClientMessagesController;
 use App\Http\Controllers\Ophthal\DashboardController as OphthalDashboardController;
 use App\Http\Controllers\Ophthal\AppointmentController as OphthalAppointmentController;
 use App\Http\Controllers\Ophthal\PatientController as OphthalPatientController;
+use App\Http\Controllers\Ophthal\AccountController as OphthalAccountController;
 
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -134,8 +136,8 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/client/eyewears', [ClientEyewearController::class, 'index'])->name('client.eyewears');
 
     // ACCOUNT DETAILS
-    Route::get('/client/account_details', [ClientAccountController::class, 'index'])->name('client.account_details');
-    Route::put('/client/account_details{id}', [ClientAccountController::class, 'update'])->name('client.update');
+    Route::get('/client/account-details', [ClientAccountController::class, 'index'])->name('client.account-details');
+    Route::put('/client/account-details{id}', [ClientAccountController::class, 'update'])->name('client.update');
 });
 
 // Ophthal Modules
@@ -151,12 +153,16 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
 
     //Patient CRUD
     Route::get('/ophthal/patients', [OphthalPatientController::class, 'index'])->name('ophthal.patients');
-    Route::get('/ophthal/patients/{id}', [StaffPatientController::class, 'view']);
+    Route::get('/ophthal/patients/{id}', [OphthalPatientController::class, 'view']);
     // To Store Walk-in Patient with Prescription
     Route::post('/ophthal/patients/store', [OphthalPatientController::class, 'store'])->name('ophthal.patients.store');
     // To Add Prescription for Patient from Appointments
     Route::get('/ophthal/patients/edit/{id}', [OphthalPatientController::class, 'edit']);
     Route::post('/ophthal/patients/update', [OphthalPatientController::class, 'update'])->name('ophthal.patients.update');
+
+     // ACCOUNT DETAILS
+     Route::get('/ophthal/account-details', [OphthalAccountController::class, 'index'])->name('ophthal.account-details');
+     Route::put('/ophthal/account-details{id}', [OphthalAccountController::class, 'update'])->name('ophthal.update');
 });
 
 
@@ -205,6 +211,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::put('/staff/chatbot/update/{id}', [StaffChatbotController::class, 'update'])->name('staff.chatbot.update');
     Route::delete('/staff/chatbot/{id}', [StaffChatbotController::class, 'delete'])->name('staff.chatbot.delete');
 
+    // ACCOUNT DETAILS
+    Route::get('/staff/account-details', [StaffAccountController::class, 'index'])->name('staff.account-details');
+    Route::put('/staff/account-details{id}', [StaffAccountController::class, 'update'])->name('staff.update');
 
     // Messages
     Route::get('/staff/messages', [StaffMessagesController::class, 'index'])->name('staff.messages');

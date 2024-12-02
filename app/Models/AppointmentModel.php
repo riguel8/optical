@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use  App\Models\UserModel;
+use  App\Models\User;
 use App\Models\PatientModel;
 use Carbon\Carbon;
 
@@ -38,9 +38,8 @@ class AppointmentModel extends Model
     //     return $this->belongsTo(UserModel::class, 'id');
     // }
     public function staff()
-{
-    return $this->belongsTo(UserModel::class, 'StaffID', 'id');  // Correct relationship
-}
-
+    {
+        return $this->belongsTo(UserModel::class, 'StaffID', 'id'); // StaffID is the FK to users.id
+    }
 
 }

@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Chatbot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use save;
 
 class AccountController extends Controller
 {
@@ -17,10 +14,7 @@ class AccountController extends Controller
         $user = Auth::user(); 
         $title = 'My Account';
 
-        // Chatbot data
-        $questions = Chatbot::select('ChatbotID', 'Question')->get();
-        
-        return view('client.account-details', compact('user', 'title', 'questions'));
+        return view('staff.account-details', compact('user', 'title'));
 
     }
     public function update(Request $request, $id)

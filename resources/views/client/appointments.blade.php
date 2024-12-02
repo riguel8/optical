@@ -134,7 +134,7 @@
 							@if ($confirmedAppointments->isEmpty())
 								<div class="col-12">
 									<div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
-										{{ __('No confirmed appointments available.') }}
+										{{ __('No cancelled appointments available.') }}
 									</div>
 								</div>
 							@else

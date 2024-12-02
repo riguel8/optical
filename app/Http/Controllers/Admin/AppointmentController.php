@@ -7,6 +7,7 @@ use App\Models\AppointmentModel;
 use App\Models\PatientModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Notifications\SendEmailNotification;
 
 class AppointmentController extends Controller
 {
@@ -123,34 +124,38 @@ public function edit($id)
     
     
     //Function to Update the Appointment
-    public function update(Request $request, $id)
+    public function update(Request $request, $appointmentId)
     {
         $request->validate([
-            'Status' => 'required|string',
+            'DateTime' => 'required|date',
+            'Status' => 'required|string|in:Pending,Confirm,Completed,Cancelled',  // Ensure valid status
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
-            'contact_number' => 'required|string',
             'Notes' => 'nullable|string',
+            'contact_number' => 'required|string',
             'address' => 'required|string',
-            'DateTime' => 'required|string',
         ]);
     
         try {
-            $appointment = AppointmentModel::findOrFail($id);
-
-            $appointment->DateTime = Carbon::parse($request->input('DateTime'));
-            
-            // $appointment->DateTime = $appointmentDateTime;
+            // Find the appointment and the related staff
+            $appointment = AppointmentModel::with('staff')->findOrFail($appointmentId);
+    
+            // Check if the date/time has changed
+            $isRescheduled = $appointment->DateTime !== $request->input('DateTime');
+            $isStatusCancelled = $request->input('Status') === 'Cancelled';
+    
+            // Update the appointment details
+            $appointment->DateTime = $request->input('DateTime');
             $appointment->Status = $request->input('Status');
             if ($request->has('Notes') && $request->input('Notes') !== null) {
                 $appointment->Notes = $request->input('Notes');
             } else {
                 $appointment->Notes = null;
             }
-    
             $appointment->save();
-
+    
+            // Update the patient details
             $patient = $appointment->patient;
             $patient->complete_name = $request->input('complete_name');
             $patient->age = $request->input('age');
@@ -159,18 +164,34 @@ public function edit($id)
             $patient->address = $request->input('address');
             $patient->save();
     
+            // If the status is cancelled, send a "Cancelled" notification
+            if ($isStatusCancelled && $appointment->staff) {
+                $appointment->staff->notify(new SendEmailNotification($appointment, 'Cancelled'));
+            }
+            
+            // If the appointment was rescheduled (date/time changed), send a "Rescheduled" notification
+            if ($isRescheduled && !$isStatusCancelled && $appointment->staff) {
+                $appointment->staff->notify(new SendEmailNotification($appointment, 'Rescheduled'));
+            }
+    
+            // If the status was updated but not cancelled, send status update notification
+            if (!$isRescheduled && !$isStatusCancelled && $appointment->staff) {
+                $appointment->staff->notify(new SendEmailNotification($appointment, $request->input('Status')));
+            }
+    
             return response()->json([
                 'status' => 'success',
-                'message' => 'Appointment updated successfully',
+                'message' => 'Appointment updated successfully and email notification sent.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Error updating appointment: ' . $e->getMessage(),
-            ]);
+            ], 500);
         }
     }
     
+
     
     // Function to view specific appointment
     public function view($id)
@@ -197,23 +218,30 @@ public function edit($id)
     }
 
     // Accept or Decline Appointment
-    public function updateAdminStatus(Request $request, $id)
+    public function updateAdminStatus(Request $request, $appointmentId)
     {
-        $appointment = AppointmentModel::find($id);
-        if (!$appointment) {
-            return response()->json(['success' => false, 'message' => 'Appointment not found']);
-        }
-    
-        $appointment->Status = $request->input('status');
-    
-        if ($request->has('note')) {
+        $request->validate([
+            'status' => 'required|in:Confirm,Cancelled',
+            'note' => 'nullable|string|max:255',
+        ]);
+
+        try {
+            $appointment = AppointmentModel::with('staff')->findOrFail($appointmentId);
+
+            $appointment->Status = $request->input('status');
             $appointment->Notes = $request->input('note');
+            $appointment->save();
+
+            if ($appointment->staff) {
+                $appointment->staff->notify(new SendEmailNotification($appointment, $request->input('status')));
+            }
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
-    
-        $appointment->save();
-    
-        return response()->json(['success' => true]);
     }
+
 
     public function delete($id)
     {

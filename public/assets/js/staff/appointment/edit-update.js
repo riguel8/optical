@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch(`/staff/appointments/edit/${AppointmentID}`)
                 .then(response => response.json())
                 .then(data => {
+                
                     document.getElementById('edit_cname').value = data.patient.complete_name;
                     document.getElementById('edit_age').value = data.patient.age;
                     document.getElementById('edit_floatingSelect').value = data.patient.gender;
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     document.getElementById('edit_appointmentDate').value = appointmentDate;
 
+    
                     document.querySelectorAll('input[name="edit_appointment_time"]').forEach(input => {
                         input.checked = false;
                         input.disabled = true;
@@ -47,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
     editForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -61,6 +64,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const dateTime = `${appointmentDate} ${appointmentTime}:00`;
         document.getElementById('edit_appointmentDateTime').value = dateTime;
 
+        Swal.fire({
+            title: 'Processing...',
+            text: 'Updating appointment status and sending notification.',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         const formData = new FormData(this);
         formData.append('DateTime', dateTime);
 
@@ -73,11 +87,22 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => response.json())
             .then(data => {
+                Swal.close();
+
                 if (data.status === 'success') {
+                    let alertTitle = 'Success';
+                    let alertText = data.message;
+
+                    if (data.message.includes('Rescheduled')) {
+                        alertTitle = 'Appointment Rescheduled';
+                    } else if (data.message.includes('Cancelled')) {
+                        alertTitle = 'Appointment Cancelled';
+                    }
+
                     Swal.fire({
                         icon: 'success',
-                        title: 'Success',
-                        text: data.message,
+                        title: alertTitle,
+                        text: alertText,
                     }).then(() => {
                         location.reload();
                     });
@@ -89,8 +114,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 }
             })
-            .catch(error => alert('An unexpected error occurred.'));
-            
+            .catch(error => {
+    
+                Swal.close();
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Unexpected Error',
+                    text: 'An unexpected error occurred.',
+                });
+            });
     });
 });
 
