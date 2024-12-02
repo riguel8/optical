@@ -12,7 +12,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Additional CSS -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/alertify/alertify.min.css') }}">
@@ -26,7 +25,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/material/materialdesignicons.css')}}">
 
     <!-- FontAwesome and Icons -->
-    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/pe7/pe-icon-7.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/simpleline/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
@@ -50,10 +50,10 @@
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left active">
-                <a href="{{ url('dashboard') }}" class="logo">
+                <a href="{{ url('client/dashboard') }}" class="logo">
                     <img src="{{ asset('assets/img/Dlogo.png') }}" alt="">
                 </a>
-                <a href="{{ url('dashboard') }}" class="logo-small">
+                <a href="{{ url('client/dashboard') }}" class="logo-small">
                     <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
                 </a>
                 <a id="toggle_btn" href=""></a>
@@ -176,6 +176,52 @@ function getStatusBadge(status) {
     // Return the HTML string for the badge
     return `<span class="${badgeClass}">${statusText}</span>`;
 }
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#addAppointmentForm').submit(function(e) {
+        e.preventDefault(); 
+        
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'New appointment was added successfully',
+                        confirmButtonColor: '#ff9f43',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ url('/client/appointments') }}";
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to add appointment: ' + response.message
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing your request. Please try again later.'
+                });
+            }
+        });
+    });
+});
 </script>
 
 <script>

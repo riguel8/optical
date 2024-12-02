@@ -30,12 +30,28 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/feather/feather.css') }}">
  
     <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/calendar.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/appointment-timeslot.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/image-upload.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/chat-tab.css') }}">
+    <style>
+        .input-icon {
+            position: relative;
+        }
+        .input-icon input {
+            padding-right: 30px; 
+        }
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 <body>

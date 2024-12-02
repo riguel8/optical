@@ -27,8 +27,8 @@
                         <span>Eyewear</span>
                     </a>
                 </li>
-                <li class="{{ request()->is('client/account_details') ? 'active' : '' }}">
-                    <a href="{{ url('client/account_details') }}">
+                <li class="{{ request()->is('client/account-details') ? 'active' : '' }}">
+                    <a href="{{ url('client/account-details') }}">
                         <iconify-icon icon="material-symbols:manage-accounts-outline" width="20" height="20"></iconify-icon>
                         <span>Account Details</span>
                     </a>

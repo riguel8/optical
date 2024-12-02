@@ -1,18 +1,27 @@
-@extends('template.client.layout')
+@extends('template.staff.layout')
 
 @section('content')
 <div class="page-wrapper">
     <div class="content" style="overflow-y: auto; height: calc(100vh - 60px);">
         <div class="page-header">
-            <div class="page-title">
-                <h4 style="text-transform:uppercase;">My Account</h4>
-                <h6>Account Details</h6>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title" style="text-transform:uppercase;">My Account</h3>
+                    <ul class="breadcrumb">
+                        <iconify-icon icon="eva:arrow-back-outline" width="18" height="18"></iconify-icon>
+                        <li class="breadcrumb-item">
+                            <a href="{{url("staff/dashboard")}}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Back to dashboard">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Account Details</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
+
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('client.update', Auth::user()->id) }}" method="POST">
+                <form action="{{ route('staff.update', Auth::user()->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     
@@ -72,7 +81,7 @@
 
                         <div class="col-12 mt-3">
                             <button type="submit" class="btn btn-submit me-2">Submit</button>
-                            <a href="{{ route('client.dashboard') }}" class="btn btn-cancel">Cancel</a>
+                            <a href="{{ route('staff.dashboard') }}" class="btn btn-cancel">Cancel</a>
                         </div>
                     </div>
                 </form>

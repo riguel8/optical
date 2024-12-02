@@ -7,10 +7,10 @@
             <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="w-100" src="{{ asset('assets/img/carousel1.jpg') }}" alt="Image" style="height: 450px;">
+                        <img class="w-100" src="{{ asset('assets/img/carousel1.jpg') }}" alt="Image">
                     </div>
                     <div class="carousel-item">
-                        <img class="w-100 img-small-height" src="{{ asset('assets/img/carousel2.jpg') }}" alt="Image" style="height: 450px;">
+                        <img class="w-100 img-small-height" src="{{ asset('assets/img/carousel2.jpg') }}" alt="Image">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel" data-bs-slide="prev">

@@ -93,13 +93,13 @@ class AppointmentController extends Controller
     
             return response()->json([
                 'status' => 'success',
-                'message' => 'Patient and appointment were added successfully',
+                'message' => 'Appointment request were added successfully',
             ]);
     
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add patient and appointment. Please try again later.',
+                'message' => 'Failed to add appointment request. Please try again later.',
             ]);
         }
     }
