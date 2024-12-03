@@ -59,27 +59,34 @@ public function getConversation($client_id)
 }
     
 
-    // Send a message in the conversation
-    public function sendMessage(Request $request, $conversation_id)
-    {
-        $request->validate([
-            'message' => 'required|string',
-        ]);
-        
-        $message = MessagesModel::create([
-            'conversation_id' => $conversation_id,
-            'sender_id' => Auth::id(),
-            'message' => $request->message,
-        ]);
-        broadcast(new MessageSent($conversation_id, Auth::id(), $message));
-        
-        return response()->json([
-            'id' => $message->id,
-            'conversation_id' => $message->conversation_id,
-            'sender_id' => $message->sender_id,
-            'sender_name' => $message->sender->name,
-            'message' => $message->message,
-            'created_at' => $message->created_at->format('F j, Y, g:i a'),
-        ], 201);
-    }
+public function sendMessage(Request $request, $conversation_id)
+{
+    $request->validate([
+        'message' => 'required|string',
+    ]);
+    
+    $message = MessagesModel::create([
+        'conversation_id' => $conversation_id,
+        'sender_id' => Auth::id(),
+        'message' => $request->message,
+    ]);
+    
+    $conversation = ConversationModel::find($conversation_id);
+    $conversation->update([
+        'last_message_at' => now(), 
+    ]);
+
+    broadcast(new MessageSent($conversation_id, Auth::id(), $message));
+
+    return response()->json([
+        'id' => $message->id,
+        'conversation_id' => $message->conversation_id,
+        'sender_id' => $message->sender_id,
+        'sender_name' => $message->sender->name,
+        'message' => $message->message,
+        'created_at' => $message->created_at->format('F j, Y, g:i a'),
+    ], 201);
+}
+
+    
 }

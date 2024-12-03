@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     const chatModal = document.getElementById('chatbotModal');
     const messagesContainer = document.querySelector('.chat-box');
@@ -43,8 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         messageElement.classList.add('received');
                     }
                     
-                    messageElement.innerHTML = `
-                        <strong>${message.sender.name}</strong>: 
+                    messageElement.innerHTML = `  
+                        <strong>${message.sender_name}</strong>: 
                         <p>${message.message}</p>
                         <span class="timestamp">
                             ${new Date(message.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
@@ -72,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.log('Error sending message:', error));
     }
+
     function displaySentMessage(message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', 'sent');
@@ -101,17 +101,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const channel = pusher.subscribe('chat.' + CURRENT_USER_ID);
-    channel.bind('MessageSent', function(data) {
-        const message = data.message;
-        const senderName = data.sender_name;
-        const createdAt = data.created_at;
-
-        const newMessage = document.createElement('li');
-        newMessage.classList.add('message', 'chatmate');
-        newMessage.textContent = `${senderName}: ${message} (${createdAt})`;
-        messagesContainer.appendChild(newMessage);
-
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    channel.bind('MessageSent', function (data) {
+        displaySentMessage(data);
     });
 
     fetchConversation();

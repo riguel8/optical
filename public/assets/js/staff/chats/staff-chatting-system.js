@@ -1,21 +1,31 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const chatModal = document.getElementById('chatModal');
+    const chatUsersList = document.getElementById('chatUsersList');
     const messageContainer = document.getElementById('messageContainer');
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
-    const closeChatModal = document.getElementById('closeChatModal');
-    const modalHeader = document.querySelector('.chat-header span');
+    const receiverName = document.getElementById('receiver_name');
     // const CURRENT_USER_ID = {{ json_encode(auth()->id()) }};
     
     let currentConversationId = null;
     let pusher = null;
     let channel = null;
-    let currentSenderName = null;
-    
-    function toggleChatModal() {
-        chatModal.classList.toggle('active');
-    }
-    
+
+    chatUsersList.addEventListener('click', function (event) {
+        const selectedChat = event.target.closest('.chat-user');
+        if (!selectedChat) return;
+
+        document.querySelectorAll('.chat-user').forEach(user => user.classList.remove('active'));
+        selectedChat.classList.add('active');
+
+        currentConversationId = selectedChat.getAttribute('data-id');
+        const clientName = selectedChat.getAttribute('data-client-name');
+        receiverName.textContent = clientName;
+
+        fetchMessages(currentConversationId);
+
+        subscribeToConversationChannel(currentConversationId);
+    });
+
     async function fetchMessages(conversationId) {
         try {
             const response = await fetch(`/staff/conversation/${conversationId}/messages`);
@@ -25,55 +35,83 @@ document.addEventListener('DOMContentLoaded', function () {
     
             const messages = await response.json();
             messageContainer.innerHTML = '';
-            
+    
             if (messages.length > 0) {
-                currentSenderName = messages[0].sender.name;
-                modalHeader.textContent = `${currentSenderName} `;
+                const receiverName = messages[0].sender_name || "Unknown";
+                document.getElementById('receiver_name').textContent = receiverName;
+            } else {
+                document.getElementById('receiver_name').textContent = "No Messages";
             }
-
-            messages.forEach(message => {
+    
+            messages.forEach((message) => {
                 const messageElement = document.createElement('div');
                 messageElement.classList.add('message');
+    
                 if (message.sender_id === CURRENT_USER_ID) {
                     messageElement.classList.add('user');
-                    messageElement.textContent = `You: ${message.message}`;
+                    messageElement.textContent = `${message.message}`;
                 } else {
                     messageElement.classList.add('chatmate');
                     messageElement.textContent = `${message.message}`;
                 }
+    
                 messageContainer.appendChild(messageElement);
+    
+                const timestamp = document.createElement('small');
+                timestamp.classList.add('message-timestamp');
+                const date = new Date(message.created_at);
+                timestamp.textContent = `${date.toLocaleDateString()} : ${date.toLocaleTimeString()}`;
+                messageElement.appendChild(timestamp);
+    
             });
     
             messageContainer.scrollTop = messageContainer.scrollHeight;
+    
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
     }
+
+    function renderMessages(messages) {
+        messageContainer.innerHTML = '';
     
-    const viewMessageButtons = document.querySelectorAll('.view-message');
-    viewMessageButtons.forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
-            const conversationId = button.getAttribute('data-id');
-            console.log("Opening chat for conversation ID:", conversationId);
-            
-            currentConversationId = conversationId;
-            toggleChatModal();
-            fetchMessages(conversationId);
+        if (messages.length === 0) {
+            messageContainer.innerHTML = '<p class="text-muted">No messages yet.</p>';
+            return;
+        }
+    
+        messages.forEach((message) => {
+            const messageElement = document.createElement('div');
+    
+            if (message.sender_id === CURRENT_USER_ID) {
+                messageElement.classList.add('message', 'user');
+                messageElement.textContent = ` ${message.message}`;
+            } else {
+                messageElement.classList.add('message', 'chatmate');
+                messageElement.textContent = `${message.sender_name}: ${message.message}`;
+            }
+    
+            messageContainer.appendChild(messageElement);
         });
-    });
     
-    closeChatModal.addEventListener('click', function () {
-        toggleChatModal();
-    });
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
     
+
     function sendMessage() {
         const messageText = messageInput.value.trim();
         if (messageText === '' || !currentConversationId) return;
     
         const userMessage = document.createElement('div');
         userMessage.classList.add('message', 'user');
-        userMessage.textContent = `You: ${messageText}`;
+        userMessage.textContent = `${messageText}`;
+    
+        const timestamp = document.createElement('small');
+        timestamp.classList.add('message-timestamp');
+        const now = new Date();
+        timestamp.textContent = `${now.toLocaleDateString()} : ${now.toLocaleTimeString()}`;
+        userMessage.appendChild(timestamp);
+    
         messageContainer.appendChild(userMessage);
         messageContainer.scrollTop = messageContainer.scrollHeight;
     
@@ -87,60 +125,104 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ message: messageText }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send message');
-            }
-            console.log('Message sent successfully');
-        })
-        .catch(error => {
-            console.error('Error sending message:', error);
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Error sending message: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Message sent:', data);
+            })
+            .catch((error) => {
+                console.error('Error sending message:', error);
+            });
     }
     
+
     sendButton.addEventListener('click', sendMessage);
-    
+
     messageInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
             sendMessage();
         }
     });
-    
+
     if (!pusher) {
         pusher = new Pusher('df502c6246876de7e65d', {
             cluster: 'ap1',
             encrypted: true,
             disableStats: true,
         });
-    
-        pusher.connection.bind('state_change', function (states) {
-            console.log('Pusher state changed:', states);
-            if (states.current === 'disconnected') {
-                console.log('Attempting to reconnect to Pusher...');
-            }
-        });
-        pusher.connection.bind('error', function (err) {
-            console.error('Pusher connection error:', err);
-        });
     }
+
     if (!channel) {
         channel = pusher.subscribe('chat.' + CURRENT_USER_ID);
-        console.log('Subscribed to channel: chat.' + CURRENT_USER_ID);
+    }
+
+    function subscribeToConversationChannel(conversationId) {
+        if (channel) {
+            console.log(`Unsubscribing from channel: ${channel.name}`);
+            pusher.unsubscribe(channel.name);
+        }
+    
+        channel = pusher.subscribe(`chat.${conversationId}`);
+        console.log(`Subscribed to channel: chat.${conversationId}`);
+    
+        channel.bind('MessageSent', function (data) {
+            console.log('Received MessageSent event:', data);
+            appendMessageToChat(data);
+    
+            if (data.conversation_id === conversationId) {
+                console.log('Message belongs to the current conversation:', conversationId);
+                
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+    
+                if (data.sender_id === CURRENT_USER_ID) {
+                    messageElement.classList.add('user');
+                    messageElement.textContent = `${data.message}`;
+                } else {
+                    messageElement.classList.add('chatmate');
+                    messageElement.textContent = `${data.sender_name}: ${data.message}`;
+                }
+    
+                messageContainer.appendChild(messageElement);
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            } else {
+                console.log('Message does not belong to the current conversation:', conversationId);
+            }
+        });
+    
+        channel.bind('pusher:subscription_succeeded', function () {
+            console.log(`Successfully subscribed to channel: chat.${conversationId}`);
+        });
+    
+        channel.bind('pusher:subscription_error', function (status) {
+            console.error(`Failed to subscribe to channel: chat.${conversationId}, status:`, status);
+        });
+    }
+    function appendMessageToChat(data) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+    
+        if (data.sender_id === CURRENT_USER_ID) {
+            messageElement.classList.add('user');
+            messageElement.textContent = `${data.message}`;
+        } else {
+            messageElement.classList.add('chatmate');
+            messageElement.textContent = `${data.message}`;
+        }
+    
+        const timestamp = document.createElement('small');
+        timestamp.classList.add('message-timestamp');
+        const date = new Date(data.created_at);
+        timestamp.textContent = `${date.toLocaleDateString()} : ${date.toLocaleTimeString()}`;
+        messageElement.appendChild(timestamp);
+    
+        messageContainer.appendChild(messageElement);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
     }
     
-    channel.bind('MessageSent', function(data) {
-        console.log('Received message:', data);
-        
-        if (data.sender_name !== currentSenderName) {
-            currentSenderName = data.sender_name;
-            modalHeader.textContent = `${currentSenderName} Chat`;
-        }
-        
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', 'chatmate');
-        messageElement.textContent = `${data.message}`;
-        messageContainer.appendChild(messageElement);
     
-        messageContainer.scrollTop = messageContainer.scrollHeight;
-    });
 });

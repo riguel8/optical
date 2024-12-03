@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\OphthalController;
+use App\Models\ConversationModel;
 // ADMIN CONTROLLER
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\EyewearController as AdminEyewearController;
@@ -226,10 +227,11 @@ Route::middleware('auth')->group(function () {
 
 // --------------- CHAAATSSSS
 Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
-    return $user->conversations->contains('id', $conversationId);
-    
+    return $user->id === ConversationModel::find($conversationId)->staff_id || $user->id === ConversationModel::find($conversationId)->client_id;
 });
-Route::get('/staff/conversation/{conversation}/messages', [StaffMessagesController::class, 'fetchMessages']);
+
+
+Route::get('/staff/conversation/{conversationId}/messages', [StaffMessagesController::class, 'fetchMessages']);
 Route::post('/staff/conversation/{conversationId}/send-message', [StaffMessagesController::class, 'sendMessage']);
 
 
