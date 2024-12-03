@@ -8,55 +8,69 @@ use App\Events\MessageSent;
 use App\Models\MessagesModel;
 use Illuminate\Http\Request;
 
-
 class MessagesController extends Controller
 {
     public function index()
     {
-        $conversations = ConversationModel::with(['client', 'staff'])->where('status', 'open')->get();
+        $conversations = ConversationModel::with(['client', 'staff'])
+            ->where('status', 'open')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+    
         return view('staff.messages', compact('conversations'));
     }
+    
 
-    // To Send Message
     public function sendMessage(Request $request, $conversationId)
     {
         $request->validate([
             'message' => 'required|string',
         ]);
     
-        $message = $request->input('message');
-        $senderId = auth()->id();
-    
-        $messageModel = MessagesModel::create([
+        $message = MessagesModel::create([
             'conversation_id' => $conversationId,
-            'sender_id' => $senderId,
-            'message' => $message,
+            'sender_id' => auth()->id(),
+            'message' => $request->input('message'),
         ]);
     
-        broadcast(new MessageSent($conversationId, $senderId, $messageModel));
+        $conversation = ConversationModel::find($conversationId);
+        $conversation->update([
+            'last_message_at' => now(),
+        ]);
     
-        return response()->json(['status' => 'Message sent']);
+        broadcast(new MessageSent(
+            $conversationId,
+            $message->sender_id,
+            $message->message
+        ))->toOthers();
+    
+        return response()->json([
+            'status' => 'Message sent',
+            'message' => $message,
+        ]);
     }
-    
 
-    // Fetches Current Login ID
     public function showMessagesView()
     {
-    return view('staff.message', ['userId' => auth()->id()]);
+        return view('staff.message', ['userId' => auth()->id()]);
     }
 
-    // To fetch Messages to the chat-tab(Modal)
     public function fetchMessages($conversationId)
     {
-    $messages = MessagesModel::with('sender')
-        ->where('conversation_id', $conversationId)
-        ->orderBy('created_at', 'asc')
-        ->get();
-
-    return response()->json($messages);
-    }
-
+        $messages = MessagesModel::with('sender')
+            ->where('conversation_id', $conversationId)
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->map(function ($message) {
+                return [
+                    'message' => $message->message,
+                    'sender_id' => $message->sender_id,
+                    'sender_name' => $message->sender->name ?? 'Unknown',
+                    'created_at' => $message->created_at->toIso8601String(),
+                ];
+            });
     
-
-
+        return response()->json($messages);
+    }
+    
 }

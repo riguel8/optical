@@ -87,6 +87,7 @@
                 <div class="chat-window">
                     <div class="card mb-0">
                         <div class="chat-box">
+                            <li></li>
                         </div>
                         <div class="card-footer">
                             <div class="input-group">
