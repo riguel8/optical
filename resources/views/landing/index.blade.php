@@ -26,16 +26,16 @@
         <!-- Carousel End -->
 
         <!-- About Section -->
-        <div class="container-xxl py-5 section-padding" id="about" style="scroll-margin-top: 60px;">
+        <div class="container-fluid py-5 section-padding" id="about" style="scroll-margin-top: 60px;">
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
-                        <h2 class="section-title text-start text-warning text-uppercase"><strong>About</strong></h2>
-                        <h1 class="mb-4">Welcome to Delin Optical</h1>
+                        <h3 class="section-title text-start text-warning text-uppercase"><strong>About</strong></h3>
+                        <h2 class="mb-4 text-uppercase"><strong>Welcome to Delin Optical</strong></h2>
                         <p class="mb-4">Computerized eye examination. 30 years in providing good quality eyecare in the province of Bukidnon.</p>
                         <p><strong>Address: 2nd Level Robinsons Place Valencia, Sayre Highway, Brgy. Hagkol, Valencia City, Bukidnon, Philippines</strong></p>
                         <!-- <a id="contactUsBtn" class="btn btn-outline-primary py-3 px-5 mt-2" data-bs-toggle="modal" data-bs-target="#chatbotModal">Contact Us</a> -->
-                        <a href="#contact" class="btn btn-outline-success py-3 px-5 mt-2 scroll-link" >CONTACT US</a>
+                        <a href="#footer" class="btn btn-outline-primary py-2 px-4 mt-2 scroll-link" >CONTACT US</a>
                     </div>
                     <div class="col-lg-6">
                         <div class="row g-3">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- Eyewear Section -->
-        <div class="container-xl py-5 section-padding" id="eyewears" style="scroll-margin-top: 60px;">
+        <div class="container-fluid py-5 section-padding" id="eyewears" style="scroll-margin-top: 60px;">
             <div class="text-center wow fadeInUp mb-5" data-wow-delay="0.1s">
                 <h2 class="text-warning"><strong>EYEWEAR</strong></h2>
                 <h5>Elevate your vision, enhance your style.</h5>
@@ -112,7 +112,7 @@
         <!-- Eyewears End -->
 
         <!-- Service Start -->
-        <div class="container-xxl py-5 section-padding" id="services" style="scroll-margin-top: 130px; background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;" >
+        <div class="container-fluid py-5 section-padding" id="services" style="scroll-margin-top: 130px; background-size: cover; background-image: url(./assets/img/carousel2.jpg); background-attachment: fixed;" >
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <!-- <h6 class="section-title text-center text-white text-uppercase">Our Services</h6> -->
@@ -160,75 +160,185 @@
         </div>
         <!-- Service End -->
 
-        <!-- Contact us -->
-        <div class="container-xxl py-5 section-padding" id="contact" style="scroll-margin-top: 60px;">
-            <div class="container">
-                <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
-                    <h2 class="text-warning"><strong>CONTACT US</strong></h2>
-                    <p>We'd love to speak with you. Feel free to reach out using the details below.</p>
-                </div>
-                
-                <div class="contact-card">
-                    <!-- Left side with contact details -->
-                    <div class="contact-details">
-                        <h3 class="mb-3"><strong>Get In Touch</strong></h3>
-                        <p>We would love to speak with you. Feel free to reach out using the below details:</p>
-                        <ul>
-                            <li>
-                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                                <span>09123456789</span>
-                            </li>
-                            <li>
-                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                                <span>09123456789</span>
-                            </li>
-                            <li>
-                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                                <span>09123456789</span>
-                            </li>
-                            <li>
-                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                                <span>09123456789</span>
-                            </li>
-                            <li>
-                                <iconify-icon icon="material-symbols-light:phone-android-outline"></iconify-icon>
-                                <span>09123456789</span>
-                            </li>
-                            <li>
-                                <iconify-icon icon="nrk:some-email"></iconify-icon>
-                                <span>customerservice@delinoptical.com</span>
-                            </li>
-                        </ul>
+<!-- Optometrist Hero Section -->
+<div class="container-fluid py-5 section-padding optometrist-hero" id="optal" style="scroll-margin-top: 60px;">
+    <div class="container-fluid p-0">
+        <div class="hero-content">
+            <div class="row g-0">
+                <div class="col-lg-6 content-col">
+                    <div class="content-wrapper wow fadeInUp" data-wow-delay="0.1s">
+                        <h1 class="hero-title">EXPERT EYE CARE PROFESSIONALS</h1>
+                        <p class="hero-subtitle">Experience exceptional eye care from our dedicated team of specialists with over 30 years of combined expertise.</p>
+                        <a href="{{ route("login")}}" class="btn btn-light btn-appointment">Book an Appointment</a>
                     </div>
-
-                    <!-- Right side with contact form -->
-                    <div class="contact-form">
-                        <form action="" method="POST">
-                            @csrf
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="text" id="name" placeholder="Enter Name" name="name" required>
-                                <label for="name">Name</label>
+                </div>
+                <div class="col-lg-6 image-col">
+                    <div class="doctors-wrapper">
+                        <div class="doctor-card">
+                            <div class="doctor-image">
+                                <img src="{{ asset('assets/img/users/pupu.jpg') }}" alt="Doctor 1">
                             </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="email" id="email" placeholder="Enter Email" name="email" required>
-                                <label for="email">Email</label>
+                            <div class="doctor-info">
+                                <h3>Dr. Kim Chaewon</h3>
+                                <p>Pediatric Optometry Specialist</p>
                             </div>
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" placeholder="Enter Message" id="message" name="message" rows="4" style="height: 150px" required></textarea>
-                                <label for="message">Message</label>
+                        </div>
+                        <div class="doctor-card">
+                            <div class="doctor-image">
+                                <img src="{{ asset('assets/img/users/rina.jpg') }}" alt="Doctor 2">
                             </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
-                        </form>
+                            <div class="doctor-info">
+                                <h3>Dr. Yoo Jimin</h3>
+                                <p>Vision Therapy Expert</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Contact us end -->
+    </div>
+</div>
 
-        <!-- Floating Chat Button -->
-        <a id="contactUsBtn" class="chat-float-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
-            <iconify-icon icon="simple-icons:chatbot" width="24" height="24"></iconify-icon>
-            <!-- <span>Chat with our Assistant</span> -->
-        </a>
+
+       <!-- Footer Start -->
+<div class="container-fluid footer-section py-5 section-padding" id="footer" style="scroll-margin-top: 80px;">
+    <div class="container">
+        <div class="row gx-5">
+            <!-- Get in Touch Card -->
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="get-in-touch-card">
+                    <div class="card-header">
+                        <h4>Get in Touch</h4>
+                        <p class="subtitle">We're here to help you</p>
+                    </div>
+                    
+                    <div class="contact-grid">
+                        <!-- Location -->
+                        <div class="contact-grid-item">
+                            <div class="icon-box">
+                                <iconify-icon icon="material-symbols:location-on" width="24"></iconify-icon>
+                            </div>
+                            <div class="info">
+                                <h6>Visit Us</h6>
+                                <p>2nd Level Robinsons Place Valencia, Sayre Highway, Brgy. Hagkol, Valencia City, Bukidnon</p>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="contact-grid-item">
+                            <div class="icon-box">
+                                <iconify-icon icon="material-symbols:phone-android" width="24"></iconify-icon>
+                            </div>
+                            <div class="info">
+                                <h6>Call Us</h6>
+                                <div class="phone-numbers">
+                                    <a href="tel:09123456789">09123456789</a>
+                                    <a href="tel:09987654321">09987654321</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="contact-grid-item">
+                            <div class="icon-box">
+                                <iconify-icon icon="material-symbols:mail" width="24"></iconify-icon>
+                            </div>
+                            <div class="info">
+                                <h6>Email Us</h6>
+                                <a href="mailto:customerservice@delinoptical.com">customerservice@delinoptical.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="social-connect">
+                        <h6>Connect With Us</h6>
+                        <div class="social-buttons">
+                            <a href="https://www.facebook.com/DelinOptical" class="social-btn facebook" aria-label="Facebook">
+                                <iconify-icon icon="ri:facebook-fill"></iconify-icon>
+                                <span>Facebook</span>
+                            </a>
+                            <a href="https://www.facebook.com/DelinOptical" class="social-btn messenger" aria-label="Messenger">
+                                <iconify-icon icon="ri:messenger-fill"></iconify-icon>
+                                <span>Messenger</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="col-lg-8 col-md-12">
+                <div class="footer-links-container">
+                    <div class="row g-4">
+                        <!-- Products -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="footer-link-group">
+                                <h5>Products</h5>
+                                <ul>
+                                    <li><a href="#">Eyeglasses</a></li>
+                                    <li><a href="#">Contact Lens</a></li>
+                                    <li><a href="#">Reading Glasses</a></li>
+                                    <li><a href="#">Sunglasses</a></li>
+                                    <li><a href="#">Accessories</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Information -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="footer-link-group">
+                                <h5>Information</h5>
+                                <ul>
+                                    <li><a href="#">Branch Locator</a></li>
+                                    <li><a href="#">Corporate Partners</a></li>
+                                    <li><a href="#">Careers</a></li>
+                                    <li><a href="#">What's New</a></li>
+                                    <li><a href="#">Our Blog</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Help -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="footer-link-group">
+                                <h5>Help</h5>
+                                <ul>
+                                    <li><a href="#">Book Appointment</a></li>
+                                    <li><a href="#">Return & Warranty</a></li>
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Legal -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="footer-link-group">
+                                <h5>Legal</h5>
+                                <ul>
+                                    <li><a href="#">Terms & Conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Cookie Policy</a></li>
+                                    <li><a href="#">Loyalty Rewards</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright & Payment Methods -->
+        <div class="footer-bottom">
+            <hr>
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="copyright">&copy; 2024 BSIT SOFTWARE DEVELOPMENT. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection

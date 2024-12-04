@@ -128,21 +128,21 @@
 
 						<div class="tab-pane" id="solid-justified-tab3">
 							@php
-								$confirmedAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Cancelled');
+								$cancelledAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Cancelled');
 							@endphp
 
-							@if ($confirmedAppointments->isEmpty())
+							@if ($cancelledAppointments->isEmpty())
 								<div class="col-12">
 									<div class="alert-info px-4 py-2 text-center text-sm text-gray-500" colspan="6">
 										{{ __('No cancelled appointments available.') }}
 									</div>
 								</div>
 							@else
-								@foreach ($confirmedAppointments as $appointment)
+								@foreach ($cancelledAppointments as $appointment)
 									<div class="appointment-card p-4 rounded shadow-sm mb-4">
 										<div class="row align-items-justify">
 											<div class="col-md-4 col-12">
-												<div class="details-section border-status-confirm">
+												<div class="details-section border-status-cancelled">
 													<h6 class="section-title mb-3">Personal Details</h6>
 													<p class="mb-1"><strong>Name:</strong> {{ $appointment->patient->complete_name }}</p>
 													<p class="mb-1"><strong>Age:</strong> {{ $appointment->patient->age }}</p>

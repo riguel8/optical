@@ -1,0 +1,151 @@
+.carousel img {
+    height: 450px;
+}
+
+@media (max-width: 768px) {
+.carousel img {
+    height: 250px;
+}
+}
+
+@media (max-width: 576px) {
+.carousel img {
+    height: 200px;
+}
+}
+
+/* About Section Styling */
+@media (max-width: 768px) {
+.about-images .img-fluid {
+    margin: auto;
+    width: 100%;
+}
+}
+
+/* Eyewear Section */
+@media (max-width: 768px) {
+#eyewearCarousel .carousel-inner {
+    flex-direction: column;
+}
+.productset {
+    margin-bottom: 15px;
+}
+#eyewears h2 {
+font-size: 1rem; /* Smaller "About" title */
+}
+#eyewears h1 {
+    font-size: 1.2rem; /* Smaller main heading */
+}
+#eyewears p {
+    font-size: 0.9rem; /* Smaller paragraph text */
+}
+}
+
+/* Services Section */
+@media (max-width: 768px) {
+#services .card {
+    margin-bottom: 15px;
+}
+#services h2 {
+font-size: 1rem; /* Smaller "About" title */
+}
+#services h1 {
+    font-size: 1.2rem; /* Smaller main heading */
+}
+#services p {
+    font-size: 0.9rem; /* Smaller paragraph text */
+}
+}
+
+/* Contact Us Section */
+@media (max-width: 768px) {
+.contact-card {
+    flex-direction: column;
+}
+.contact-details,
+.contact-form {
+    width: 100%;
+}
+#contact h2 {
+    font-size: 1.2rem; /* Smaller heading */
+}
+#contact h3 {
+    font-size: 1rem; /* Smaller subheading */
+}
+#contact p, #contact ul, #contact label {
+    font-size: 0.9rem; /* Smaller text size */
+}
+#contact .btn {
+    font-size: 0.8rem; /* Smaller button text */
+    padding: 0.4rem 1rem; /* Adjust button padding */
+}
+}
+
+
+/* Responsive Navbar Adjustments */
+@media (max-width: 768px) {
+.navbar {
+padding: 0.5rem;
+}
+
+.mobile-user-menu {
+display: block;
+}
+
+.collapse.navbar-collapse {
+display: none !important; /* Hide desktop menu */
+}
+
+.logo-img img {
+max-height: 50px;
+}
+
+.mobile-user-menu .btn {
+font-size: 0.75rem; /* Smaller font for narrow screens */
+padding: 0.3rem 0.5rem;
+}
+
+.mobile-user-menu iconify-icon {
+font-size: 1.25rem; /* Slightly smaller icon for narrow screens */
+}
+}
+
+/* Larger Screens */
+@media (min-width: 769px) {
+.mobile-user-menu {
+display: none;
+}
+}
+
+/* Mobile-specific adjustments for smaller text */
+@media (max-width: 768px) {
+#about h2 {
+font-size: 1rem; /* Smaller "About" title */
+}
+#about h1 {
+font-size: 1.2rem; /* Smaller main heading */
+}
+#about p {
+font-size: 0.9rem; /* Smaller paragraph text */
+}
+#about .btn {
+font-size: 0.70rem;
+padding: 0.1rem 0.1rem;
+}
+}
+
+/* Tablet-specific adjustments */
+@media (min-width: 769px) and (max-width: 992px) {
+#about h2 {
+font-size: 1.2rem; /* Moderate size for About title */
+}
+#about h1 {
+font-size: 1.8rem; /* Slightly larger heading */
+}
+#about p {
+font-size: 1rem; /* Adjust paragraph size */
+}
+#about .btn {
+padding: 0.6rem 1.2rem; /* Moderate padding for button */
+}
+}

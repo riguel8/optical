@@ -66,53 +66,24 @@
             @include('template.client.sidebar')
             @yield('content')
 
-
-            
-<!-- Floating Chat Button -->
-<a id="contactUsBtn" class="chat-float-btn mb-5" data-bs-toggle="modal" data-bs-target="#chatbotModal">
-    <iconify-icon icon="simple-icons:chatbot" width="24" height="24" data-bs-toggle="tooltip" title="Chat with our Assistant"></iconify-icon>
-</a>
+            <!-- Floating Chat Button -->
+        <a id="contactUsBtn" class="chat-float-btn mb-5" data-bs-toggle="modal" data-bs-target="#chatModal">
+            <iconify-icon icon="simple-icons:chatbot" width="24" height="24" data-bs-toggle="tooltip" title="Chat with our Assistant"></iconify-icon>
+        </a>
 
 <!-- Chat Modal -->
-<div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="chat-window">
-                    <div class="card mb-0">
-                        <div class="chat-box">
-                            <li></li>
-                        </div>
-                        <div class="card-footer">
-                            <div class="input-group">
-                                <input id="messageInput" class="form-control type_msg mh-auto empty_check" placeholder="Type your message..." />
-                                <button id="sendButton" class="btn btn-primary btn_send">
-                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="chat-modal" id="chatModal">
+    <div class="chat-header">
+        <span> Client Chat</span>
+        <button class="close-btn" id="closeChatModal">&times;</button>
+    </div>
+    <div class="messages" id="messageContainer">
+    </div>
+    <div class="input-container">
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button id="sendButton">Send</button>
     </div>
 </div>
-
-
-<script src="https://js.pusher.com/8.4/pusher.min.js"></script>
-<script>
-    window.CURRENT_USER_ID = @json(auth()->id());
-</script>
-<script src="{{ asset('assets/js/staff/chats/chatting-system.js') }}"></script>
-
-
-
 
 
     </div>
@@ -124,6 +95,7 @@
     </footer>
 
     @yield('scripts')
+
 
 
 
@@ -146,7 +118,15 @@
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
-<script src="{{ asset("assets/js/showmodal.js")}}"></script>
+<!-- <script src="{{ asset("assets/js/showmodal.js")}}"></script> -->
+
+<script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+<script>
+    window.CURRENT_USER_ID = @json(auth()->id());
+</script>
+<script src="{{ asset('assets/js/staff/chats/chatting-system.js') }}"></script>
+
+
 
 <script>
 // Helper function to create status badge
@@ -342,6 +322,23 @@ $(document).ready(function() {
     </script>
 
 
+
+<script>
+    var checkeventcount = 1,prevTarget;
+        $('.modal').on('show.bs.modal', function (e) {
+            if(typeof prevTarget == 'undefined' || (checkeventcount==1 && e.target!=prevTarget))
+            {  
+              prevTarget = e.target;
+              checkeventcount++;
+              e.preventDefault();
+              $(e.target).appendTo('body').modal('show');
+            }
+            else if(e.target==prevTarget && checkeventcount==2)
+            {
+              checkeventcount--;
+            }
+         });
+</script>
 
 
 

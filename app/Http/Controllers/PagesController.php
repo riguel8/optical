@@ -23,12 +23,44 @@ class PagesController extends Controller
 
         return view('landing.index', compact('groupedByBrand', 'brands', 'frameTypes', 'frameColors', 'lensMaterials', 'questions'));
     }
+    public function getInitialQuestions()
+    {
+        // Get first 3 questions ordered by ID
+        $questions = Chatbot::orderBy('ChatbotID')
+            ->take(3)
+            ->get(['ChatbotID', 'Question']);
+            
+        return response()->json($questions);
+    }
 
     public function fetchResponse(Request $request)
     {
         $chatbotId = $request->input('chatbot_id');
-        $response = Chatbot::where('ChatbotID', $chatbotId)->value('Response');
+        $chatbot = Chatbot::find($chatbotId);
+        
+        if (!$chatbot) {
+            return response()->json([
+                'answer' => 'I apologize, I couldn\'t find an answer to that question.',
+                'related_questions' => []
+            ]);
+        }
 
-        return response()->json(['answer' => $response ?? 'Sorry, no response found.']);
+        // Get next 3 questions in order
+        $nextQuestions = Chatbot::where('ChatbotID', '>', $chatbotId)
+            ->orderBy('ChatbotID')
+            ->take(3)
+            ->get(['ChatbotID', 'Question']);
+
+        return response()->json([
+            'answer' => $chatbot->Response,
+            'related_questions' => $nextQuestions
+        ]);
     }
+    // public function fetchResponse(Request $request)
+    // {
+    //     $chatbotId = $request->input('chatbot_id');
+    //     $response = Chatbot::where('ChatbotID', $chatbotId)->value('Response');
+
+    //     return response()->json(['answer' => $response ?? 'Sorry, no response found.']);
+    // }
 }

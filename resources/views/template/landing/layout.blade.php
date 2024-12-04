@@ -26,159 +26,11 @@
     <link rel="stylesheet" href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/contactus.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/landingEyewear.css') }}">
-    <style>
-        .carousel img {
-                height: 450px;
-            }
+    <link rel="stylesheet" href="{{ asset('assets/css/landing-mobile.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/chat-bot.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/landing-dr.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/landing-footer.css') }}">
 
-        @media (max-width: 768px) {
-            .carousel img {
-                height: 250px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .carousel img {
-                height: 200px;
-            }
-        }
-
-        /* About Section Styling */
-        @media (max-width: 768px) {
-            .about-images .img-fluid {
-                margin: auto;
-                width: 100%;
-            }
-        }
-
-        /* Eyewear Section */
-        @media (max-width: 768px) {
-            #eyewearCarousel .carousel-inner {
-                flex-direction: column;
-            }
-            .productset {
-                margin-bottom: 15px;
-            }
-            #eyewears h2 {
-            font-size: 1rem; /* Smaller "About" title */
-            }
-            #eyewears h1 {
-                font-size: 1.2rem; /* Smaller main heading */
-            }
-            #eyewears p {
-                font-size: 0.9rem; /* Smaller paragraph text */
-            }
-        }
-
-        /* Services Section */
-        @media (max-width: 768px) {
-            #services .card {
-                margin-bottom: 15px;
-            }
-            #services h2 {
-            font-size: 1rem; /* Smaller "About" title */
-            }
-            #services h1 {
-                font-size: 1.2rem; /* Smaller main heading */
-            }
-            #services p {
-                font-size: 0.9rem; /* Smaller paragraph text */
-            }
-        }
-
-        /* Contact Us Section */
-        @media (max-width: 768px) {
-            .contact-card {
-                flex-direction: column;
-            }
-            .contact-details,
-            .contact-form {
-                width: 100%;
-            }
-            #contact h2 {
-                font-size: 1.2rem; /* Smaller heading */
-            }
-            #contact h3 {
-                font-size: 1rem; /* Smaller subheading */
-            }
-            #contact p, #contact ul, #contact label {
-                font-size: 0.9rem; /* Smaller text size */
-            }
-            #contact .btn {
-                font-size: 0.8rem; /* Smaller button text */
-                padding: 0.4rem 1rem; /* Adjust button padding */
-            }
-        }
-    
-
-    /* Responsive Navbar Adjustments */
-    @media (max-width: 768px) {
-        .navbar {
-            padding: 0.5rem;
-        }
-
-        .mobile-user-menu {
-            display: block;
-        }
-
-        .collapse.navbar-collapse {
-            display: none !important; /* Hide desktop menu */
-        }
-
-        .logo-img img {
-            max-height: 50px;
-        }
-
-        .mobile-user-menu .btn {
-            font-size: 0.75rem; /* Smaller font for narrow screens */
-            padding: 0.3rem 0.5rem;
-        }
-    
-        .mobile-user-menu iconify-icon {
-            font-size: 1.25rem; /* Slightly smaller icon for narrow screens */
-            }
-    }
-
-    /* Larger Screens */
-    @media (min-width: 769px) {
-        .mobile-user-menu {
-            display: none;
-        }
-    }
-
-    /* Mobile-specific adjustments for smaller text */
-    @media (max-width: 768px) {
-        #about h2 {
-            font-size: 1rem; /* Smaller "About" title */
-        }
-        #about h1 {
-            font-size: 1.2rem; /* Smaller main heading */
-        }
-        #about p {
-            font-size: 0.9rem; /* Smaller paragraph text */
-        }
-        #about .btn {
-            font-size: 0.70rem;
-            padding: 0.1rem 0.1rem;
-        }
-    }
-
-    /* Tablet-specific adjustments */
-    @media (min-width: 769px) and (max-width: 992px) {
-        #about h2 {
-            font-size: 1.2rem; /* Moderate size for About title */
-        }
-        #about h1 {
-            font-size: 1.8rem; /* Slightly larger heading */
-        }
-        #about p {
-            font-size: 1rem; /* Adjust paragraph size */
-        }
-        #about .btn {
-            padding: 0.6rem 1.2rem; /* Moderate padding for button */
-        }
-    }
-    </style>
 </head>
 <body>
 
@@ -195,84 +47,48 @@
 
             @yield('content')
 
-            <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+            <a id="contactUsBtn" class="chat-float-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+                <iconify-icon icon="simple-icons:chatbot" width="24" height="24"  data-bs-toggle="tooltip" title="Chat with our Assistant"></iconify-icon>
+            </a>
+
+            <div class="modal fade" id="chatbotModal" tabindex="1" aria-labelledby="chatbotModalLabel" aria-hidden="false">
+                <div class="modal-dialog modal-dialog-right">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="chatbotModalLabel">Chat with our Assistant</h5>
-                            <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
-                                <span aria-hidden="true">&times;</span>
+
+                        <div class="chat-header">
+                            <div class="d-flex align-items-center">
+                                <div class="img_cont me-2">
+                                    <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="Bot" class="rounded-circle" width="40">
+                                </div>
+                                <div class="user_info">
+                                    <h6>Delin Chatbot</h6>
+                                </div>
+                            </div>
+                            <button class="btn btn-icon" type="button" data-bs-dismiss="modal">
+                                <i class="fas fa-chevron-down"></i>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <div class="col-lg-7 col-xl-12 chat-cont-right">
-                                <div class="card mb-0">
-                                    <div class="card-header msg_head">
-                                        <div class="d-flex bd-highlight">
-                                            <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
-                                                <i class="fas fa-chevron-left"></i>
-                                            </a>
-                                            <div class="img_cont">
-                                                <img class="rounded-circle user_img" src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
-                                            </div>
-                                            <div class="user_info">
-                                                <span><strong id="receiver_name">Delin Optical</strong></span>
-                                                <p class="mb-0">Chatbot</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body msg_card_body chat-scroll">
-                                        <ul class="list-unstyled" id="chat-messages"></ul>
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="input-group justify-content-end">
-                                            <div class="btn" role="group">
-                                                @foreach($questions as $question)
-                                                    <button type="button" class="btn btn-outline-success m-1 question-btn rounded-pill mb-3" data-chatbot-id="{{ $question->ChatbotID }}">
-                                                        {{ $question->Question }}
-                                                    </button>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="input-group">
-                                            <input class="form-control type_msg mh-auto empty_check" placeholder="Type your message...">
-                                            <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                        </div>
-                                    </div>
+
+                        <div class="chat-body" id="chat-container">
+                            <ul class="list-unstyled" id="chat-messages"></ul>
+                        </div>
+
+                        <div class="chat-footer">
+                            <div id="suggestions-area" class="mb-3">
+                                <div class="suggestions-container">
+
                                 </div>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control type_msg" placeholder="Coming soon..." disabled>
+                                <button class="btn btn-send" disabled>
+                                    <i class="fa fa-paper-plane"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <footer class="text-center">
-                <div class="container pt-4">
-                    <section class="mb-10">
-                        <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button" data-mdb-ripple-color="dark">
-                            <i class="fab fa-facebook-f" style="color: #ff9f43;"></i>
-                        </a>
-                        <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                            <i class="fab fa-twitter" style="color: #ff9f43;"></i>
-                        </a>
-                        <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                            <i class="fab fa-google" style="color: #ff9f43;"></i>
-                        </a>
-                        <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                            <i class="fab fa-instagram" style="color: #ff9f43;"></i>
-                        </a>
-                        <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                            <i class="fab fa-linkedin" style="color: #ff9f43;"></i>
-                        </a>
-                        <a class="btn btn-link btn-floating btn-lg m-1" href="#!" role="button">
-                            <i class="fab fa-github" style="color: #ff9f43;"></i>
-                        </a>
-                    </section>
-                </div>
-                <div class="text-center p-3">
-                    <p>&copy; 2024 SoftDev, BSIT-4A. All Rights Reserved.</p>
-                </div>
-            </footer>
 
         </div>
     </div>
@@ -301,13 +117,14 @@
 <script src="{{ asset("assets/lib/main.js")}}"></script>
 
 <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 <script src="extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+<script src="{{ asset("assets/js/showmodal.js")}}"></script>
 
 <script>
     document.querySelectorAll('.scroll-link').forEach(anchor => {
@@ -325,29 +142,49 @@
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var introMessage = "Welcome to Delin Optical! How can we assist you today?";
-    appendMessage('received', introMessage);
+   document.addEventListener("DOMContentLoaded", function() {
+    resetChat();
 
-    document.querySelectorAll('.question-btn').forEach(function(button) {
-        button.addEventListener('click', function() {
-            var chatbotId = this.getAttribute('data-chatbot-id');
-            var questionText = this.textContent;
-            sendMessage(questionText, chatbotId);
-        });
+    document.getElementById('chatbotModal').addEventListener('hidden.bs.modal', function () {
+        resetChat();
     });
 });
+let currentSuggestions = new Set();
 
-function sendMessage(message, chatbotId) {
-    const messageId = 'message-' + new Date().getTime(); 
+function resetChat() {
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.innerHTML = '';
+    currentSuggestions.clear();
+    
+    const introMessage = "Welcome to Delin Optical! How can we assist you today?";
+    appendMessage('received', introMessage);
+
+    // Fetch first 3 questions
+    fetch('{{ route("getInitialQuestions") }}')
+        .then(response => response.json())
+        .then(data => {
+            updateSuggestionButtons(data);
+        });
+}
+
+function sendMessage(message, chatbotId = null) {
+    const messageId = 'message-' + new Date().getTime();
+    
+    // Hide only the clicked suggestion
+    const clickedButton = document.querySelector(`[data-chatbot-id="${chatbotId}"]`);
+    if (clickedButton) {
+        clickedButton.style.opacity = '0';
+        setTimeout(() => clickedButton.remove(), 300);
+    }
+    
     appendMessage('sent', message, messageId);
+    scrollToBottom();
 
-    scrollToMessage(messageId);
-
-    setTimeout(function() {
+    setTimeout(() => {
         showTypingIndicator(messageId);
-
-        setTimeout(function() {
+        scrollToBottom();
+        
+        setTimeout(() => {
             fetch('{{ route("fetchResponse") }}', {
                 method: 'POST',
                 headers: {
@@ -360,11 +197,65 @@ function sendMessage(message, chatbotId) {
             .then(data => {
                 removeTypingIndicator();
                 appendMessage('received', data.answer, messageId);
-
-                scrollToMessage(messageId);
+                
+                // Update suggestions
+                if (data.related_questions && data.related_questions.length > 0) {
+                    updateSuggestionButtons(data.related_questions);
+                } else {
+                    // If no new questions, reset to initial
+                    fetch('{{ route("getInitialQuestions") }}')
+                        .then(response => response.json())
+                        .then(data => {
+                            updateSuggestionButtons(data);
+                        });
+                }
+                
+                scrollToBottom();
             });
-        }, 2000); 
-    }, 1000); 
+        }, 1500);
+    }, 300);
+}
+
+function updateSuggestionButtons(questions) {
+    const container = document.querySelector('.suggestions-container');
+    container.innerHTML = '';
+    
+    if (questions.length === 0) {
+        const noSuggestionsMessage = document.createElement('div');
+        noSuggestionsMessage.className = 'no-suggestions';
+        noSuggestionsMessage.textContent = 'No suggestion questions available.';
+        container.appendChild(noSuggestionsMessage);
+        return;
+    }
+    
+    questions.forEach(question => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'suggestion-btn';
+        button.setAttribute('data-chatbot-id', question.ChatbotID);
+        button.textContent = question.Question;
+        
+        button.addEventListener('click', function() {
+            sendMessage(question.Question, question.ChatbotID);
+        });
+        
+        container.appendChild(button);
+    });
+}
+function scrollToBottom() {
+    const chatContainer = document.getElementById('chat-container');
+    const lastMessage = chatContainer.lastElementChild;
+    
+    if (lastMessage) {
+        const containerHeight = chatContainer.clientHeight;
+        const messageBottom = lastMessage.offsetTop + lastMessage.offsetHeight;
+        const scrollTop = messageBottom - containerHeight;
+        
+        chatContainer.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth'
+        });
+    }
 }
 function showTypingIndicator(messageId) {
     var chatMessages = document.getElementById('chat-messages');
@@ -375,7 +266,7 @@ function showTypingIndicator(messageId) {
         li.id = messageId; 
         li.innerHTML = `
             <div class="avatar flex-shrink-0">
-                <img src="assets/img/Dlogo-small.png" alt="Typing..." class="avatar-img rounded-circle">
+                <img src="{{ asset('assets/img/Dlogo-small.png')}}" alt="Typing..." class="avatar-img rounded-circle">
             </div>
             <div class="media-body flex-grow-1">
                 <div class="msg-box">
@@ -390,9 +281,10 @@ function showTypingIndicator(messageId) {
             </div>
         `;
         chatMessages.appendChild(li);
-        scrollToMessage(messageId);
+        scrollToBottom();
     }
 }
+
 
 function removeTypingIndicator() {
     var typingIndicator = document.querySelector('.typing-indicator');
@@ -405,27 +297,27 @@ function appendMessage(type, message, messageId) {
     var chatMessages = document.getElementById('chat-messages');
     var li = document.createElement('li');
     li.classList.add('media', type === 'sent' ? 'sent' : 'received', 'd-flex');
-    li.id = messageId;  
+    li.id = messageId;
+
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
     li.innerHTML = `
+        ${type === 'received' ? `
         <div class="avatar flex-shrink-0">
-            <img src="assets/img/users/${type === 'sent' ? 'noimages.jpg' : 'Dlogo-small.png'}" alt="User Image" class="avatar-img rounded-circle">
+            <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="Bot" class="rounded-circle" width="30">
+        </div>` : ''}
+        <div class="msg-box">
+            <p class="mb-1">${message}</p>
+            <small class="text-muted">${time}</small>
         </div>
-        <div class="media-body flex-grow-1">
-            <div class="msg-box">
-                <div>
-                    <p>${message}</p>
-                    <ul class="chat-msg-info">
-                        <li>
-                            <div class="chat-time">
-                                <span>${new Date().toLocaleTimeString()}</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        ${type === 'sent' ? `
+        <div class="avatar flex-shrink-0">
+            <img src="{{ asset('assets/img/users/noimages.jpg') }}" alt="User" class="rounded-circle" width="30">
+        </div>` : ''}
     `;
+    
     chatMessages.appendChild(li);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function scrollToMessage(messageId) {
@@ -440,22 +332,7 @@ document.getElementById('chatbotModal').addEventListener('hidden.bs.modal', func
 });
 </script>
 
-<script>
-    var checkeventcount = 1,prevTarget;
-        $('.modal').on('show.bs.modal', function (e) {
-            if(typeof prevTarget == 'undefined' || (checkeventcount==1 && e.target!=prevTarget))
-            {  
-              prevTarget = e.target;
-              checkeventcount++;
-              e.preventDefault();
-              $(e.target).appendTo('body').modal('show');
-            }
-            else if(e.target==prevTarget && checkeventcount==2)
-            {
-              checkeventcount--;
-            }
-         });
-</script>
+
 
 </body>
 </html>

@@ -64,24 +64,24 @@
 				<a class="nav-link scroll-link" href="#services">Services</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link scroll-link" href="#ophthalmologist">Ophthalmologist</a>
+				<a class="nav-link scroll-link" href="#optal">Ophthalmologist</a>
 			</li>
 			@if (Route::has('login'))
 			@auth
 			<li class="nav-item ms-2 mt-2 mt-md-0">
-				<a class="btn btn-outline-primary" href="{{ url(session('usertype') . '/dashboard') }}">Dashboard</a>
+				<a class="btn btn-primary" href="{{ url(session('usertype') . '/dashboard') }}">Dashboard</a>
 			</li>
 			<form method="POST" action="{{ route('logout') }}">
 				@csrf
 				<li class="nav-item ms-2 mt-2 mt-md-0">
-					<a class="btn btn-outline-danger" href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+					<a class="nav-link scroll-link text-danger" style="text-decoration: underline;" href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
 					Logout
 					</a>
 				</li>
 			</form>
 			@else
 			<li class="nav-item ms-2 mt-2 mt-md-0">
-				<a class="btn btn-outline-primary" href="{{ route('login') }}">Login</a>
+				<a class="btn btn-primary" href="{{ route('login') }}">Login</a>
 			</li>
 			@endauth
 			@endif

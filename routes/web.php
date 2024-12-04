@@ -40,6 +40,7 @@ use Illuminate\Support\Facades\Broadcast;
 // Default Route for Pages
 Route::get('/', [PagesController::class, 'index'])->name('landing');
 Route::post('/fetch-response', [PagesController::class, 'fetchResponse'])->name('fetchResponse');
+Route::get('/get-initial-questions', [PagesController::class, 'getInitialQuestions'])->name('getInitialQuestions');
 
 // Admin Modules
 Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':admin'])->group(function () {
