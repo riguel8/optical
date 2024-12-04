@@ -36,6 +36,11 @@ border-color: #f90; /* Orange for Pending */
 border-color: #28c76f; /* Blue for Confirm */
 }
 
+
+.border-status-cancelled {
+    border-color:#ea5455; /* red for cancelled */
+    }
+
 /* Section Title Styling */
 .section-title {
 font-size: 1rem;
@@ -60,6 +65,11 @@ color: #fff;
 background-color: #28c76f; /* green */
 color: #fff;
 }
+
+.status-cancelled {
+    background-color: #ea5455; /* red */
+    color: #fff;
+    }
 
 /* Button Styling */
 .action-buttons .btn {
@@ -96,6 +106,10 @@ transform: scale(1.05);
 
 .border-status-confirm {
     border-top-color: #28c76f; /* Green for Confirm */
+}
+
+.border-status-cancelled {
+    border-top-color: #ea5455; /* Green for Confirm */
 }
 
 /* Responsive column stacking */

@@ -1,0 +1,231 @@
+
+    .footer-section {
+    background-color: #f8f9fa;
+    padding: 80px 0 40px;
+}
+
+/* Get in Touch Card Styles */
+.get-in-touch-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.get-in-touch-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    margin-bottom: 25px;
+}
+
+.card-header h4 {
+    color: #1b2850;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.card-header .subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-grid-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.icon-box {
+    min-width: 45px;
+    height: 45px;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1b2850;
+}
+
+.info h6 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #1b2850;
+}
+
+.info p, .info a {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.info a:hover {
+    color: #0d6efd;
+}
+
+.phone-numbers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.social-connect {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+}
+
+.social-connect h6 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.social-btn:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+.facebook {
+    background: #1b2850;
+}
+
+.messenger {
+    background: #1b2850;
+}
+
+/* Footer Links Styles */
+.footer-links-container {
+    padding-left: 40px;
+    border-left: 1px solid #dee2e6;
+}
+
+.footer-link-group h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 20px;
+}
+
+.footer-link-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link-group ul li {
+    margin-bottom: 12px;
+}
+
+.footer-link-group ul li a {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.footer-link-group ul li a:hover {
+    color: #ff9f43;
+    padding-left: 5px;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    margin-top: 60px;
+}
+
+.footer-bottom hr {
+    margin: 0 0 20px;
+    border-color: #dee2e6;
+}
+
+.copyright {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 0;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: center;
+}
+
+.payment-methods img {
+    height: 30px;
+    width: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .footer-links-container {
+        padding-left: 0;
+        border-left: none;
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 767px) {
+    .get-in-touch-card {
+        margin-bottom: 30px;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+    }
+
+    .payment-methods {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .copyright {
+        text-align: center;
+    }
+}
+
+@media (max-width: 575px) {
+    .footer-section {
+        padding: 40px 0 20px;
+    }
+
+    .get-in-touch-card {
+        padding: 20px;
+    }
+
+    .footer-link-group {
+        margin-bottom: 30px;
+    }
+}

@@ -1,0 +1,195 @@
+
+.optometrist-hero {
+    background: white;
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.content-col {
+    display: flex;
+    align-items: center;
+    padding: 60px;
+}
+
+.content-wrapper {
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #1b2850;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #424242;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.btn-appointment {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    background: #fff;
+    color: #ff9f43;
+    border: 2px solid #ff9f43;
+    transition: all 0.3s ease;
+}
+
+.btn-appointment:hover {
+    background: #ff9f43;
+    color: #fff;
+    transform: translateY(-3px);
+}
+.doctors-wrapper {
+    display: flex;
+    gap: 30px;
+    padding: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.doctor-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 320px; /* Fixed width */
+}
+
+.doctor-card:hover {
+    transform: translateY(-10px);
+}
+
+.doctor-image {
+    width: 100%;
+    height: 400px; /* Fixed height */
+    position: relative;
+    overflow: hidden;
+}
+
+.doctor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image covers the area without distortion */
+    object-position: center top; /* This positions the image from the top */
+}
+
+.doctor-info {
+    padding: 25px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.doctor-info h3 {
+    font-size: 1.5rem;
+    color: #ff9f43;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.doctor-info p {
+    color: #616161;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .doctors-wrapper {
+        flex-direction: column;
+        padding: 30px;
+    }
+    
+    .doctor-card {
+        width: 100%;
+        max-width: 320px; /* Maximum width on mobile */
+    }
+    
+    .doctor-image {
+        height: 380px; /* Slightly smaller height on mobile */
+    }
+}
+
+@media (max-width: 991px) {
+    .optometrist-hero {
+        min-height: auto;
+    }
+    
+    .content-col {
+        padding: 40px;
+        text-align: center;
+    }
+    
+    .content-wrapper {
+        margin: 0 auto;
+    }
+    
+    .doctors-wrapper {
+        flex-direction: column;
+        padding: 30px;
+    }
+    
+    .doctor-card {
+        width: 100%;
+        max-width: 320px; /* Maximum width on mobile */
+    }
+    
+    .doctor-image {
+        height: 380px; /* Slightly smaller height on mobile */
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .content-col {
+        padding: 30px 20px;
+    }
+    
+    .doctor-image {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .btn-appointment {
+        width: 100%;
+    }
+    .doctor-image {
+        height: 350px; /* Even smaller height on very small devices */
+    }
+    
+    .doctor-info h3 {
+        font-size: 1.3rem;
+    }
+    
+    .doctor-info p {
+        font-size: 0.9rem;
+    }
+}

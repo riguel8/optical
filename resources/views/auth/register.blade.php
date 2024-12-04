@@ -48,13 +48,22 @@
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-solid fa-envelope"></i></span>
                                         <div class="form-floating">
-                                            <input id="email" type="email" name="email" placeholder="Email" class="form-control" value="{{ old('email') }}" required autocomplete="username"/>
+                                            <input id="email" 
+                                                type="email" 
+                                                name="email" 
+                                                class="form-control email-input" 
+                                                placeholder="Email"
+                                                value="{{ old('email') }}" 
+                                                required 
+                                                autocomplete="username"
+                                                pattern="[a-z0-9._%+-]+@gmail\.com$"/>
                                             <label for="email">Email Address</label>
+                                            <span class="gmail-suffix">@gmail.com</span>
                                         </div>
                                     </div>
                                     @error('email')
-									    <div class="text-danger mb-3">{{ $message }}</div>
-									@enderror
+                                        <div class="text-danger mb-3">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
 								<div class="col-md-12 mb-3">
@@ -99,6 +108,24 @@
 		</div>
 	</div>
 </div>
+<style>
+.form-floating {
+    position: relative;
+}
 
+.gmail-suffix {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.email-input {
+    padding-right: 85px !important;
+}
+</style>
 @endsection
 
