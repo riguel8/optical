@@ -49,6 +49,7 @@ class MessageSent implements ShouldBroadcast
         $sender = User::find($this->senderId);
 
         return [
+            'conversation_id' => $this->conversationId,
             'message' => is_object($this->message) ? $this->message->message : $this->message,
             'sender_id' => $this->senderId,
             'sender_name' => $sender ? $sender->name : 'Unknown User',

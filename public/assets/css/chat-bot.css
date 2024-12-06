@@ -39,39 +39,47 @@
     overflow-y: auto;
     padding: 20px;
     background-color: #f8f9fa;
+    scroll-behavior: smooth;
 }
 
 /* Message Styles */
 .media {
+    display: flex;
     margin-bottom: 15px;
+    overflow: auto;
+}
+
+
+.media.sent {
+    justify-content: flex-end;
 }
 
 .media.received {
     justify-content: flex-start;
 }
 
-.media.sent {
-    justify-content: flex-end;
-}
-
 .msg-box {
     max-width: 70%;
-    padding: 10px 15px;
+    padding: 10px;
     border-radius: 15px;
     position: relative;
     word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .received .msg-box {
     background: white;
     border: 1px solid #e9ecef;
-    margin-left: 10px;
+    margin-left: 15px;
+    border-radius: 15px 15px 15px 0;
 }
 
 .sent .msg-box {
     background: #fd7e14;
     color: white;
-    margin-right: 10px;
+    margin-right: 15px;
+    border-radius: 15px 15px 0 15px;
 }
 
 
