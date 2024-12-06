@@ -41,7 +41,7 @@ class MessagesController extends Controller
         broadcast(new MessageSent(
             $conversationId,
             $message->sender_id,
-            $message->message
+            $message
         ))->toOthers();
     
         return response()->json([
