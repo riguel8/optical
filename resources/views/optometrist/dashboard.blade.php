@@ -1,4 +1,4 @@
-@extends('template.ophthal.layout')
+@extends('template.optometrist.layout')
 
 @section('content')
     <div class="page-wrapper">
@@ -177,7 +177,7 @@
     @section("scripts")
         <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
-        <script src="{{ asset('assets/js/ophthal/dashboard/calendarevent.js') }}"></script>
+        <script src="{{ asset('assets/js/optometrist/dashboard/calendarevent.js') }}"></script>
     @endsection
 
 @endsection

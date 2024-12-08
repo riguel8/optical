@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ophthal;
+namespace App\Http\Controllers\Optometrist;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppointmentModel;
@@ -12,7 +12,7 @@ class AppointmentController extends Controller
         {
             $title = 'Appointments';
             $appointments = AppointmentModel::all();
-            return view('ophthal.appointments', compact('appointments', 'title'));
+            return view('optometrist.appointments', compact('appointments', 'title'));
         }
     }
 

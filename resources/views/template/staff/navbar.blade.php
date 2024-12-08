@@ -24,7 +24,7 @@
                     </span>
                     <div class="profilesets">
                         <h6>{{ session('name') }}</h6>
-                        <h5>{{ session('usertype') }}</h5>
+                        <h5 class="text-uppercase">{{ session('usertype') }}</h5>
                     </div>
                 </div>
                 <hr class="m-0">

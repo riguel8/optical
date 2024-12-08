@@ -1,4 +1,4 @@
-@extends('template.ophthal.layout')
+@extends('template.optometrist.layout')
 
 @section('content') 
 <div class="page-wrapper">
@@ -156,7 +156,7 @@
             const AppointmentId = this.getAttribute('data-id');
             console.log('Fetching details for appointment ID:', AppointmentId);
 
-            fetch(`/ophthal/appointments/${AppointmentId}`)
+            fetch(`/optometrist/appointments/${AppointmentId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');

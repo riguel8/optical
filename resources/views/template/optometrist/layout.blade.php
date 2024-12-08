@@ -57,20 +57,20 @@
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left active">
-                <a href="{{ url('ophthal/dashboard') }}" class="logo">
+                <a href="{{ url('optometrist/dashboard') }}" class="logo">
                     <img src="{{ asset('assets/img/Dlogo.png') }}" alt="">
                 </a>
-                <a href="{{ url('ophthal/dashboard') }}" class="logo-small">
+                <a href="{{ url('optometrist/dashboard') }}" class="logo-small">
                     <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="">
                 </a>
                 <a id="toggle_btn" href=""></a>
             </div>
 
-            @include('template.ophthal.navbar')
+            @include('template.optometrist.navbar')
 
         </div>
 
-            @include('template.ophthal.sidebar')
+            @include('template.optometrist.sidebar')
             @yield('content')
 
     <footer>

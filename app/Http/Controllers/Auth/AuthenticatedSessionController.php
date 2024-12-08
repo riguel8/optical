@@ -30,8 +30,8 @@ class AuthenticatedSessionController extends Controller
                 return redirect('client/dashboard');
             case 'staff':
                 return redirect('staff/dashboard');
-            case 'ophthal':
-                return redirect('ophthal/dashboard');
+            case 'optometrist':
+                return redirect('optometrist/dashboard');
             default:
                 return redirect()->intended(route('landing'));
         }

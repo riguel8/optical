@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ophthal;
+namespace App\Http\Controllers\Optometrist;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class AccountController extends Controller
         $user = Auth::user(); 
         $title = 'My Account';
 
-        return view('ophthal.account-details', compact('user', 'title'));
+        return view('optometrist.account-details', compact('user', 'title'));
 
     }
     public function update(Request $request, $id)
