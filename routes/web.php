@@ -247,7 +247,7 @@ Route::get('/staff/conversation/{conversationId}/messages', [StaffMessagesContro
 Route::post('/staff/conversation/{conversationId}/send-message', [StaffMessagesController::class, 'sendMessage']);
 
 
-Route::get('/client/conversations/{client_id}', [ClientMessagesController::class, 'getConversation']);
+// Route::get('/client/conversation/{client_id}', [ClientMessagesController::class, 'getConversation']);
 Route::get('/client/conversation/{conversation_id}/messages', [ClientMessagesController::class, 'fetchMessages']);
 Route::post('/client/conversation/{conversation_id}/send-message', [ClientMessagesController::class, 'sendMessage']);
 Route::get('/client/conversation/{userId}', [ClientMessagesController::class, 'getConversation']);

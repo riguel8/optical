@@ -39,8 +39,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/appointmentcard.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/eyewearfilter.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/time-select.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/chat-tab.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/chatbot.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/chat-tab.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/chat-bot.css') }}">
 </head>
 <body>
     <div id="global-loader">
@@ -65,6 +65,7 @@
 
             @include('template.client.sidebar')
             @yield('content')
+
 
     </div>
 
@@ -263,7 +264,7 @@ $(document).ready(function() {
 });
 </script>
 
-<script>
+{{-- <script>
     document.addEventListener("DOMContentLoaded", function() {
         var introMessage = "Welcome to Delin Optical! How can we assist you today?";
         appendMessage('received', introMessage);
@@ -396,7 +397,7 @@ $(document).ready(function() {
               checkeventcount--;
             }
          });
-</script>
+</script> --}}
 
 
 
