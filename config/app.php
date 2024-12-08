@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value is the name of your application, which will be used when the
-    | framework needs to place the application's name in a notification or
+    | framework needs to place the application's name in a clinic or
     | other UI elements where an application name needs to be displayed.
     |
     */
@@ -122,5 +122,7 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'clinic_email' => env('CLINIC_EMAIL', 'lalisa1438@gmail.com'),
 
 ];

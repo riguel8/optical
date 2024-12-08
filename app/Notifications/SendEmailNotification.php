@@ -36,7 +36,8 @@ class SendEmailNotification extends Notification
 
         // URL to view the cancelled appointment details (you can adjust this to fit your route)
         if ($this->status === 'Cancelled') {
-            $actionUrl = url('/appointments/cancelled/' . $this->appointment->AppointmentID);
+            $actionUrl = url('/staff/appointments/' . $this->appointment->AppointmentID);
+            $actionUrl = url('/admin/appointments/' . $this->appointment->AppointmentID);
         } else {
             $actionUrl = url('/client/appointments');  // Default link for other status updates
         }
@@ -46,23 +47,28 @@ class SendEmailNotification extends Notification
                 $subject = 'Appointment Confirmed';
                 $line = 'Your appointment has been confirmed.';
                 break;
-
+        
             case 'Cancelled':
                 $subject = 'Appointment Cancelled';
-                $line = 'Your appointment has been cancelled. Please review the details below.';
+                $line = 'Your appointment has been cancelled.';
                 break;
-
+        
             case 'Rescheduled':
                 $subject = 'Appointment Rescheduled';
-                $line = 'Your appointment has been rescheduled. Please review the updated details below.';
+                $line = 'Your appointment has been rescheduled.';
                 break;
-
-            default:
-                $subject = 'Appointment Update';
+        
+            case 'Details Updated':
+                $subject = 'Appointment Details Updated';
                 $line = 'Your appointment details have been updated.';
                 break;
+        
+            default:
+                $subject = 'Appointment Notification';
+                $line = 'There was an update to your appointment.';
+                break;
         }
-
+        
         return (new MailMessage)
             ->subject($subject)
             ->greeting('Hello ' . $this->appointment->staff->name . ',')

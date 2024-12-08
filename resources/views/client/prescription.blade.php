@@ -61,84 +61,112 @@
         </div>
     </div>
 
-    <div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
+    
+<!-- Modal to View Specific Patient -->
+<div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewPatientLabel">Patient Details</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h4 class="modal-title w-100" id="viewPatientLabel">Patient Prescription</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
-            <div class="modal-body" >
-                
-                        <div class="invoice-box table-height" style="max-width: 100%; width: 100%;  margin:15px auto; padding: 0; font-size: 14px; line-height: 24px; color: #555;">
-                            <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;">
-                                <tbody>
-                                    <tr class="top">
-                                        <td colspan="6" style="vertical-align: top;">
-                                            <table style="width: 100%; line-height: inherit; text-align: left;">
-                                            <tbody><tr>
-                                                <td style="vertical-align: top; text-align: left; padding-bottom: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 15px;">
-                                                    <font style="vertical-align: inherit;margin-bottom:25px;"><font style="vertical-align: inherit;font-size:14px;color:#7367F0;font-weight:600;line-height: 35px;">Patient Info</font></font><br>
-                                                    <font style="vertical-align: inherit;">Name: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewpatientName"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Age: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;"id="viewpatientAge"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Gender: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewpatientGender"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Contact Number: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewcontactNumber"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Address: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewpatientAddress"></font></font><br>
-                                                </td>
-                                                <td style="padding: 5px; vertical-align: top; text-align: left; padding-bottom: 20px; border: 1px solid #ddd; border-radius: 5px; padding: 15px;">
-                                                    <font style="vertical-align: inherit;margin-bottom:25px;"><font style="vertical-align: inherit;font-size:14px;color:#7367F0;font-weight:600;line-height: 35px; ">Prescription Info</font></font><br>
-                                                    <font style="vertical-align: inherit;">Prescription: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionPrescription"></font></font><br>
-                                                    <font style="vertical-align: inherit; display: none;" id="viewgradeRight">OD (Right Eye): <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionOD"></font></font>
-                                                    <font style="vertical-align: inherit; display: none;" id="viewgradeLeft">OS (LEFT Eye): <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionOS"></font></font>
-                                                    <font style="vertical-align: inherit; display: none;" id="viewgradeBoth">OU (BOTH Eye): <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionOU"></font></font>
-                                                    <font style="vertical-align: inherit;">Lens: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionLens"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Lens Type: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionLensType"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Frame: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionFrame"></font></font><br>
-                                                    <font style="vertical-align: inherit;">ADD: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionADD"></font></font><br>
-                                                    <font style="vertical-align: inherit;">PD: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionPD"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Payment Status: <font style="vertical-align: inherit;"><font class="rounded-pill bg-secondary badges badges-sm" style="vertical-align: inherit;font-size: 14px;color:white;font-weight: 400;" id="viewpaymentStatus"></font></font><br>
-                                                </td>
-                                            </tr>
-                                        </tbody></table>
-                                    </td>
+            <div class="modal-body p-3 p-md-4">
+                <div class="prescription-box border rounded p-3 p-md-4">
+                    <!-- Patient Info Section -->
+                    <h5 class="text-primary fw-bold border-bottom pb-2 mb-4">Patient Information</h5>
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <p class="mb-0">Name: <strong><span id="viewpatientName"></span></strong></p>
+                            <p class="mb-0">Age: <strong><span id="viewpatientAge"></span></strong></p>
+                            <p class="mb-0">Gender: <strong><span id="viewpatientGender"></span></strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0">Contact Number: <strong><span id="viewcontactNumber"></span></strong></p>
+                            <p class="mb-0">Address: <strong><span id="viewpatientAddress"></span></strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Prescription Details Section -->
+                    <h5 class="text-primary fw-bold border-bottom pb-2 mt-3 mb-4">Prescription Details</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Prescription</th>
+                                    <th>Right Eye (OD)</th>
+                                    <th>Left Eye (OS)</th>
+                                    <th>ADD</th>
+                                    <th>PD</th>
+                                    <th>Both Eyes (OU)</th>
                                 </tr>
-                            </tbody></table>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong><span id="viewprescriptionPrescription"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionOD"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionOS"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionADD"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionPD"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionOU"></span></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                            <div class="row">
-                                <div class="col-lg-6 ">
-                                    <div class="total-order w-100 max-widthauto m-auto mb-4">
-                                        <ul>
-                                            <li>
-                                                <h4>Total Amount</h4>
-                                                <h5>₱<span id="viewtotalAmount"></span></h5>
-                                            </li>
-                                            <li>
-                                                <h4>Deposit</h4>
-                                                <h5 id="viewdeposit"></h5>
-                                            </li>
+                    <!-- Lens and Frame Details -->
+                    <div class="row text-center mb-5">
+                        <div class="col-md-4">
+                            <p>Lens: <strong><span id="viewprescriptionLens"></span></strong> </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Lens Type: <strong><span id="viewprescriptionLensType"></span></strong> </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Frame: <strong><span id="viewprescriptionFrame"></span></strong> </p>
+                        </div>
+                    </div>
 
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 ">
-                                    <div class="total-order w-100 max-widthauto m-auto mb-4">
-                                        <ul>
-                                            <li>
-                                                <h4>Mode of Payment</h4>
-                                                <h5 id="viewmodeOfPayment"></h5>
-                                            </li>
-                                            <li class="total">
-                                                <h4>Balance</h4>
-                                                <h5>₱<span id="viewbalance"></span></h5>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                    <!-- Payment Details Section -->
+                    <h5 class="d-flex justify-content-between align-items-center text-primary fw-bold border-bottom pb-2 mb-4">
+                        Payment Information
+                        <span class="bg-success badges" id="viewpaymentStatus"></span>
+                    </h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="total-order w-100 max-widthauto m-auto mb-4">
+                                <ul>
+                                    <li>
+                                        <h4>Total Amount</h4>
+                                        <h5>₱<span id="viewtotalAmount"></span></h5>
+                                    </li>
+                                    <li>
+                                        <h4>Deposit</h4>
+                                        <h5 id="viewdeposit"></h5>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                   
+                        <div class="col-lg-6">
+                            <div class="total-order w-100 max-widthauto m-auto mb-4">
+                                <ul>
+                                    <li>
+                                        <h4>Mode of Payment</h4>
+                                        <h5 id="viewmodeOfPayment"></h5>
+                                    </li>
+                                    <li class="total">
+                                        <h4>Balance</h4>
+                                        <h5>₱<span id="viewbalance"></span></h5>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Section -->
+                    <div class="text-center border-top pt-3">
+                        <p class="text-muted"><em>This prescription is generated electronically and does not require a signature.</em></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -184,80 +212,77 @@
 
     @section('scripts')
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const viewButtons = document.querySelectorAll('.view-patient');
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const prescriptionId = this.getAttribute('data-id');
-                    fetch(`/client/prescription/${prescriptionId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Fill in the patient details
-                            document.getElementById('viewpatientName').textContent = data.patient.complete_name || '';
-                            document.getElementById('viewpatientAge').textContent = data.patient.age || '';
-                            document.getElementById('viewpatientGender').textContent = data.patient.gender || '';
-                            document.getElementById('viewcontactNumber').textContent = data.patient.contact_number || '';
-                            document.getElementById('viewpatientAddress').textContent = data.patient.address || '';
+    <!-- Script to view specific patient -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const viewButtons = document.querySelectorAll('.view-patient');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const PatientId = this.getAttribute('data-id');
+                fetch(`/client/prescription/${PatientId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const setTextContent = (id, value) => {
+                            const element = document.getElementById(id);
+                            element.textContent = value || 'Not Available';
+                            element.style.color = value ? '' : 'red';
+                        };
 
-                            // Fill in the prescription details
-                            document.getElementById('viewprescriptionPrescription').textContent = data.prescription.prescription || 'Not Available';
-                            if (data.prescription.prescription === 'OU') {
-                                document.getElementById('viewgradeBoth').style.display = 'block';
-                                document.getElementById('viewgradeRight').style.display = 'none';
-                                document.getElementById('viewgradeLeft').style.display = 'none';
-                                document.getElementById('viewprescriptionOU').textContent = data.prescription.OUgrade || 'Not Available';
-                            } else {
-                                document.getElementById('viewgradeBoth').style.display = 'none';
-                                document.getElementById('viewgradeRight').style.display = 'block';
-                                document.getElementById('viewgradeLeft').style.display = 'block';
-                                document.getElementById('viewprescriptionOD').textContent = data.prescription.ODgrade || 'Not Available';
-                                document.getElementById('viewprescriptionOS').textContent = data.prescription.OSgrade || 'Not Available';
-                            }
-                            document.getElementById('viewprescriptionLens').textContent = data.prescription.lens || 'Not Available';
-                            document.getElementById('viewprescriptionLensType').textContent = data.prescription.lens_type || 'Not Available';
-                            document.getElementById('viewprescriptionFrame').textContent = data.prescription.frame || 'Not Available';
-                            document.getElementById('viewprescriptionADD').textContent = data.prescription.ADD || 'Not Available';
-                            document.getElementById('viewprescriptionPD').textContent = data.prescription.PD || 'Not Available';
+                        setTextContent('viewpatientName', data.patient.complete_name);
+                        setTextContent('viewpatientAge', data.patient.age);
+                        setTextContent('viewpatientGender', data.patient.gender);
+                        setTextContent('viewcontactNumber', data.patient.contact_number);
+                        setTextContent('viewpatientAddress', data.patient.address);
 
-                            // Payment details
-                            document.getElementById('viewtotalAmount').textContent = data.payment.total_amount || '';
-                            document.getElementById('viewdeposit').textContent = data.payment.deposit || '';
-                            document.getElementById('viewmodeOfPayment').textContent = data.payment.mode_of_payment || '';
-                            document.getElementById('viewbalance').textContent = data.payment.balance || '';
+                        setTextContent('viewprescriptionPrescription', data.prescription.prescription);
+                        setTextContent('viewprescriptionOD', data.prescription.ODgrade);
+                        setTextContent('viewprescriptionOS', data.prescription.OSgrade);
+                        setTextContent('viewprescriptionADD', data.prescription.ADD);
+                        setTextContent('viewprescriptionPD', data.prescription.PD);
+                        setTextContent('viewprescriptionOU', data.prescription.OUgrade);
 
-                            const paymentStatus = data.payment.status || '';
-                            const paymentStatusBadge = document.getElementById('viewpaymentStatus');
-                            paymentStatusBadge.textContent = paymentStatus;
+                        setTextContent('viewprescriptionLens', data.prescription.lens);
+                        setTextContent('viewprescriptionLensType', data.prescription.lens_type);
+                        setTextContent('viewprescriptionFrame', data.prescription.frame);
 
-                            paymentStatusBadge.classList.add('badge', 'badge-sm');
+                        setTextContent('viewtotalAmount', data.payment.total_amount);
+                        setTextContent('viewdeposit', data.payment.deposit);
+                        setTextContent('viewmodeOfPayment', data.payment.mode_of_payment);
+                        setTextContent('viewbalance', data.payment.balance);
 
-                            if (paymentStatus.toLowerCase() === 'paid') {
-                                paymentStatusBadge.classList.remove('bg-warning', 'bg-danger');
+                        const paymentStatus = data.payment.status || '';
+                        const paymentStatusBadge = document.getElementById('viewpaymentStatus');
+                        paymentStatusBadge.textContent = paymentStatus;
+                        paymentStatusBadge.className = 'badge'; // Reset classes
+
+                        switch(paymentStatus.toLowerCase()) {
+                            case 'paid':
                                 paymentStatusBadge.classList.add('bg-success');
-                            } else if (paymentStatus.toLowerCase() === 'partial') {
-                                paymentStatusBadge.classList.remove('bg-success', 'bg-danger');
+                                break;
+                            case 'partial':
                                 paymentStatusBadge.classList.add('bg-warning');
-                            } else if (paymentStatus.toLowerCase() === 'unpaid') {
-                                paymentStatusBadge.classList.remove('bg-success', 'bg-warning');
+                                break;
+                            case 'unpaid':
                                 paymentStatusBadge.classList.add('bg-danger');
-                            } else {
-                                paymentStatusBadge.classList.remove('bg-success', 'bg-warning', 'bg-danger');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching patient details:', error);
-                            alert('Error fetching data.');
-                        });
-                });
+                                break;
+                            default:
+                                paymentStatusBadge.classList.add('bg-secondary');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching patient details:', error);
+                        alert('Error fetching data.');
+                    });
             });
         });
-    </script>
+    });
+</script>
+
     
     @endsection
 @endsection

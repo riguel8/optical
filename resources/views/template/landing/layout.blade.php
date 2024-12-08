@@ -58,7 +58,7 @@
                         <div class="chat-header">
                             <div class="d-flex align-items-center">
                                 <div class="img_cont me-2">
-                                    <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="Bot" class="rounded-circle" width="40">
+                                    <img src="{{ asset("assets/img/Dlogo-small.png") }}" alt="Bot" class="rounded-circle" width="40">
                                 </div>
                                 <div class="user_info">
                                     <h6>Delin Chatbot</h6>

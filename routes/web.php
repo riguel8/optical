@@ -129,7 +129,9 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::get('/client/appointments/{id}', [ClientAppointmentController::class, 'view']);
     // Calendar Time Slot Availability
     Route::get('/appointments/check-client-availability', [ClientAppointmentController::class, 'checkclientAvailability']);
-
+    Route::post('/client/appointments/{appointmentId}/update-status', [ClientAppointmentController::class, 'updateStatus'])
+    ->name('client.appointments.updateStatus');
+   
     // Prescription View
     Route::get('/client/prescription', [ClientPrescriptionController::class, 'index'])->name('client.prescription');
     Route::get('/client/prescription/{id}', [ClientPrescriptionController::class, 'show']);

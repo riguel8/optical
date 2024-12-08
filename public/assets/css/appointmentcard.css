@@ -73,23 +73,52 @@ color: #fff;
 
 /* Button Styling */
 .action-buttons .btn {
-font-size: 0.85rem;
-font-weight: 600;
-padding: 0.5em 1.2em;
-border-radius: 25px;
-transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
 .action-buttons .btn:hover {
 transform: scale(1.05);
 }
 
+
+/* Accept Decline Buttons */
+
+.btn-decline {
+    display: inline-flex;
+    justify-content: center;
+    align-items: end;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-align: end;
+    padding: 0;
+}
+
+.btn-decline {
+background-color: #dc3545;
+color: white;
+font-size: 16px;
+}
+
+.btn-decline:hover {
+background-color: #c82333;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
 /* Adjust card padding and layout */
 .appointment-card {
     padding: 1rem;
-    text-align: center;
+    text-align: justify;
 }
 
 /* Vertical line becomes horizontal */
@@ -120,7 +149,7 @@ transform: scale(1.05);
 /* Center buttons on mobile */
 .action-buttons {
     display: flex;
-    justify-content: center;
+    justify-content: justify;
     gap: 1rem;
 }
 }
