@@ -65,6 +65,46 @@
 
             @include('template.client.sidebar')
             @yield('content')
+            
+                        <!-- Floating Chat Button -->
+        <a id="contactUsBtn" class="chat-float-btn mb-5" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+            <iconify-icon icon="simple-icons:chatbot" width="24" height="24" data-bs-toggle="tooltip" title="Chat with our Assistant"></iconify-icon>
+        </a>
+
+<!-- Chat Modal -->
+<div class="modal fade" id="chatbotModal" tabindex="1" aria-labelledby="chatbotModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-right">
+        <div class="modal-content">
+            <div class="chat-header">
+                <div class="d-flex align-items-center">
+                    <div class="img_cont me-2">
+                        <img src="{{ asset('assets/img/Dlogo-small.png') }}" alt="Bot" class="rounded-circle" width="40">
+                    </div>
+                    <div class="user_info">
+                        <h6>Delin Chatbot</h6>
+                    </div>
+                </div>
+                <button class="btn btn-icon" type="button" data-bs-dismiss="modal">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="chat-body">
+                <ul class="list-unstyled" id="chatMessages"></ul>
+            </div>
+            <div class="chat-footer">
+                <div id="suggestionsArea" class="mb-3">
+                    <div class="suggestions-container"></div>
+                </div>
+                <div class="input-group">
+                    <input type="text" class="form-control type_msg" id="messageInput" placeholder="Type your message here...">
+                    <button class="btn btn-send" id="sendButton">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
     </div>

@@ -14,7 +14,7 @@ $(document).ready(function () {
             listWeek: "Week",
         },
         events: {
-            url: '/ophthal/dashboard/get_appointments',
+            url: '/optometrist/dashboard/get_appointments',
             method: 'GET',
             failure: function () {
                 alert('There was an error while fetching appointments!');

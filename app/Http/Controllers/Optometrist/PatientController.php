@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ophthal;
+namespace App\Http\Controllers\Optometrist;
 
 use App\Http\Controllers\Controller;
 use App\Models\PatientModel;
@@ -26,7 +26,7 @@ class PatientController extends Controller
         })
         ->get();
 
-        return view('ophthal.patients', compact('patients', 'title'));
+        return view('optometrist.patients', compact('patients', 'title'));
     }
 
     //Function to View Specific Patient

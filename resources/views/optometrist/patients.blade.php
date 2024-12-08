@@ -1,4 +1,4 @@
-@extends('template.ophthal.layout')
+@extends('template.optometrist.layout')
 
 @section('content')
 
@@ -165,7 +165,7 @@
 <div class="modal fade" id="addPatient" tabindex="-1" aria-labelledby="addPatientLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form id="addPatientForm" action="{{ route('ophthal.patients.store') }}" method="POST">
+            <form id="addPatientForm" action="{{ route('optometrist.patients.store') }}" method="POST">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="addPatientLabel">Walk-in Patient</h5>
@@ -355,7 +355,7 @@
 <div class="modal fade" id="editPatient" tabindex="-1" aria-labelledby="editPatientLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form id="edit_addPatientForm" action="{{ route('ophthal.patients.update') }}" method="POST">
+            <form id="edit_addPatientForm" action="{{ route('optometrist.patients.update') }}" method="POST">
                 @csrf
                 <input type="hidden" id="edit_patientId" name="edit_patientId">
                 <input type="hidden" id="edit_prescriptionId" name="edit_prescriptionId">
@@ -681,7 +681,7 @@
         viewButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const PatientId = this.getAttribute('data-id');
-                fetch(`/ophthal/patients/${PatientId}`)
+                fetch(`/optometrist/patients/${PatientId}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -1023,7 +1023,7 @@
             };
     
             const fetchPatientData = (PatientID) => {
-                fetch(`/ophthal/patients/edit/${PatientID}`)
+                fetch(`/optometrist/patients/edit/${PatientID}`)
                     .then((response) => response.json())
                     .then((data) => {
                         document.getElementById("edit_patientId").value = data.patient.PatientID || "";

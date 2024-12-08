@@ -69,7 +69,7 @@
                                         <span class="bg-lightgreen badges">Admin</span>
                                         @elseif ($user->usertype == 'client')
                                         <span class="bg-primary badges">Client</span>
-                                        @elseif ($user->usertype == 'ophthal')
+                                        @elseif ($user->usertype == 'optometrist')
                                         <span class="bg-lightred badges">Doctor</span>
                                         @endif
                                     </td>
@@ -122,20 +122,22 @@
                             <option value="" disabled selected>Select Usertype</option>
                             <option value="admin">Admin</option>
                             <option value="client">Client</option>
-                            <option value="ophthal">Ophthal/Doctor</option>
+                            <option value="optometrist">Optometrist/Doctor</option>
                             <option value="staff">Staff</option>
                         </select>
                         <span class="arrow"></span>
                         <label for="floatingSelect">UserType</label>
                     </div>
 
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3 input-icon">
                         <input class="form-control" type="password" placeholder="Password" name="password" required>
+                        <i class="fa fa-eye-slash"></i>
                         <label for="password">Password</label>
                     </div>
                     
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3 input-icon">
                         <input class="form-control" type="password" placeholder="Confirm Password" name="password_confirmation" required>
+                        <i class="fa fa-eye-slash"></i>
                         <label for="password_confirmation">Confirm Password</label>
                     </div>
                     <div class="mt-auto d-flex justify-content-end gap-2">
@@ -219,19 +221,21 @@
                             <option value="admin">Admin</option>
                             <option value="client">Client</option>
                             <option value="staff">Staff</option>
-                            <option value="ophthal">Ophthal/Doctor</option>
+                            <option value="optometrist">Optometrist/Doctor</option>
                         </select>
                         <span class="arrow"></span>
                         <label for="edit_floatingSelect">User Type</label>
                     </div>
 
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3 input-icon">
                         <input id="edit_userpassword" type="password" name="password" class="form-control" placeholder="New Password" />
+                        <i class="fa fa-eye-slash"></i>
                         <label for="edit_userpassword">New Password</label>
                     </div>
                     
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3 input-icon">
                         <input id="edit_userpassword_confirmation" type="password" name="password_confirmation" class="form-control" placeholder="Confirm New Password" />
+                        <i class="fa fa-eye-slash"></i>
                         <label for="edit_userpassword_confirmation">Confirm New Password</label>
                     </div>
 
@@ -252,6 +256,8 @@
     
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/password.js') }}"></script>
+
 
     <!-- ADD SUCCESSFUL MODAL -->
     <script>

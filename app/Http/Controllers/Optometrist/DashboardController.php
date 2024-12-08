@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ophthal;
+namespace App\Http\Controllers\Optometrist;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppointmentModel;
@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $appointmentCount = AppointmentModel::count();
         $eyewearCount = Eyewear::count();
 
-        return view('ophthal.dashboard', compact( 'totalSales','clientcount','patientCount', 'staffcount', 'appointmentCount', 'eyewearCount', 'title'));
+        return view('Optometrist.dashboard', compact( 'totalSales','clientcount','patientCount', 'staffcount', 'appointmentCount', 'eyewearCount', 'title'));
     }
     public function getAppointments()
     {

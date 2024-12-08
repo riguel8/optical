@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PagesController;
-use App\Http\Controllers\OphthalController;
+use App\Http\Controllers\OptometristController;
 use App\Models\ConversationModel;
 // ADMIN CONTROLLER
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
@@ -27,11 +27,11 @@ use App\Http\Controllers\Client\DashboardController as ClientDashboardController
 use App\Http\Controllers\Client\AccountController as ClientAccountController;
 use App\Http\Controllers\Client\PrescriptionController as ClientPrescriptionController;
 use App\Http\Controllers\Client\MessagesController as ClientMessagesController;
-// OPHTHAL
-use App\Http\Controllers\Ophthal\DashboardController as OphthalDashboardController;
-use App\Http\Controllers\Ophthal\AppointmentController as OphthalAppointmentController;
-use App\Http\Controllers\Ophthal\PatientController as OphthalPatientController;
-use App\Http\Controllers\Ophthal\AccountController as OphthalAccountController;
+// optometrist
+use App\Http\Controllers\Optometrist\DashboardController as OptometristDashboardController;
+use App\Http\Controllers\Optometrist\AppointmentController as OptometristAppointmentController;
+use App\Http\Controllers\Optometrist\PatientController as OptometristPatientController;
+use App\Http\Controllers\Optometrist\AccountController as OptometristAccountController;
 
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -144,29 +144,29 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::
     Route::put('/client/account-details{id}', [ClientAccountController::class, 'update'])->name('client.update');
 });
 
-// Ophthal Modules
-Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':ophthal'])->group(function () {
+// optometrist Modules
+Route::middleware(['auth', 'verified', \App\Http\Middleware\UserTypeMiddleware::class . ':optometrist'])->group(function () {
 
-    Route::get('/ophthal/dashboard', [OphthalDashboardController::class, 'index'])->name('ophthal.dashboard');
-    Route::get('/ophthal/dashboard/get_appointments', [OphthalDashboardController::class, 'getAppointments']);
-    Route::get('/ophthal/dashboard/get_appointment_details', [OphthalDashboardController::class, 'getAppointmentDetails']);
+    Route::get('/optometrist/dashboard', [OptometristDashboardController::class, 'index'])->name('optometrist.dashboard');
+    Route::get('/optometrist/dashboard/get_appointments', [OptometristDashboardController::class, 'getAppointments']);
+    Route::get('/optometrist/dashboard/get_appointment_details', [OptometristDashboardController::class, 'getAppointmentDetails']);
 
     // Appointments
-    Route::get('/ophthal/appointments', [OphthalAppointmentController::class, 'index'])->name('ophthal.appointments');
-    Route::get('/ophthal/appointments/{id}', [OphthalAppointmentController::class, 'view']);
+    Route::get('/optometrist/appointments', [OptometristAppointmentController::class, 'index'])->name('optometrist.appointments');
+    Route::get('/optometrist/appointments/{id}', [OptometristAppointmentController::class, 'view']);
 
     //Patient CRUD
-    Route::get('/ophthal/patients', [OphthalPatientController::class, 'index'])->name('ophthal.patients');
-    Route::get('/ophthal/patients/{id}', [OphthalPatientController::class, 'view']);
+    Route::get('/optometrist/patients', [OptometristPatientController::class, 'index'])->name('optometrist.patients');
+    Route::get('/optometrist/patients/{id}', [OptometristPatientController::class, 'view']);
     // To Store Walk-in Patient with Prescription
-    Route::post('/ophthal/patients/store', [OphthalPatientController::class, 'store'])->name('ophthal.patients.store');
+    Route::post('/optometrist/patients/store', [OptometristPatientController::class, 'store'])->name('optometrist.patients.store');
     // To Add Prescription for Patient from Appointments
-    Route::get('/ophthal/patients/edit/{id}', [OphthalPatientController::class, 'edit']);
-    Route::post('/ophthal/patients/update', [OphthalPatientController::class, 'update'])->name('ophthal.patients.update');
+    Route::get('/optometrist/patients/edit/{id}', [OptometristPatientController::class, 'edit']);
+    Route::post('/optometrist/patients/update', [OptometristPatientController::class, 'update'])->name('optometrist.patients.update');
 
      // ACCOUNT DETAILS
-     Route::get('/ophthal/account-details', [OphthalAccountController::class, 'index'])->name('ophthal.account-details');
-     Route::put('/ophthal/account-details{id}', [OphthalAccountController::class, 'update'])->name('ophthal.update');
+     Route::get('/optometrist/account-details', [OptometristAccountController::class, 'index'])->name('optometrist.account-details');
+     Route::put('/optometrist/account-details{id}', [OptometristAccountController::class, 'update'])->name('optometrist.update');
 });
 
 

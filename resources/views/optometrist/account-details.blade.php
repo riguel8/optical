@@ -1,4 +1,4 @@
-@extends('template.ophthal.layout')
+@extends('template.optometrist.layout')
 
 @section('content')
 <div class="page-wrapper">
@@ -10,7 +10,7 @@
                     <ul class="breadcrumb">
                         <iconify-icon icon="eva:arrow-back-outline" width="18" height="18"></iconify-icon>
                         <li class="breadcrumb-item">
-                            <a href="{{url("ophthal/dashboard")}}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Back to dashboard">Dashboard</a>
+                            <a href="{{url("optometrist/dashboard")}}"  data-bs-toggle="tooltip" data-bs-placement="top" title="Back to dashboard">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item active">Account Details</li>
                     </ul>
@@ -21,7 +21,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('ophthal.update', Auth::user()->id) }}" method="POST">
+                <form action="{{ route('optometrist.update', Auth::user()->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     
@@ -81,7 +81,7 @@
 
                         <div class="col-12 mt-3">
                             <button type="submit" class="btn btn-submit me-2">Submit</button>
-                            <a href="{{ route('ophthal.dashboard') }}" class="btn btn-cancel">Cancel</a>
+                            <a href="{{ route('optometrist.dashboard') }}" class="btn btn-cancel">Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -64,7 +64,7 @@
 				<a class="nav-link scroll-link" href="#services">Services</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link scroll-link" href="#optal">Ophthalmologist</a>
+				<a class="nav-link scroll-link" href="#optal">Optometrist</a>
 			</li>
 			@if (Route::has('login'))
 			@auth
