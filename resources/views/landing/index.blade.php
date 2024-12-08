@@ -176,20 +176,20 @@
                     <div class="doctors-wrapper">
                         <div class="doctor-card">
                             <div class="doctor-image">
-                                <img src="{{ asset('assets/img/users/pupu.jpg') }}" alt="Doctor 1">
+                                <img src="{{ asset('assets/img/delin/Dr.Delin.jpg') }}" alt="Doctor 1">
                             </div>
                             <div class="doctor-info">
-                                <h3>Dr. Kim Chaewon</h3>
-                                <p>Pediatric Optometry Specialist</p>
+                                <h3>Dr.Sevirino Delin</h3>
+                                <!-- <p>Pediatric Optometry Specialist</p> -->
                             </div>
                         </div>
                         <div class="doctor-card">
                             <div class="doctor-image">
-                                <img src="{{ asset('assets/img/users/rina.jpg') }}" alt="Doctor 2">
+                                <img src="{{ asset('assets/img/delin/Dr.Lendl.jpg') }}" alt="Doctor 2">
                             </div>
                             <div class="doctor-info">
-                                <h3>Dr. Yoo Jimin</h3>
-                                <p>Vision Therapy Expert</p>
+                                <h3>Dr.Lendl Sam Delin</h3>
+                                <!-- <p>Vision Therapy Expert</p> -->
                             </div>
                         </div>
                     </div>

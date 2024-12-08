@@ -8,6 +8,27 @@
 
 <ul class="nav user-menu">
 
+    <!-- <li class="nav-item dropdown">
+        <a href="" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+            <img src="{{ asset('assets/img/icons/notification-bing.svg') }}" alt="img"> 
+            <span class="badge rounded-pill notification-count">0</span>
+        </a>
+        <div class="dropdown-menu notifications">
+            <div class="topnav-dropdown-header">
+                <span class="notification-title">Notifications</span>
+                <a href="" class="clear-noti"> Clear All </a>
+            </div>
+            <div class="noti-content">
+                <ul class="notification-list">
+                 
+                </ul>
+            </div>
+            <div class="topnav-dropdown-footer">
+                <a href="">View all Notifications</a>
+            </div>
+        </div>
+    </li> -->
+
     <li class="nav-item dropdown has-arrow main-drop">
         <a href="#" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
             <span class="user-img">

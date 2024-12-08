@@ -53,22 +53,32 @@
 													<p class="mb-0"><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
 												</div>
 											</div>
-											<div class="col-md-4 col-12">
-												<h6 class="section-title mb-3">Appointment Schedule</h6>
-												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
-												<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
-											</div>
-											<div class="col-md-4 col-12 text-md-end text-center">
-												<div class="status-badge mb-5">
-													<span class="badges status-pending"><strong>Pending</strong></span>
+											<div class="col-md-4 col-12 mb-4">
+												<div>
+													<h6 class="section-title mb-3">Appointment Schedule</h6>
+													<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
+													<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
 												</div>
-												<div class="action-buttons mt-3">
-													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
-														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
-													</a>
-													<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
-														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
-													</a>
+											</div>
+											<div class="col-md-4 col-12 text-md-end">
+												<div class="status-badge mb-5">
+													<h6 class="section-title mb-3">Status <span class="badges status-pending"><strong>Pending</strong></span>
+													</h6>
+												</div>
+												<div class="action-buttons justify-content-end  mt-4">
+													<div class="action-buttons">
+														<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+															<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+														</a>
+														<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+															<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+														</a>
+														<button class="btn-decline" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal">
+															<svg xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-x" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel Appointment">
+																<path d="M4.646 4.646a1 1 0 0 1 1.414 0L8 6.586l2.939-2.94a1 1 0 1 1 1.414 1.414L9.414 8l2.939 2.94a1 1 0 0 1-1.414 1.414L8 9.414l-2.939 2.94a1 1 0 0 1-1.414-1.414L6.586 8 3.646 5.06a1 1 0 0 1 0-1.414z"/>
+															</svg>
+														</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -90,7 +100,7 @@
 								</div>
 							@else
 								@foreach ($confirmedAppointments as $appointment)
-									<div class="appointment-card p-4 rounded shadow-sm mb-4">
+								<div class="appointment-card p-4 rounded shadow-sm mb-4">
 										<div class="row align-items-justify">
 											<div class="col-md-4 col-12">
 												<div class="details-section border-status-confirm">
@@ -100,24 +110,32 @@
 													<p class="mb-0"><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
 												</div>
 											</div>
-											<div class="col-md-4 col-12">
-												<h6 class="section-title mb-3">Appointment Schedule</h6>
-												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
-												<p class="mb-1"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
-												<p class="mb-0"><strong>Note:</strong> {{ $appointment->Notes }}</p>
-
-											</div>
-											<div class="col-md-4 col-12 text-md-end text-center">
-												<div class="status-badge  mb-5">
-													<span class="badges status-confirm"><strong>Confirm</strong></span>
+											<div class="col-md-4 col-12 mb-4">
+												<div>
+													<h6 class="section-title mb-3">Appointment Schedule</h6>
+													<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
+													<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
 												</div>
-												<div class="action-buttons mt-3">
-													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
-														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
-													</a>
-													{{-- <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
-														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
-													</a> --}}
+											</div>
+											<div class="col-md-4 col-12 text-md-end">
+												<div class="status-badge mb-5">
+													<h6 class="section-title mb-3">Status <span class="badges status-confirm"><strong>Confirm</strong></span>
+													</h6>
+												</div>
+												<div class="action-buttons justify-content-end  mt-4">
+													<div class="action-buttons">
+														<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+															<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+														</a>
+														<a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+															<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+														</a>
+														<button class="btn-decline" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal">
+															<svg xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-x" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel Appointment">
+																<path d="M4.646 4.646a1 1 0 0 1 1.414 0L8 6.586l2.939-2.94a1 1 0 1 1 1.414 1.414L9.414 8l2.939 2.94a1 1 0 0 1-1.414 1.414L8 9.414l-2.939 2.94a1 1 0 0 1-1.414-1.414L6.586 8 3.646 5.06a1 1 0 0 1 0-1.414z"/>
+															</svg>
+														</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -139,7 +157,7 @@
 								</div>
 							@else
 								@foreach ($cancelledAppointments as $appointment)
-									<div class="appointment-card p-4 rounded shadow-sm mb-4">
+								<div class="appointment-card p-4 rounded shadow-sm mb-4">
 										<div class="row align-items-justify">
 											<div class="col-md-4 col-12">
 												<div class="details-section border-status-cancelled">
@@ -149,24 +167,32 @@
 													<p class="mb-0"><strong>Contact Number:</strong> {{ $appointment->patient->contact_number }}</p>
 												</div>
 											</div>
-											<div class="col-md-4 col-12">
-												<h6 class="section-title mb-3">Appointment Schedule</h6>
-												<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
-												<p class="mb-1"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
-												<p class="mb-0"><strong>Note:</strong> {{ $appointment->Notes }}</p>
-
-											</div>
-											<div class="col-md-4 col-12 text-md-end text-center">
-												<div class="status-badge  mb-5">
-													<span class="bg-lightred badges"><strong>Cancelled</strong></span>
+											<div class="col-md-4 col-12 mb-4">
+												<div>
+													<h6 class="section-title mb-3">Appointment Schedule</h6>
+													<p class="mb-1"><strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('F j, Y') }}</p>
+													<p class="mb-0"><strong>Time:</strong> {{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</p>
 												</div>
-												<div class="action-buttons mt-3">
-													<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
-														<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
-													</a>
-													{{-- <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
-														<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
-													</a> --}}
+											</div>
+											<div class="col-md-4 col-12 text-md-end">
+												<div class="status-badge mb-5">
+													<h6 class="section-title mb-3">Status <span class="badges status-cancelled"><strong>Cancelled</strong></span>
+													</h6>
+												</div>
+												<div class="action-buttons justify-content-end  mt-4">
+													<div class="action-buttons">
+														<a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
+															<img src="{{ asset('assets/img/icons/eye.svg') }}" alt="View" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
+														</a>
+														<!-- <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
+															<img src="{{ asset('assets/img/icons/edit.svg') }}" alt="Edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
+														</a>
+														<button class="btn-decline" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#confirmModal">
+															<svg xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-x" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel Appointment">
+																<path d="M4.646 4.646a1 1 0 0 1 1.414 0L8 6.586l2.939-2.94a1 1 0 1 1 1.414 1.414L9.414 8l2.939 2.94a1 1 0 0 1-1.414 1.414L8 9.414l-2.939 2.94a1 1 0 0 1-1.414-1.414L6.586 8 3.646 5.06a1 1 0 0 1 0-1.414z"/>
+															</svg>
+														</button> -->
+													</div>
 												</div>
 											</div>
 										</div>
@@ -388,16 +414,32 @@
     </div>
 </div>
 
+
+<!-- Modal for Confirming Cancel Appointment -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="confirmModalLabel">Confirm Cancellation</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center" style="padding:30px;">
+                <p>Are you sure you want to <span class="fw-bold text-danger">cancel</span> this appointment?</p>
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-sm btn-submit w-100 me-2" id="confirm-action">Confirm</button>
+                    <button type="button" class="btn btn-sm btn-cancel w-100" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 </div>
 
-
-<style>
-
-</style>
 
 @section('scripts')
-
+	<script src="{{ asset("assets/js/client/decline-appointment.js")}}"></script>	
 	<!-- Script to check time slot -->
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {

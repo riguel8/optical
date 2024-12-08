@@ -66,26 +66,6 @@
             @include('template.client.sidebar')
             @yield('content')
 
-            <!-- Floating Chat Button -->
-        <a id="contactUsBtn" class="chat-float-btn mb-5" data-bs-toggle="modal" data-bs-target="#chatModal">
-            <iconify-icon icon="simple-icons:chatbot" width="24" height="24" data-bs-toggle="tooltip" title="Chat with our Assistant"></iconify-icon>
-        </a>
-
-<!-- Chat Modal -->
-<div class="chat-modal" id="chatModal">
-    <div class="chat-header">
-        <span> Client Chat</span>
-        <button class="close-btn" id="closeChatModal">&times;</button>
-    </div>
-    <div class="messages" id="messageContainer">
-    </div>
-    <div class="input-container">
-        <input type="text" id="messageInput" placeholder="Type a message...">
-        <button id="sendButton">Send</button>
-    </div>
-</div>
-
-
     </div>
 
     <footer>
@@ -161,44 +141,122 @@ function getStatusBadge(status) {
 
 <script>
 $(document).ready(function() {
+    // Define the error handling function within the scope
+    function showErrorMessage(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Request Failed',
+            html: `
+                <div class="text-center">
+                    <p class="text-danger">${message}</p>
+                    <p class="small text-muted">Please try again or contact support if the problem persists.</p>
+                </div>
+            `,
+            confirmButtonColor: '#dc3545'
+        });
+    }
+
     $('#addAppointmentForm').submit(function(e) {
-        e.preventDefault(); 
+        e.preventDefault();
         
         var formData = $(this).serialize();
+        var submitButton = $(this).find('button[type="submit"]');
+        var originalButtonText = submitButton.html();
+
+        // Show processing state
+        Swal.fire({
+            title: 'Processing Request',
+            html: `
+                <div class="text-center">
+                    <p>Please wait while we submit your appointment...</p>
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false
+        });
+
+        // Disable submit button
+        submitButton.prop('disabled', true);
+        submitButton.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
             data: formData,
             dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function(response) {
+                Swal.close();
+
                 if (response.status === 'success') {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Success!',
-                        text: 'New appointment was added successfully',
-                        confirmButtonColor: '#ff9f43',
-                        confirmButtonText: 'OK'
+                        title: 'Appointment Requested!',
+                        html: `
+                            <div class="text-center">
+                                <p>Your appointment request has been submitted successfully.</p>
+                                <p class="small text-muted">You will receive an email confirmation shortly.</p>
+                            </div>
+                        `,
+                        confirmButtonColor: '#28a745',
+                        confirmButtonText: 'View My Appointments',
+                        showCancelButton: true,
+                        cancelButtonText: 'Stay on Page',
+                        cancelButtonColor: '#6c757d'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = "{{ url('/client/appointments') }}";
+                        } else {
+                            $('#addAppointmentForm')[0].reset();
+                            $('#addAppointment').modal('hide');
                         }
                     });
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to add appointment: ' + response.message
-                    });
+                    showErrorMessage(response.message || 'Failed to process request');
                 }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while processing your request. Please try again later.'
+                console.error('Ajax Error:', {
+                    status: status,
+                    error: error,
+                    response: xhr.responseText
                 });
+
+                let errorMessage = 'An error occurred while processing your request.';
+                
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    
+                    if (xhr.status === 422 && response.errors) {
+                        errorMessage = '<ul class="text-left mb-0">';
+                        Object.values(response.errors).forEach(function(errors) {
+                            if (Array.isArray(errors)) {
+                                errors.forEach(function(error) {
+                                    errorMessage += `<li>${error}</li>`;
+                                });
+                            } else {
+                                errorMessage += `<li>${errors}</li>`;
+                            }
+                        });
+                        errorMessage += '</ul>';
+                    } else if (response.message) {
+                        errorMessage = response.message;
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                }
+
+                showErrorMessage(errorMessage);
+            },
+            complete: function() {
+                submitButton.prop('disabled', false);
+                submitButton.html(originalButtonText);
             }
         });
     });
