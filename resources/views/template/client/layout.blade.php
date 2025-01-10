@@ -139,7 +139,7 @@
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
-<!-- <script src="{{ asset("assets/js/showmodal.js")}}"></script> -->
+<script src="{{ asset("assets/js/showmodal.js")}}"></script>
 
 <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
 <script>

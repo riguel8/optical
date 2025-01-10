@@ -89,7 +89,7 @@
 
 						<div class="tab-pane" id="solid-justified-tab2">
 							@php
-								$confirmedAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Confirm');
+								$confirmedAppointments = $appointments->filter(fn($appointment) => $appointment->Status === 'Confirmed');
 							@endphp
 
 							@if ($confirmedAppointments->isEmpty())
@@ -119,7 +119,7 @@
 											</div>
 											<div class="col-md-4 col-12 text-md-end">
 												<div class="status-badge mb-5">
-													<h6 class="section-title mb-3">Status <span class="badges status-confirm"><strong>Confirm</strong></span>
+													<h6 class="section-title mb-3">Status <span class="badges status-confirm"><strong>Confirmed</strong></span>
 													</h6>
 												</div>
 												<div class="action-buttons justify-content-end  mt-4">

@@ -2,6 +2,18 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentAction = '';
     let appointmentId = '';
 
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-right", 
+        timeOut: 3000,
+        showMethod: "slideDown",
+        hideMethod: "slideUp",
+        showDuration: 300,
+        hideDuration: 200,
+        extendedTimeOut: 2000
+    };
+
     document.querySelectorAll('.btn-accept').forEach(button => {
         button.addEventListener('click', function () {
             currentAction = 'accept';
@@ -9,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('action-type').textContent = 'Accept';
         });
     });
+
 
     document.querySelectorAll('.btn-decline').forEach(button => {
         button.addEventListener('click', function () {
@@ -24,10 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
         modal.hide();
-  
+
         Swal.fire({
             title: 'Processing...',
-            text: 'Updating appointment status and sending notification.',
+            text: 'Updating the appointment status and sending a notification. Please wait.',
             icon: 'info',
             allowOutsideClick: false,
             showConfirmButton: false,
@@ -36,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-
         fetch(`/staff/appointments/${appointmentId}/update-status`, {
             method: 'POST',
             headers: {
@@ -44,37 +56,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
-                status: currentAction === 'accept' ? 'Confirm' : 'Cancelled',
+                status: currentAction === 'accept' ? 'Confirmed' : 'Cancelled',
                 note: appointmentNote
             })
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-   
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Appointment status updated and email notification sent.',
-                        icon: 'success',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        location.reload(); 
-                    });
-                } else {
-                    throw new Error(data.message || 'Unknown error occurred.');
-                }
-            })
-            .catch(error => {
-                console.error(error);
-
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Failed to process the request. Please try again.',
-                    icon: 'error',
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-            });
+        .then(response => response.json())
+        .then(data => {
+            Swal.close(); 
+            if (data.status === 'success') {
+                toastr.success(data.message, 'Success!');
+                setTimeout(() => location.reload(), 3000);
+            } else {
+                toastr.error(data.message || 'An error occurred');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.close();
+            toastr.error('An unexpected error occurred', 'Error!');
+        });
     });
 });

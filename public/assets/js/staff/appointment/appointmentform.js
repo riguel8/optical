@@ -2,6 +2,18 @@ $(document).ready(function() {
     $('#addAppointmentForm').submit(function(e) {
         e.preventDefault(); 
         
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-right", 
+            timeOut: 2000,
+            showMethod: "slideDown", 
+            hideMethod: "slideUp",   
+            showDuration: 300,     
+            hideDuration: 200,      
+            extendedTimeOut: 1000      
+        };
+
         var formData = $(this).serialize();
 
         $.ajax({
@@ -11,32 +23,18 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: 'New appointment was added successfully',
-                        confirmButtonColor: '#ff9f43',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();;
-                        }
-                    });
+                    toastr.success(response.message, 'Appointment Added');
+                    $('#addAppointment').modal('hide');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Failed to add appointment: ' + response.message
-                    });
+                    toastr.error('Failed to add the appointment: ' + response.message, 'Error');
                 }
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An error occurred while processing your request. Please try again later.'
-                });
+                toastr.error('An unexpected error occurred. Please try again later.', 'Error');
             }
         });
     });

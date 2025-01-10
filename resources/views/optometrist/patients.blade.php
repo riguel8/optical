@@ -21,8 +21,8 @@
 
 				<div class="card-body">
 					<ul class="nav nav-tabs nav-tabs-solid nav-justified">
-						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Ongoing Prescription</a></li>
-						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Completed Prescription</a></li>
+						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Scheduled Appointment</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Recorded Prescriptions</a></li>
 					</ul>
 
 					<div class="tab-content">
@@ -57,14 +57,14 @@
                                             <th>Prescription</th>
                                             <th>Lens</th>
                                             <th>Frame</th>
-                                            {{-- <th>Price</th> --}}
+                                            <th>Status</th>
                                             <th>Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($patients as $patient)
-										    @if ($patient->appointments !== null && $patient->appointments->Status == 'Confirm')
+										    @if ($patient->appointments !== null && $patient->appointments->Status == 'Confirmed')
                                             <tr>
                                                 <td>{{ $patient->complete_name}}</td>
                                                 <td>{{ $patient->age}}</td>
@@ -81,9 +81,10 @@
                                                     {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
                                                 </td>
 
-                                                {{-- <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
-                                                    {{ $patient->prescription->Price ?? 'N/A' }}
-                                                </td> --}}
+                                                <td class="{{ isset($patient->appointments) && $patient->appointments->Status ? '' : 'text-red' }}">
+                                                    <span class="bg-success badges">{{ $patient->appointments->Status ?? 'N/A' }}</span>
+                                                </td>
+
                                                 <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F-j-Y') }}</td>
                                                 <td>
                                                     <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
@@ -110,7 +111,7 @@
                                             <th>Prescription</th>
                                             <th>Lens</th>
                                             <th>Frame</th>
-                                            {{-- <th>Price</th> --}}
+                                            <th>Status</th>
                                             <th>Date</th>
                                             <th>Action</th>
                                         </tr>
@@ -134,9 +135,9 @@
                                                     {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
                                                 </td>
 
-                                                {{-- <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
-                                                    {{ $patient->prescription->Price ?? 'N/A' }}
-                                                </td> --}}
+                                                <td class="{{ isset($patient->prescription) && $patient->prescription->PresStatus ? '' : 'text-red' }}">
+                                                    <span class="bg-primary badges">{{ $patient->prescription->PresStatus ?? 'N/A' }}</span>
+                                                </td>
                                                 <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F-j-Y') }}</td>
                                                 <td>
                                                     <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
@@ -360,7 +361,7 @@
                 <input type="hidden" id="edit_patientId" name="edit_patientId">
                 <input type="hidden" id="edit_prescriptionId" name="edit_prescriptionId">
                 <input type="hidden" id="edit_amountId" name="edit_amountId">
-                <input type="hiden" id="edit_appointmentId" name="edit_appointmentId">
+                <input type="hidden" id="edit_appointmentId" name="edit_appointmentId">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editPatientLabel">Edit Patient</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -545,103 +546,115 @@
     
     
 
-<!-- Modal to View Specific Patient -->
+ <!-- Modal to View Specific Patient -->
 <div class="modal fade" id="viewPatient" tabindex="-1" aria-labelledby="viewPatientLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 style="text-align: center; width: 100%;" class="modal-title" id="viewPatientLabel">Patient Details</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h4 class="modal-title w-100" id="viewPatientLabel">Patient Prescription</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
             </div>
-            <div class="modal-body" style="padding: 30px;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="invoice-box table-height" style="max-width: 100%; width: 100%;  margin:15px auto; padding: 0; font-size: 14px; line-height: 24px; color: #555;">
-                            <table cellpadding="0" cellspacing="0" style="width: 100%; line-height: inherit; text-align: left;">
-                                <tbody>
-                                    <tr class="top">
-                                        <td colspan="6" style="padding: 5px; vertical-align: top;">
-                                            <table style="width: 100%; line-height: inherit; text-align: left;">
-                                            <tbody><tr>
-                                                <td style="padding:5px;vertical-align:top;text-align:left;padding-bottom:20px">
-                                                    <font style="vertical-align: inherit;margin-bottom:25px;"><font style="vertical-align: inherit;font-size:14px;color:#7367F0;font-weight:600;line-height: 35px;">Patient Info</font></font><br>
-                                                    <font style="vertical-align: inherit;">Name: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewpatientName"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Age: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;"id="viewpatientAge"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Gender: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewpatientGender"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Contact Number: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewcontactNumber"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Address: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewpatientAddress"></font></font><br>
-                                                </td>
-                                                <td style="padding:5px;vertical-align:top;text-align:left;padding-bottom:20px">
-                                                    <font style="vertical-align: inherit;margin-bottom:25px;"><font style="vertical-align: inherit;font-size:14px;color:#7367F0;font-weight:600;line-height: 35px; ">Prescription Info</font></font><br>
-                                                    <font style="vertical-align: inherit;">Prescription: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionPrescription"></font></font><br>
-                                                    <font style="vertical-align: inherit; display: none;" id="viewgradeRight">OD (Right Eye): <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionOD"></font></font>
-                                                    <font style="vertical-align: inherit; display: none;" id="viewgradeLeft">OS (LEFT Eye): <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionOS"></font></font>
-                                                    <font style="vertical-align: inherit; display: none;" id="viewgradeBoth">OU (BOTH Eye): <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionOU"></font></font>
-                                                    <font style="vertical-align: inherit;">Lens: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionLens"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Lens Type: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionLensType"></font></font><br>
+            <div class="modal-body p-3 p-md-4">
+                <div class="prescription-box border rounded p-3 p-md-4">
+                    <!-- Patient Info Section -->
+                    <h5 class="text-primary fw-bold border-bottom pb-2 mb-4">Patient Information</h5>
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <p class="mb-0">Name: <strong><span id="viewpatientName"></span></strong></p>
+                            <p class="mb-0">Age: <strong><span id="viewpatientAge"></span></strong></p>
+                            <p class="mb-0">Gender: <strong><span id="viewpatientGender"></span></strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0">Contact Number: <strong><span id="viewcontactNumber"></span></strong></p>
+                            <p class="mb-0">Address: <strong><span id="viewpatientAddress"></span></strong></p>
+                        </div>
+                    </div>
 
-                                                </td>
-                                                <td style="padding:5px;vertical-align:top;text-align:left;padding-bottom:20px">
-                                                    <font style="vertical-align: inherit;margin-bottom:25px;"><font style="vertical-align: inherit;font-size:14px;color:#7367F0;font-weight:600;line-height: 35px; "></font></font><br>
-                                                    <font style="vertical-align: inherit;">Frame: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionFrame"></font></font><br>
-                                                    <font style="vertical-align: inherit;">ADD: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionADD"></font></font><br>
-                                                    <font style="vertical-align: inherit;">PD: <font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;" id="viewprescriptionPD"></font></font><br>
-                                                    <font style="vertical-align: inherit;">Payment Status<font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;"></font></font><br>
-                                                </td>
-                                                <td style="padding:5px;vertical-align:top;text-align:right;padding-bottom:20px">
-                                                    <font style="vertical-align: inherit;margin-bottom:25px;"><font style="vertical-align: inherit;font-size:14px;color:#7367F0;font-weight:600;line-height: 35px; ">&nbsp;</font></font><br>
-                                                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;font-size: 14px;color:#000;font-weight: 400;"></font></font><br>
-                                                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;font-size: 14px;color:#2E7D32;font-weight: 400;"></font></font><br>
-                                                    <font style="vertical-align: inherit;"><font style="vertical-align: inherit;font-size: 14px;color:#2E7D32;font-weight: 400;"></font></font><br>
-                                                    <font style="vertical-align: inherit;"><font class="rounded-pill bg-secondary badges badges-sm" style="vertical-align: inherit;font-size: 14px;color:white;font-weight: 400;" id="viewpaymentStatus"></font></font><br>
-                                                </td>
-                                            </tr>
-                                        </tbody></table>
-                                    </td>
+                    <!-- Prescription Details Section -->
+                    <h5 class="text-primary fw-bold border-bottom pb-2 mt-3 mb-4">Prescription Details</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Prescription</th>
+                                    <th>Right Eye (OD)</th>
+                                    <th>Left Eye (OS)</th>
+                                    <th>ADD</th>
+                                    <th>PD</th>
+                                    <th>Both Eyes (OU)</th>
                                 </tr>
-                            </tbody></table>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong><span id="viewprescriptionPrescription"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionOD"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionOS"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionADD"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionPD"></span></strong></td>
+                                    <td><strong><span id="viewprescriptionOU"></span></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                            <div class="row">
-                                <div class="col-lg-6 ">
-                                    <div class="total-order w-100 max-widthauto m-auto mb-4">
-                                        <ul>
-                                            <li>
-                                                <h4>Total Amount</h4>
-                                                <h5>₱<span id="viewtotalAmount"></span></h5>
-                                            </li>
-                                            <li>
-                                                <h4>Deposit</h4>
-                                                <h5 id="viewdeposit"></h5>
-                                            </li>
+                    <!-- Lens and Frame Details -->
+                    <div class="row text-center mb-5">
+                        <div class="col-md-4">
+                            <p>Lens: <strong><span id="viewprescriptionLens"></span></strong> </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Lens Type: <strong><span id="viewprescriptionLensType"></span></strong> </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Frame: <strong><span id="viewprescriptionFrame"></span></strong> </p>
+                        </div>
+                    </div>
 
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 ">
-                                    <div class="total-order w-100 max-widthauto m-auto mb-4">
-                                        <ul>
-                                            <li>
-                                                <h4>Mode of Payment</h4>
-                                                <h5 id="viewmodeOfPayment"></h5>
-                                            </li>
-                                            <li class="total">
-                                                <h4>Balance</h4>
-                                                <h5>₱<span id="viewbalance"></span></h5>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                    <!-- Payment Details Section -->
+                    <h5 class="d-flex justify-content-between align-items-center text-primary fw-bold border-bottom pb-2 mb-4">
+                        Payment Information
+                        <span class="bg-success badges" id="viewpaymentStatus"></span>
+                    </h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="total-order w-100 max-widthauto m-auto mb-4">
+                                <ul>
+                                    <li>
+                                        <h4>Total Amount</h4>
+                                        <h5>₱<span id="viewtotalAmount"></span></h5>
+                                    </li>
+                                    <li>
+                                        <h4>Deposit</h4>
+                                        <h5 id="viewdeposit"></h5>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="total-order w-100 max-widthauto m-auto mb-4">
+                                <ul>
+                                    <li>
+                                        <h4>Mode of Payment</h4>
+                                        <h5 id="viewmodeOfPayment"></h5>
+                                    </li>
+                                    <li class="total">
+                                        <h4>Balance</h4>
+                                        <h5>₱<span id="viewbalance"></span></h5>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Footer Section -->
+                    <!-- <div class="text-center border-top pt-3">
+                        <p class="text-muted"><em>This prescription is generated electronically and does not require a signature.</em></p>
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 
 <style>
@@ -672,481 +685,10 @@
     @section('scripts')
         <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/optometrist/patient/create-walk-in.js') }}"></script>
+        <script src="{{ asset('assets/js/optometrist/patient/update.js') }}"></script>
+        <script src="{{ asset('assets/js/optometrist/patient/view.js') }}"></script>
 
-
-<!-- Script to view specific patient -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const viewButtons = document.querySelectorAll('.view-patient');
-        viewButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const PatientId = this.getAttribute('data-id');
-                fetch(`/optometrist/patients/${PatientId}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById('viewpatientName').textContent = data.patient.complete_name || '';
-                        document.getElementById('viewpatientAge').textContent = data.patient.age || '';
-                        document.getElementById('viewpatientGender').textContent = data.patient.gender || '';
-                        document.getElementById('viewcontactNumber').textContent = data.patient.contact_number || '';
-                        document.getElementById('viewpatientAddress').textContent = data.patient.address || '';
-    
-                        document.getElementById('viewprescriptionPrescription').textContent = data.prescription.prescription || 'Not Available';
-                        if (data.prescription.prescription === 'OU') {
-                            document.getElementById('viewgradeBoth').style.display = 'block';
-                            document.getElementById('viewgradeRight').style.display = 'none';
-                            document.getElementById('viewgradeLeft').style.display = 'none';
-                            document.getElementById('viewprescriptionOU').textContent = data.prescription.OUgrade || 'Not Available';
-                        } else {
-                            document.getElementById('viewgradeBoth').style.display = 'none';
-                            document.getElementById('viewgradeRight').style.display = 'block';
-                            document.getElementById('viewgradeLeft').style.display = 'block';
-                            document.getElementById('viewprescriptionOD').textContent = data.prescription.ODgrade || 'Not Available';
-                            document.getElementById('viewprescriptionOS').textContent = data.prescription.OSgrade || 'Not Available';
-                        }
-                        document.getElementById('viewprescriptionLens').textContent = data.prescription.lens || 'Not Available';
-                        document.getElementById('viewprescriptionLensType').textContent = data.prescription.lens_type || 'Not Available';
-                        document.getElementById('viewprescriptionFrame').textContent = data.prescription.frame || 'Not Available';
-                        document.getElementById('viewprescriptionADD').textContent = data.prescription.ADD || 'Not Available';
-                        document.getElementById('viewprescriptionPD').textContent = data.prescription.PD || 'Not Available';
-    
-                        document.getElementById('viewtotalAmount').textContent = data.payment.total_amount || '';
-                        document.getElementById('viewdeposit').textContent = data.payment.deposit || '';
-                        document.getElementById('viewmodeOfPayment').textContent = data.payment.mode_of_payment || '';
-                        document.getElementById('viewbalance').textContent = data.payment.balance || '';
-       
-                        const paymentStatus = data.payment.status || '';
-                        const paymentStatusBadge = document.getElementById('viewpaymentStatus');
-                        paymentStatusBadge.textContent = paymentStatus;
-
-                        paymentStatusBadge.classList.add('badge', 'badge-sm'); 
-
-                        if (paymentStatus.toLowerCase() === 'paid') {
-                            paymentStatusBadge.classList.remove('bg-warning', 'bg-danger'); 
-                            paymentStatusBadge.classList.add('bg-success'); 
-                        } else if (paymentStatus.toLowerCase() === 'partial') {
-                            paymentStatusBadge.classList.remove('bg-success', 'bg-danger'); 
-                            paymentStatusBadge.classList.add('bg-warning');
-                        } else if (paymentStatus.toLowerCase() === 'unpaid') {
-                            paymentStatusBadge.classList.remove('bg-success', 'bg-warning'); 
-                            paymentStatusBadge.classList.add('bg-danger');
-                        } else {
-                            paymentStatusBadge.classList.remove('bg-success', 'bg-warning', 'bg-danger');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching patient details:', error);
-                        alert('Error fetching data.');
-                    });
-            });
-        });
-    });
-    </script>
-
-
-<!-- Script for Walk-in Wizard Form Modal  -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const steps = document.querySelectorAll(".step");
-        const icons = document.querySelectorAll(".step-icons .icon");
-        const nextButton = document.querySelector(".next-step");
-        const prevButton = document.querySelector(".prev-step");
-        const submitButton = document.querySelector(".submit-form");
-        const prescriptionSelect = document.getElementById("prescription");
-        const dynamicInputs = document.getElementById("dynamicInputs");
-        const modal = document.getElementById("addPatient");
-        const form = document.getElementById("addPatientForm");
-    
-        let currentStep = 0;
-    
-        const showStep = (index) => {
-            steps.forEach((step, i) => {
-                step.classList.toggle("hidden", i !== index);
-            });
-    
-            icons.forEach((icon, i) => {
-                icon.classList.toggle("active", i === index);
-            });
-    
-            prevButton.classList.toggle("hidden", index === 0);
-            nextButton.classList.toggle("hidden", index === steps.length - 1);
-            submitButton.classList.toggle("hidden", index !== steps.length - 1);
-        };
-    
-        const validateStep = () => {
-            const currentFields = steps[currentStep].querySelectorAll("[required]");
-            for (const field of currentFields) {
-                if (!field.value.trim()) {
-                    field.classList.add("is-invalid");
-                    return false;
-                } else {
-                    field.classList.remove("is-invalid");
-                }
-            }
-            return true;
-        };
-    
-        const updateDynamicInputs = () => {
-            const prescription = prescriptionSelect.value;
-            dynamicInputs.innerHTML = "";
-            if (prescription === "(OD) Right Eye & (OS) Left Eye") {
-                dynamicInputs.innerHTML = `
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" id="od" name="ODgrade" class="form-control" placeholder="OD (Right Eye)" required>
-                            <label for="od" class="form-label">OD (Right Eye)</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" id="os" name="OSgrade" class="form-control" placeholder="OS (Left Eye)" required>
-                            <label for="os" class="form-label">OS (Left Eye)</label>
-                        </div
-                    </div>
-                `;
-            } else if (prescription === "(OU) Both Eyes") {
-                dynamicInputs.innerHTML = `
-                    <div class="col-md-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" id="ou" name="OUgrade" class="form-control" placeholder="OU (Both Eyes)" required>
-                            <label for="ou" class="form-label">OU (Both Eyes)</label>
-                        </div>
-                    </div>
-                `;
-            }
-            dynamicInputs.classList.toggle("hidden", !prescription);
-        };
-    
-        const calculateBalance = () => {
-            const total = parseFloat(document.getElementById("totalAmount").value) || 0;
-            const deposit = parseFloat(document.getElementById("deposit").value) || 0;
-            const balance = total - deposit;
-            const statusInput = document.getElementById("status");
-    
-            document.getElementById("balance").value = balance.toFixed(2);
-            if (balance > 0) {
-                statusInput.value = "Partial";
-            } else if (balance === 0) {
-                statusInput.value = "Paid";
-            } else if (balance === total) {
-                statusInput.value = "Unpaid";
-            }
-        };
-    
-        nextButton.addEventListener("click", () => {
-            if (!validateStep()) return;
-            if (currentStep < steps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        });
-    
-        prevButton.addEventListener("click", () => {
-            if (currentStep > 0) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        });
-    
-        prescriptionSelect.addEventListener("change", updateDynamicInputs);
-        document.getElementById("totalAmount").addEventListener("input", calculateBalance);
-        document.getElementById("deposit").addEventListener("input", calculateBalance);
-
-        modal.addEventListener("hidden.bs.modal", () => {
-        resetForm();
-        });
-
-        const resetForm = () => {
-            form.reset();
-            dynamicInputs.innerHTML = "";
-            currentStep = 0; 
-            showStep(currentStep);
-        };
-    
-        showStep(currentStep);
-
-        $(document).ready(function() {
-            $('#addPatientForm').submit(function(e) {
-                e.preventDefault(); 
-                
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: 'Patient prescription created successfully!',
-                                confirmButtonColor: '#ff9f43',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload();;
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Failed to create patient prescription. Please try again.',
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'An error occurred while processing your request. Please try again later.'
-                        });
-                    }
-                });
-            });
-        });
-    });
-    </script>
-
-
-    <!-- Script to Edit Patient -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const editModal = document.querySelector("#editPatient");
-            if (!editModal) return;
-    
-            const steps = editModal.querySelectorAll(".edit_step");
-            const icons = editModal.querySelectorAll(".step-icons .icon");
-            const nextButton = editModal.querySelector(".edit_next-step");
-            const prevButton = editModal.querySelector(".edit_prev-step");
-            const submitButton = editModal.querySelector(".edit_submit-form");
-            const prescriptionSelect = document.getElementById("edit_prescription");
-            const dynamicInputs = document.getElementById("edit_dynamicInputs");
-            const modal = document.getElementById("editPatient");
-            const form = document.getElementById("edit_addPatientForm");
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            let currentStep = 0;
-    
-            const showStep = (index) => {
-                steps.forEach((step, i) => {
-                    step.classList.toggle("hidden", i !== index);
-                });
-    
-                icons.forEach((icon, i) => {
-                    const iconClass = `edit_step-${i + 1}-icon`;
-                    icon.classList.toggle("active", i === index);
-                });
-    
-                prevButton.classList.toggle("hidden", index === 0);
-                nextButton.classList.toggle("hidden", index === steps.length - 1);
-                submitButton.classList.toggle("hidden", index !== steps.length - 1);
-            };
-    
-            const validateStep = () => {
-                const currentFields = steps[currentStep].querySelectorAll("[required]");
-                for (const field of currentFields) {
-                    if (!field.value.trim()) {
-                        field.classList.add("is-invalid");
-                        return false;
-                    } else {
-                        field.classList.remove("is-invalid");
-                    }
-                }
-                return true;
-            };
-    
-            const calculateBalance = () => {
-                const total = parseFloat(document.getElementById("edit_totalAmount").value) || 0;
-                const deposit = parseFloat(document.getElementById("edit_deposit").value) || 0;
-                const balance = total - deposit;
-                const statusInput = document.getElementById("edit_status");
-    
-                document.getElementById("edit_balance").value = balance.toFixed(2);
-                if (balance > 0) {
-                    statusInput.value = "Partial";
-                } else if (balance === 0) {
-                    statusInput.value = "Paid";
-                } else if (balance === total) {
-                    statusInput.value = "Unpaid";
-                }
-            };
-    
-            let currentOD = "";
-            let currentOS = "";
-            let currentOU = "";
-    
-            const updateDynamicInputs = () => {
-                const prescription = prescriptionSelect.value;
-    
-                currentOD = document.getElementById("edit_od")?.value || currentOD;
-                currentOS = document.getElementById("edit_os")?.value || currentOS;
-                currentOU = document.getElementById("edit_ou")?.value || currentOU;
-    
-                dynamicInputs.innerHTML = "";
-                if (prescription === "(OD) Right Eye & (OS) Left Eye") {
-                    dynamicInputs.innerHTML = `
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" id="edit_od" name="edit_ODgrade" class="form-control" placeholder="OD (Right Eye)" required>
-                                <label for="edit_od" class="form-label">OD (Right Eye)</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" id="edit_os" name="edit_OSgrade" class="form-control" placeholder="OS (Left Eye)" required>
-                                <label for="edit_os" class="form-label">OS (Left Eye)</label>
-                            </div
-                        </div>
-                    `;
-                    document.getElementById("edit_od").value = currentOD;
-                    document.getElementById("edit_os").value = currentOS;
-                } else if (prescription === "(OU) Both Eyes") {
-                    dynamicInputs.innerHTML = `
-                        <div class="col-12">
-                            <div class="form-floating mb-3">
-                                <input type="text" id="edit_ou" name="edit_OUgrade" class="form-control" placeholder="OU (Both Eyes)" required>
-                                <label for="edit_ou" class="form-label">OU (Both Eyes)</label>
-                            </div>
-                        </div>
-                    `;
-                    document.getElementById("edit_ou").value = currentOU;
-                }
-                dynamicInputs.classList.toggle("hidden", !prescription);
-            };
-    
-            const fetchPatientData = (PatientID) => {
-                fetch(`/optometrist/patients/edit/${PatientID}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        document.getElementById("edit_patientId").value = data.patient.PatientID || "";
-                        document.getElementById("edit_prescriptionId").value = data.prescription.PrescriptionID || "";
-                        document.getElementById("edit_amountId").value = data.amount.AmountID || "";
-                        document.getElementById("edit_appointmentId").value = data.appointment.AppointmentID || "";
-    
-                        document.getElementById("edit_name").value = data.patient.complete_name || "";
-                        document.getElementById("edit_gender").value = data.patient.gender || "";
-                        document.getElementById("edit_age").value = data.patient.age || "";
-                        document.getElementById("edit_contact").value = data.patient.contact_number || "";
-                        document.getElementById("edit_address").value = data.patient.address || "";
-    
-                        document.getElementById("edit_prescription").value = data.prescription.Prescription || "";
-                        currentOD = data.prescription.ODgrade || "";
-                        currentOS = data.prescription.OSgrade || "";
-                        currentOU = data.prescription.OUgrade || "";
-                        updateDynamicInputs();
-    
-                        document.getElementById("edit_lens").value = data.prescription.Lens || "";
-                        document.getElementById("edit_lensType").value = data.prescription.LensType || "";
-                        document.getElementById("edit_frame").value = data.prescription.Frame || "";
-                        document.getElementById("edit_add").value = data.prescription.ADD || "";
-                        document.getElementById("edit_pd").value = data.prescription.PD || "";
-                        document.getElementById("edit_prescriptionDetails").value = data.prescription.PrescriptionDetails || "";
-    
-                        document.getElementById("edit_totalAmount").value = data.amount.TotalAmount || "";
-                        document.getElementById("edit_deposit").value = data.amount.Deposit || "";
-                        document.getElementById("edit_modeOfPayment").value = data.amount.MOP || "";
-                        document.getElementById("edit_balance").value = data.amount.Balance || "";
-                        document.getElementById("edit_status").value = data.amount.Payment || "";
-    
-                        calculateBalance();
-                    })
-                    .catch((error) => {
-                        console.error("Error fetching patient data:", error);
-                    });
-            };
-    
-            editModal.addEventListener("show.bs.modal", (event) => {
-                const button = event.relatedTarget;
-                const patientId = button.getAttribute("data-id");
-                if (patientId) {
-                    fetchPatientData(patientId);
-                }
-                showStep(currentStep);
-            });
-    
-            nextButton.addEventListener("click", () => {
-                if (!validateStep()) return;
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            });
-    
-            prevButton.addEventListener("click", () => {
-                if (currentStep > 0) {
-                    currentStep--;
-                    showStep(currentStep);
-                }
-            });
-    
-            prescriptionSelect.addEventListener("change", updateDynamicInputs);
-            document.getElementById("edit_totalAmount").addEventListener("input", calculateBalance);
-            document.getElementById("edit_deposit").addEventListener("input", calculateBalance);
-    
-            modal.addEventListener("hidden.bs.modal", () => {
-                resetForm();
-            });
-    
-            const resetForm = () => {
-                form.reset();
-                dynamicInputs.innerHTML = "";
-                currentStep = 0;
-                showStep(currentStep);
-            };
-    
-            showStep(currentStep);
-            
-            form.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            if (!validateStep()) return;
-
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.status === "success") {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: data.message,
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: data.message,
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error submitting form:", error);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "An unexpected error occurred. Please try again.",
-                    });
-                });
-        });
-        });
-    </script>
     @endsection
 
 @endsection

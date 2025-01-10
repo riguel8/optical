@@ -21,8 +21,8 @@
 
 				<div class="card-body">
 					<ul class="nav nav-tabs nav-tabs-solid nav-justified">
-						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Ongoing Prescription</a></li>
-						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Completed Prescription</a></li>
+						<li class="nav-item"><a class="nav-link active" href="#solid-justified-tab1" data-bs-toggle="tab">Scheduled Appointment</a></li>
+						<li class="nav-item"><a class="nav-link" href="#solid-justified-tab2" data-bs-toggle="tab">Recorded Prescriptions</a></li>
 					</ul>
 
 					<div class="tab-content">
@@ -57,14 +57,14 @@
                                             <th>Prescription</th>
                                             <th>Lens</th>
                                             <th>Frame</th>
-                                            {{-- <th>Price</th> --}}
+                                            <th>Status</th>
                                             <th>Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($patients as $patient)
-										    @if ($patient->appointments !== null && $patient->appointments->Status == 'Confirm')
+										    @if ($patient->appointments !== null && $patient->appointments->Status == 'Confirmed')
                                             <tr>
                                                 <td>{{ $patient->complete_name}}</td>
                                                 <td>{{ $patient->age}}</td>
@@ -81,9 +81,10 @@
                                                     {{ $patient->prescription->Frame ?? 'No Frame Yet' }}
                                                 </td>
 
-                                                {{-- <td class="{{ isset($patient->prescription) && $patient->prescription->Price ? '' : 'text-red' }}">
-                                                    {{ $patient->prescription->Price ?? 'N/A' }}
-                                                </td> --}}
+                                                <td class="{{ isset($patient->appointments) && $patient->appointments->Status ? '' : 'text-red' }}">
+                                                    <span class="bg-success badges">{{ $patient->appointments->Status ?? 'N/A' }}</span>
+                                                </td>
+
                                                 <td>{{ \Carbon\Carbon::parse($patient->created_at)->format('F-j-Y') }}</td>
                                                 <td>
                                                     <a class="me-3 view-patient" href="#" data-id="{{ $patient->PatientID }}" data-bs-toggle="modal" data-bs-target="#viewPatient">
@@ -646,9 +647,9 @@
                     </div>
 
                     <!-- Footer Section -->
-                    <div class="text-center border-top pt-3">
+                    <!-- <div class="text-center border-top pt-3">
                         <p class="text-muted"><em>This prescription is generated electronically and does not require a signature.</em></p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -684,481 +685,10 @@
     @section('scripts')
         <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/admin/patient/create-walk-in.js') }}"></script>
+        <script src="{{ asset('assets/js/admin/patient/update.js') }}"></script>
+        <script src="{{ asset('assets/js/admin/patient/view.js') }}"></script>
 
-
-<!-- Script to view specific patient -->
-<!-- Script to view specific patient -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const viewButtons = document.querySelectorAll('.view-patient');
-        viewButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const PatientId = this.getAttribute('data-id');
-                fetch(`/admin/patients/${PatientId}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const setTextContent = (id, value) => {
-                            const element = document.getElementById(id);
-                            element.textContent = value || 'Not Available';
-                            element.style.color = value ? '' : 'red';
-                        };
-
-                        setTextContent('viewpatientName', data.patient.complete_name);
-                        setTextContent('viewpatientAge', data.patient.age);
-                        setTextContent('viewpatientGender', data.patient.gender);
-                        setTextContent('viewcontactNumber', data.patient.contact_number);
-                        setTextContent('viewpatientAddress', data.patient.address);
-
-                        setTextContent('viewprescriptionPrescription', data.prescription.prescription);
-                        setTextContent('viewprescriptionOD', data.prescription.ODgrade);
-                        setTextContent('viewprescriptionOS', data.prescription.OSgrade);
-                        setTextContent('viewprescriptionADD', data.prescription.ADD);
-                        setTextContent('viewprescriptionPD', data.prescription.PD);
-                        setTextContent('viewprescriptionOU', data.prescription.OUgrade);
-
-                        setTextContent('viewprescriptionLens', data.prescription.lens);
-                        setTextContent('viewprescriptionLensType', data.prescription.lens_type);
-                        setTextContent('viewprescriptionFrame', data.prescription.frame);
-
-                        setTextContent('viewtotalAmount', data.payment.total_amount);
-                        setTextContent('viewdeposit', data.payment.deposit);
-                        setTextContent('viewmodeOfPayment', data.payment.mode_of_payment);
-                        setTextContent('viewbalance', data.payment.balance);
-
-                        const paymentStatus = data.payment.status || '';
-                        const paymentStatusBadge = document.getElementById('viewpaymentStatus');
-                        paymentStatusBadge.textContent = paymentStatus;
-                        paymentStatusBadge.className = 'badge'; // Reset classes
-
-                        switch(paymentStatus.toLowerCase()) {
-                            case 'paid':
-                                paymentStatusBadge.classList.add('bg-success');
-                                break;
-                            case 'partial':
-                                paymentStatusBadge.classList.add('bg-warning');
-                                break;
-                            case 'unpaid':
-                                paymentStatusBadge.classList.add('bg-danger');
-                                break;
-                            default:
-                                paymentStatusBadge.classList.add('bg-secondary');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching patient details:', error);
-                        alert('Error fetching data.');
-                    });
-            });
-        });
-    });
-</script>
-
-
-
-<!-- Script for Walk-in Wizard Form Modal  -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const steps = document.querySelectorAll(".step");
-        const icons = document.querySelectorAll(".step-icons .icon");
-        const nextButton = document.querySelector(".next-step");
-        const prevButton = document.querySelector(".prev-step");
-        const submitButton = document.querySelector(".submit-form");
-        const prescriptionSelect = document.getElementById("prescription");
-        const dynamicInputs = document.getElementById("dynamicInputs");
-        const modal = document.getElementById("addPatient");
-        const form = document.getElementById("addPatientForm");
-    
-        let currentStep = 0;
-    
-        const showStep = (index) => {
-            steps.forEach((step, i) => {
-                step.classList.toggle("hidden", i !== index);
-            });
-    
-            icons.forEach((icon, i) => {
-                icon.classList.toggle("active", i === index);
-            });
-    
-            prevButton.classList.toggle("hidden", index === 0);
-            nextButton.classList.toggle("hidden", index === steps.length - 1);
-            submitButton.classList.toggle("hidden", index !== steps.length - 1);
-        };
-    
-        const validateStep = () => {
-            const currentFields = steps[currentStep].querySelectorAll("[required]");
-            for (const field of currentFields) {
-                if (!field.value.trim()) {
-                    field.classList.add("is-invalid");
-                    return false;
-                } else {
-                    field.classList.remove("is-invalid");
-                }
-            }
-            return true;
-        };
-    
-        const updateDynamicInputs = () => {
-            const prescription = prescriptionSelect.value;
-            dynamicInputs.innerHTML = "";
-            if (prescription === "(OD) Right Eye & (OS) Left Eye") {
-                dynamicInputs.innerHTML = `
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" id="od" name="ODgrade" class="form-control" placeholder="OD (Right Eye)" required>
-                            <label for="od" class="form-label">OD (Right Eye)</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating mb-3">
-                            <input type="text" id="os" name="OSgrade" class="form-control" placeholder="OS (Left Eye)" required>
-                            <label for="os" class="form-label">OS (Left Eye)</label>
-                        </div
-                    </div>
-                `;
-            } else if (prescription === "(OU) Both Eyes") {
-                dynamicInputs.innerHTML = `
-                    <div class="col-md-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" id="ou" name="OUgrade" class="form-control" placeholder="OU (Both Eyes)" required>
-                            <label for="ou" class="form-label">OU (Both Eyes)</label>
-                        </div>
-                    </div>
-                `;
-            }
-            dynamicInputs.classList.toggle("hidden", !prescription);
-        };
-    
-        const calculateBalance = () => {
-            const total = parseFloat(document.getElementById("totalAmount").value) || 0;
-            const deposit = parseFloat(document.getElementById("deposit").value) || 0;
-            const balance = total - deposit;
-            const statusInput = document.getElementById("status");
-    
-            document.getElementById("balance").value = balance.toFixed(2);
-            if (balance > 0) {
-                statusInput.value = "Partial";
-            } else if (balance === 0) {
-                statusInput.value = "Paid";
-            } else if (balance === total) {
-                statusInput.value = "Unpaid";
-            }
-        };
-    
-        nextButton.addEventListener("click", () => {
-            if (!validateStep()) return;
-            if (currentStep < steps.length - 1) {
-                currentStep++;
-                showStep(currentStep);
-            }
-        });
-    
-        prevButton.addEventListener("click", () => {
-            if (currentStep > 0) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        });
-    
-        prescriptionSelect.addEventListener("change", updateDynamicInputs);
-        document.getElementById("totalAmount").addEventListener("input", calculateBalance);
-        document.getElementById("deposit").addEventListener("input", calculateBalance);
-
-        modal.addEventListener("hidden.bs.modal", () => {
-        resetForm();
-        });
-
-        const resetForm = () => {
-            form.reset();
-            dynamicInputs.innerHTML = "";
-            currentStep = 0; 
-            showStep(currentStep);
-        };
-    
-        showStep(currentStep);
-
-        $(document).ready(function() {
-            $('#addPatientForm').submit(function(e) {
-                e.preventDefault(); 
-                
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    type: 'POST',
-                    url: $(this).attr('action'),
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: 'Patient prescription created successfully!',
-                                confirmButtonColor: '#ff9f43',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    location.reload();;
-                                }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Failed to create patient prescription. Please try again.',
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'An error occurred while processing your request. Please try again later.'
-                        });
-                    }
-                });
-            });
-        });
-    });
-    </script>
-
-
-    <!-- Script to Edit Patient -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const editModal = document.querySelector("#editPatient");
-            if (!editModal) return;
-    
-            const steps = editModal.querySelectorAll(".edit_step");
-            const icons = editModal.querySelectorAll(".step-icons .icon");
-            const nextButton = editModal.querySelector(".edit_next-step");
-            const prevButton = editModal.querySelector(".edit_prev-step");
-            const submitButton = editModal.querySelector(".edit_submit-form");
-            const prescriptionSelect = document.getElementById("edit_prescription");
-            const dynamicInputs = document.getElementById("edit_dynamicInputs");
-            const modal = document.getElementById("editPatient");
-            const form = document.getElementById("edit_addPatientForm");
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            let currentStep = 0;
-    
-            const showStep = (index) => {
-                steps.forEach((step, i) => {
-                    step.classList.toggle("hidden", i !== index);
-                });
-    
-                icons.forEach((icon, i) => {
-                    const iconClass = `edit_step-${i + 1}-icon`;
-                    icon.classList.toggle("active", i === index);
-                });
-    
-                prevButton.classList.toggle("hidden", index === 0);
-                nextButton.classList.toggle("hidden", index === steps.length - 1);
-                submitButton.classList.toggle("hidden", index !== steps.length - 1);
-            };
-    
-            const validateStep = () => {
-                const currentFields = steps[currentStep].querySelectorAll("[required]");
-                for (const field of currentFields) {
-                    if (!field.value.trim()) {
-                        field.classList.add("is-invalid");
-                        return false;
-                    } else {
-                        field.classList.remove("is-invalid");
-                    }
-                }
-                return true;
-            };
-    
-            const calculateBalance = () => {
-                const total = parseFloat(document.getElementById("edit_totalAmount").value) || 0;
-                const deposit = parseFloat(document.getElementById("edit_deposit").value) || 0;
-                const balance = total - deposit;
-                const statusInput = document.getElementById("edit_status");
-    
-                document.getElementById("edit_balance").value = balance.toFixed(2);
-                if (balance > 0) {
-                    statusInput.value = "Partial";
-                } else if (balance === 0) {
-                    statusInput.value = "Paid";
-                } else if (balance === total) {
-                    statusInput.value = "Unpaid";
-                }
-            };
-    
-            let currentOD = "";
-            let currentOS = "";
-            let currentOU = "";
-    
-            const updateDynamicInputs = () => {
-                const prescription = prescriptionSelect.value;
-    
-                currentOD = document.getElementById("edit_od")?.value || currentOD;
-                currentOS = document.getElementById("edit_os")?.value || currentOS;
-                currentOU = document.getElementById("edit_ou")?.value || currentOU;
-    
-                dynamicInputs.innerHTML = "";
-                if (prescription === "(OD) Right Eye & (OS) Left Eye") {
-                    dynamicInputs.innerHTML = `
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" id="edit_od" name="edit_ODgrade" class="form-control" placeholder="OD (Right Eye)" required>
-                                <label for="edit_od" class="form-label">OD (Right Eye)</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating mb-3">
-                                <input type="text" id="edit_os" name="edit_OSgrade" class="form-control"placeholder="OS (Left Eye)" required>
-                                <label for="edit_os" class="form-label">OS (Left Eye)</label>
-                            </div
-                        </div>
-                    `;
-                    document.getElementById("edit_od").value = currentOD;
-                    document.getElementById("edit_os").value = currentOS;
-                } else if (prescription === "(OU) Both Eyes") {
-                    dynamicInputs.innerHTML = `
-                        <div class="col-12">
-                            <div class="form-floating mb-3">
-                                <input type="text" id="edit_ou" name="edit_OUgrade" class="form-control" placeholder="OU (Both Eyes)" required>
-                                <label for="edit_ou" class="form-label">OU (Both Eyes)</label>
-                            </div>
-                        </div>
-                    `;
-                    document.getElementById("edit_ou").value = currentOU;
-                }
-                dynamicInputs.classList.toggle("hidden", !prescription);
-            };
-    
-            const fetchPatientData = (PatientID) => {
-                fetch(`/admin/patients/edit/${PatientID}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        document.getElementById("edit_patientId").value = data.patient.PatientID || "";
-                        document.getElementById("edit_prescriptionId").value = data.prescription.PrescriptionID || "";
-                        document.getElementById("edit_amountId").value = data.amount.AmountID || "";
-                        document.getElementById("edit_appointmentId").value = data.appointment.AppointmentID || "";
-    
-                        document.getElementById("edit_name").value = data.patient.complete_name || "";
-                        document.getElementById("edit_gender").value = data.patient.gender || "";
-                        document.getElementById("edit_age").value = data.patient.age || "";
-                        document.getElementById("edit_contact").value = data.patient.contact_number || "";
-                        document.getElementById("edit_address").value = data.patient.address || "";
-    
-                        document.getElementById("edit_prescription").value = data.prescription.Prescription || "";
-                        currentOD = data.prescription.ODgrade || "";
-                        currentOS = data.prescription.OSgrade || "";
-                        currentOU = data.prescription.OUgrade || "";
-                        updateDynamicInputs();
-    
-                        document.getElementById("edit_lens").value = data.prescription.Lens || "";
-                        document.getElementById("edit_lensType").value = data.prescription.LensType || "";
-                        document.getElementById("edit_frame").value = data.prescription.Frame || "";
-                        document.getElementById("edit_add").value = data.prescription.ADD || "";
-                        document.getElementById("edit_pd").value = data.prescription.PD || "";
-                        document.getElementById("edit_prescriptionDetails").value = data.prescription.PrescriptionDetails || "";
-    
-                        document.getElementById("edit_totalAmount").value = data.amount.TotalAmount || "";
-                        document.getElementById("edit_deposit").value = data.amount.Deposit || "";
-                        document.getElementById("edit_modeOfPayment").value = data.amount.MOP || "";
-                        document.getElementById("edit_balance").value = data.amount.Balance || "";
-                        document.getElementById("edit_status").value = data.amount.Payment || "";
-    
-                        calculateBalance();
-                    })
-                    .catch((error) => {
-                        console.error("Error fetching patient data:", error);
-                    });
-            };
-    
-            editModal.addEventListener("show.bs.modal", (event) => {
-                const button = event.relatedTarget;
-                const patientId = button.getAttribute("data-id");
-                if (patientId) {
-                    fetchPatientData(patientId);
-                }
-                showStep(currentStep);
-            });
-    
-            nextButton.addEventListener("click", () => {
-                if (!validateStep()) return;
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            });
-    
-            prevButton.addEventListener("click", () => {
-                if (currentStep > 0) {
-                    currentStep--;
-                    showStep(currentStep);
-                }
-            });
-    
-            prescriptionSelect.addEventListener("change", updateDynamicInputs);
-            document.getElementById("edit_totalAmount").addEventListener("input", calculateBalance);
-            document.getElementById("edit_deposit").addEventListener("input", calculateBalance);
-    
-            modal.addEventListener("hidden.bs.modal", () => {
-                resetForm();
-            });
-    
-            const resetForm = () => {
-                form.reset();
-                dynamicInputs.innerHTML = "";
-                currentStep = 0;
-                showStep(currentStep);
-            };
-    
-            showStep(currentStep);
-            
-            form.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            if (!validateStep()) return;
-
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.status === "success") {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Success",
-                            text: data.message,
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: data.message,
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error submitting form:", error);
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "An unexpected error occurred. Please try again.",
-                    });
-                });
-        });
-        });
-    </script>
     @endsection
 
 @endsection

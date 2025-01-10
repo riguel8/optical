@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $appointmentCount = AppointmentModel::count();
         $eyewearCount = Eyewear::count();
 
-        return view('Optometrist.dashboard', compact( 'totalSales','clientcount','patientCount', 'staffcount', 'appointmentCount', 'eyewearCount', 'title'));
+        return view('optometrist.dashboard', compact( 'totalSales','clientcount','patientCount', 'staffcount', 'appointmentCount', 'eyewearCount', 'title'));
     }
     public function getAppointments()
     {

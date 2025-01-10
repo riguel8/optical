@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const deleteButtons = document.querySelectorAll('.btn-delete');
 
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-right", 
+        timeOut: 2000,
+        showMethod: "slideDown", 
+        hideMethod: "slideUp",   
+        showDuration: 300,     
+        hideDuration: 200,      
+        extendedTimeOut: 1000      
+    };
+
     deleteButtons.forEach(button => {
         button.addEventListener('click', function(event) {
             event.preventDefault(); 
@@ -8,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
+                text: 'This action cannot be undone.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#ff9f43',
@@ -20,29 +32,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     fetch(`/staff/appointments/${id}`, {
                         method: 'DELETE',
                         headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}', 
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                             'Accept': 'application/json',
                         },
                     })
-                    .then(response => {
-                        if (response.ok) {
-                            Swal.fire(
-                                'Deleted!',
-                                'Appointment has been deleted.',
-                                'success',
-                            ).then(() => {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            toastr.success(data.message, 'Deleted!');
+                            setTimeout(() => {
                                 location.reload();
-                            });
+                            }, 2000);
                         } else {
-                            Swal.fire(
-                                'Error!',
-                                'There was a problem deleting the Appointment.',
-                                'error'
-                            );
+                            toastr.error(data.message, 'Error!');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
+                        toastr.error('An unexpected error occurred. Please try again later.', 'Error!');
                     });
                 }
             });

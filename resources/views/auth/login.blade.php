@@ -47,7 +47,7 @@
 
                                 <div class="col-md-12 mb-3">
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="fa fa-solid fa-key"></i></span>
+                                        <span class="input-group-text"><i class="fa fa-solid fa-lock"></i></span>
                                         <div class="form-floating input-icon">
                                             <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                                             <i class="fa fa-eye-slash"></i>

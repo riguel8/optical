@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const editForm = document.querySelector('#editEyewearForm');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-right", 
+        timeOut: 2000,
+        showMethod: "slideDown", 
+        hideMethod: "slideUp",   
+        showDuration: 300,     
+        hideDuration: 200,      
+        extendedTimeOut: 1000      
+    };
 
     editButtons.forEach(button => {
         button.addEventListener('click', function () {
@@ -18,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('edit_frame_type').value = data.FrameType;
                     document.getElementById('edit_frame_color').value = data.FrameColor;
                     document.getElementById('edit_lens_type').value = data.LensType;
-                    document.getElementById('edit_lens_material').value = data.LensMaterial;
-                    document.getElementById('edit_quantity_available').value = data.QuantityAvailable;
+                    // document.getElementById('edit_lens_material').value = data.LensMaterial;
+                    // document.getElementById('edit_quantity_available').value = data.QuantityAvailable;
                     document.getElementById('edit_price').value = data.Price;
 
                     const imagePreview = document.getElementById("edit_imagePreview");
@@ -32,7 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         imageName.textContent = "No image selected";
                     }
                 })
-                .catch(error => console.error('Error fetching Eyewear details:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    toastr.error('Unable to retrieve the eyewear details. Please try again later.', 'Error');
+                });
         });
     });
 
@@ -73,27 +87,19 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: data.message,
-                    }).then(() => {
+                    toastr.success(data.message, 'Updated!');
+                    $('#editEyewear').modal('hide');
+                    
+                    setTimeout(() => {
                         location.reload();
-                    });
+                    }, 2000);
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message,
-                    });
+                    toastr.error(data.message, 'Error!');
                 }
             })
             .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'An unexpected error occurred. Please try again.',
-                });
+                console.error('Error:', error);
+                toastr.error('An unexpected error occurred', 'Error!');
             });
         });
     });

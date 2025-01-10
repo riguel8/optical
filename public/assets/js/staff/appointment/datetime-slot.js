@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function checkAvailability(date, timeSelectionInputs) {
-        fetch(`/appointments/check-staff-availability?date=${date}`)
+        fetch(`/appointments/check-availability?date=${date}`)
             .then(response => response.json())
             .then(data => {
                 console.log('Availability Check:', data);

@@ -8,11 +8,11 @@
                 <h4>Appointments</h4>
                 <h6>Appointment Lists</h6>
             </div>
-            <div class="page-btn">
+            <!-- <div class="page-btn">
                 <a data-bs-target="#addAppointment" data-bs-toggle="modal" class="btn btn-added">
                     <img src="{{ asset('assets/img/icons/plus.svg') }}" alt="img">Add Appointment
                 </a>
-            </div>
+            </div> -->
         </div>
 
         <section class="comp-section">
@@ -27,7 +27,7 @@
 
                     <div class="tab-content">
                         <div class="table-top">
-                            <div class="wordset">
+                            <!-- <div class="wordset">
                                 <ul>
                                     <li>
                                         <a class="pdf-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf">
@@ -45,7 +45,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="tab-pane show active" id="solid-justified-tab1">
                             <div class="table-responsive">
@@ -127,7 +127,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($appointments as $appointment)
-                                        @if ($appointment->Status == 'Confirm')
+                                        @if ($appointment->Status == 'Confirmed')
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('g:i A') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($appointment->DateTime)->format('F-j-Y') }}</td>
@@ -136,8 +136,8 @@
                                             <td>
                                                 @if ($appointment->Status == 'Pending')
                                                 <span class="bg-lightyellow badges">Pending</span>
-                                                @elseif ($appointment->Status == 'Confirm')
-                                                <span class="bg-lightgreen badges">Confirm</span>
+                                                @elseif ($appointment->Status == 'Confirmed')
+                                                <span class="bg-lightgreen badges">Confirmed</span>
                                                 @elseif ($appointment->Status == 'Completed')
                                                 <span class="bg-primary badges">Completed</span>
                                                 @elseif ($appointment->Status == 'Cancelled')
@@ -200,8 +200,8 @@
                                             <td>
                                                 @if ($appointment->Status == 'Pending')
                                                 <span class="bg-lightyellow badges">Pending</span>
-                                                @elseif ($appointment->Status == 'Confirm')
-                                                <span class="bg-lightgreen badges">Confirm</span>
+                                                @elseif ($appointment->Status == 'Confirmed')
+                                                <span class="bg-lightgreen badges">Confirmed</span>
                                                 @elseif ($appointment->Status == 'Completed')
                                                 <span class="bg-primary badges">Completed</span>
                                                 @elseif ($appointment->Status == 'Cancelled')
@@ -212,7 +212,6 @@
                                                 <a class="me-3 view-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#viewAppointment">
                                                     <img src="{{ asset('assets/img/icons/eye.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="View Appointment">
                                                 </a>
-
                                                 @if ($appointment->Status != 'Cancelled')
                                                 <a class="me-3 edit-appointment" href="#" data-id="{{ $appointment->AppointmentID }}" data-bs-toggle="modal" data-bs-target="#editAppointment">
                                                     <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Appointment">
@@ -447,7 +446,7 @@
                                     <div class="form-floating mb-3">
                                         <select name="Status" class="form-control" id="edit_status" required>
                                             <option value="Pending">Pending</option>
-                                            <option value="Confirm">Confirm</option>
+                                            <option value="Confirmed">Confirmed</option>
                                             <option value="Completed">Completed</option>
                                             <option value="Cancelled">Cancelled</option>
                                         </select>
@@ -507,70 +506,17 @@
 </div>
 
     @section('scripts')
-    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
-    <script src="{{ asset("assets/js/admin/appointment/appointmentform.js")}}"></script>
-    <script src="{{ asset("assets/js/admin/appointment/view-appointment.js")}}"></script>
-    <script src="{{ asset("assets/js/admin/appointment/accept-decline-appointment.js")}}"></script>
-    <script src="{{ asset("assets/js/admin/appointment/edit-update.js")}}"></script>
-    <script src="{{ asset("assets/js/admin/appointment/datetime-slot.js")}}"></script>
-    <!-- <script src="{{ asset("assets/js/admin/appointment/appointment-delete.js")}}"></script> -->
+        <script src="{{ asset("assets/js/admin/appointment/appointmentform.js")}}"></script>
+        <script src="{{ asset("assets/js/admin/appointment/view-appointment.js")}}"></script>
+        <script src="{{ asset("assets/js/admin/appointment/accept-decline-appointment.js")}}"></script>
+        <script src="{{ asset("assets/js/admin/appointment/edit-update.js")}}"></script>
+        <script src="{{ asset("assets/js/admin/appointment/datetime-slot.js")}}"></script>
+        <script src="{{ asset("assets/js/admin/appointment/appointment-delete.js")}}"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.btn-delete');
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault(); 
-                    const id = this.getAttribute('data-id'); 
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: 'You won\'t be able to revert this!',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#ff9f43',
-                        cancelButtonColor: '#dc3545',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'Cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch(`/admin/appointments/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}', 
-                                    'Accept': 'application/json',
-                                },
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Appointment has been deleted.',
-                                        'success',
-                                        ).then(() => {
-                                            location.reload();
-                                        });
-                                    } else {
-                                        Swal.fire(
-                                            'Error!',
-                                            'There was a problem deleting the Appointment.',
-                                            'error'
-                                            );
-                                    }
-                                })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-                        }
-                    });
-                });
-            });
-        });
-    </script>
     @endsection
 @endsection
 
