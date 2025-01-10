@@ -8,6 +8,7 @@ use App\Models\PatientModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Notifications\SendEmailNotification;
+use Illuminate\Support\Facades\LOG;
 
 class AppointmentController extends Controller
 {
@@ -53,6 +54,7 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         try {
+            // Validate the request data
             $validated = $request->validate([
                 'complete_name' => 'required|string|max:255',
                 'gender' => 'required|in:Male,Female,Other',
@@ -62,9 +64,11 @@ class AppointmentController extends Controller
                 'appointment_date' => 'required|date|after:today',
                 'appointment_time' => 'required|string',
             ]);
-
-            $appointmentDateTime = Carbon::parse($validated['appointment_date'] . ' ' . $validated['appointment_time']);
     
+            // Combine the date and time to create a DateTime object
+            $appointmentDateTime = Carbon::parse($validated['appointment_date'] . ' ' . $validated['appointment_time']);
+        
+            // Create the new patient record
             $patient = PatientModel::create([
                 'complete_name' => $validated['complete_name'],
                 'gender' => $validated['gender'],
@@ -72,26 +76,31 @@ class AppointmentController extends Controller
                 'contact_number' => $validated['contact_number'],
                 'address' => $validated['address'],
             ]);
-    
+        
+            // Get the currently authenticated user (staff)
             $user = auth()->user();
             $staffId = $user->id;
-
+    
+            // Create the new appointment record
             AppointmentModel::create([
                 'PatientID' => $patient->PatientID,
                 'StaffID' => $staffId,
                 'DateTime' => $appointmentDateTime,
                 'Status' => 'Pending',
             ]);
-    
+        
+            // Return a successful response
             return response()->json([
                 'status' => 'success',
-                'message' => 'Patient and appointment were added successfully',
+                'message' => 'Patient and appointment were successfully added.',
             ]);
-    
+        
         } catch (\Exception $e) {
+            // Log the error and return a failure response
+            Log::error('Error occurred while creating the patient or appointment: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add patient and appointment. Please try again later.',
+                'message' => 'An error occurred while processing your request. Please try again later.',
             ]);
         }
     }
@@ -100,35 +109,35 @@ class AppointmentController extends Controller
     
 
     // Function to Fetch Appointment Information
-public function edit($id)
-{
-    $appointment = AppointmentModel::findOrFail($id);
-    $patient = PatientModel::find($appointment->PatientID);
+    public function edit($id)
+    {
+        $appointment = AppointmentModel::findOrFail($id);
+        $patient = PatientModel::find($appointment->PatientID);
 
-    $formattedDateTime = Carbon::parse($appointment->DateTime)->format('Y-m-d\TH:i:s');
-    $takenSlots = AppointmentModel::whereDate('DateTime', $appointment->DateTime->toDateString())
-        ->pluck('DateTime')
-        ->map(fn($dt) => Carbon::parse($dt)->format('H:i'))
-        ->toArray();
+        $formattedDateTime = Carbon::parse($appointment->DateTime)->format('Y-m-d\TH:i:s');
+        $takenSlots = AppointmentModel::whereDate('DateTime', $appointment->DateTime->toDateString())
+            ->pluck('DateTime')
+            ->map(fn($dt) => Carbon::parse($dt)->format('H:i'))
+            ->toArray();
 
-    return response()->json([
-        'appointment' => [
-            'DateTime' => $formattedDateTime,
-            'Status' => $appointment->Status,
-            'Notes' => $appointment->Notes,
-        ],
-        'patient' => $patient,
-        'takenSlots' => $takenSlots,
-    ]);
-}
-    
+        return response()->json([
+            'appointment' => [
+                'DateTime' => $formattedDateTime,
+                'Status' => $appointment->Status,
+                'Notes' => $appointment->Notes,
+            ],
+            'patient' => $patient,
+            'takenSlots' => $takenSlots,
+        ]);
+    }
+        
     
     //Function to Update the Appointment
     public function update(Request $request, $appointmentId)
     {
         $request->validate([
             'DateTime' => 'required|date',
-            'Status' => 'required|string|in:Pending,Confirm,Completed,Cancelled',  // Ensure valid status
+            'Status' => 'required|string|in:Pending,Confirmed,Completed,Cancelled',  // Ensure valid status
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
@@ -221,7 +230,7 @@ public function edit($id)
     public function updateAdminStatus(Request $request, $appointmentId)
     {
         $request->validate([
-            'status' => 'required|in:Confirm,Cancelled',
+            'status' => 'required|in:Confirmed,Cancelled',
             'note' => 'nullable|string|max:255',
         ]);
 
@@ -232,25 +241,47 @@ public function edit($id)
             $appointment->Notes = $request->input('note');
             $appointment->save();
 
+            // Notify staff if associated
             if ($appointment->staff) {
                 $appointment->staff->notify(new SendEmailNotification($appointment, $request->input('status')));
             }
 
-            return response()->json(['success' => true]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Appointment status successfully updated, and a notification email has been sent.',
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update the appointment status. Please try again later.',
+            ]);
         }
     }
-
 
     public function delete($id)
     {
-        $appointment = AppointmentModel::findOrFail($id);
-        if ($appointment->patient) {
-            $appointment->patient->delete();
+        try {
+            $appointment = AppointmentModel::findOrFail($id);
+            
+            if ($appointment->patient) {
+                $appointment->patient->delete();
+            }
+    
+            $appointment->delete();
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The appointment has been successfully deleted.'
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error('Error occurred while deleting the appointment entry: ' . $e->getMessage());
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while processing your request. Please try again later or contact support if the issue persists.'
+            ], 500);
         }
-
-        $appointment->delete();
-    }
+    }    
     
 }

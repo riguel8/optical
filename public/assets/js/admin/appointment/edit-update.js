@@ -3,6 +3,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const editForm = document.querySelector('#editAppointmentForm');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-right", 
+        timeOut: 2000,
+        showMethod: "slideDown",
+        hideMethod: "slideUp",
+        showDuration: 300,
+        hideDuration: 200,
+        extendedTimeOut: 1000
+    };
+
     editButtons.forEach(button => {
         button.addEventListener('click', function () {
             const AppointmentID = this.getAttribute('data-id');
@@ -66,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         Swal.fire({
             title: 'Processing...',
-            text: 'Updating appointment status and sending notification.',
+            text: 'Updating the appointment status and sending a notification. Please wait.',
             icon: 'info',
             allowOutsideClick: false,
             showConfirmButton: false,
@@ -85,45 +97,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 'X-CSRF-TOKEN': csrfToken,
             },
         })
-            .then(response => response.json())
-            .then(data => {
-                Swal.close();
-
-                if (data.status === 'success') {
-                    let alertTitle = 'Success';
-                    let alertText = data.message;
-
-                    if (data.message.includes('Rescheduled')) {
-                        alertTitle = 'Appointment Rescheduled';
-                    } else if (data.message.includes('Cancelled')) {
-                        alertTitle = 'Appointment Cancelled';
-                    }
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: alertTitle,
-                        text: alertText,
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message,
-                    });
-                }
-            })
-            .catch(error => {
-    
-                Swal.close();
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Unexpected Error',
-                    text: 'An unexpected error occurred.',
-                });
-            });
+        .then(response => response.json())
+        .then(data => {
+            Swal.close(); 
+            if (data.status === 'success') {
+                toastr.success(data.message, data.message.includes('Rescheduled') 
+                    ? 'Appointment Rescheduled' 
+                    : data.message.includes('Cancelled') 
+                        ? 'Appointment Cancelled' 
+                        : 'Success');
+                        $('#editAppointment').modal('hide');
+        
+                setTimeout(() => {
+                    location.reload();
+                }, 2000); 
+            } else {
+                toastr.error(data.message, 'Error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.close();
+            toastr.error('An unexpected error occurred.', 'Unexpected Error');
+        });
+        
     });
 });
 

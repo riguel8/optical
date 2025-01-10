@@ -120,7 +120,7 @@
                                 <span class="legend-color" style="background-color: #f90;"></span> Pending
                             </div>
                             <div class="legend-item">
-                                <span class="legend-color" style="background-color: #28c76f;"></span> Confirm
+                                <span class="legend-color" style="background-color: #28c76f;"></span> Confirmed
                             </div>
                             <div class="legend-item">
                                 <span class="legend-color" style="background-color: #0d6efd;"></span> Completed

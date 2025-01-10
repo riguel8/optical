@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Eyewear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\LOG;
 
 
 class EyewearController extends Controller
@@ -46,6 +47,7 @@ class EyewearController extends Controller
     
 
 
+    
     // Adding New Eyewears (Modal)
     public function store(Request $request)
     {
@@ -57,8 +59,8 @@ class EyewearController extends Controller
                 'FrameType' => 'nullable|string|max:255',
                 'FrameColor' => 'nullable|string|max:255',
                 'LensType' => 'nullable|string|max:255',
-                'LensMaterial' => 'nullable|string|max:255',
-                'QuantityAvailable' => 'required|integer|min:0',
+                // 'LensMaterial' => 'nullable|string|max:255',
+                // 'QuantityAvailable' => 'required|integer|min:0',
                 'Price' => 'required|numeric|min:0',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
@@ -74,14 +76,15 @@ class EyewearController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Eyewear added successfully.',
+                'message' => 'The eyewear has been successfully added.'
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to add eyewear. Please try again.',
-            ]);
-        }
+            
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'There was an issue adding the eyewear. Please try again later.'
+                ]);
+            } 
     }
 
     
@@ -99,8 +102,8 @@ class EyewearController extends Controller
             'FrameType' => 'nullable|string|max:255',
             'FrameColor' => 'nullable|string|max:255',
             'LensType' => 'nullable|string|max:255',
-            'LensMaterial' => 'nullable|string|max:255',
-            'QuantityAvailable' => 'required|integer',
+            // 'LensMaterial' => 'nullable|string|max:255',
+            // 'QuantityAvailable' => 'required|integer',
             'Price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -112,8 +115,8 @@ class EyewearController extends Controller
             $eyewear->FrameType = $request->FrameType;
             $eyewear->FrameColor = $request->FrameColor;
             $eyewear->LensType = $request->LensType;
-            $eyewear->LensMaterial = $request->LensMaterial;
-            $eyewear->QuantityAvailable = $request->QuantityAvailable;
+            // $eyewear->LensMaterial = $request->LensMaterial;
+            // $eyewear->QuantityAvailable = $request->QuantityAvailable;
             $eyewear->Price = $request->Price;
 
             if ($request->hasFile('image')) {
@@ -122,24 +125,22 @@ class EyewearController extends Controller
                 $image->move(public_path('storage/eyewears'), $imageName);
                 $eyewear['image'] = $imageName; 
             }
-
             $eyewear->save();
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Eyewear updated successfully.',
+                'message' => 'The eyewear updated successfully.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to update eyewear. Please try again.',
+                'message' => 'There was an issue updating eyewear. Please try again.',
             ]);
         }
     }
-
-    
     public function delete($id)
     {
+        try {
             $eyewear = Eyewear::findOrFail($id);
 
             if ($eyewear->image && Storage::disk('public')->exists('eyewears/' . $eyewear->image)) {
@@ -147,5 +148,18 @@ class EyewearController extends Controller
             }
 
             $eyewear->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The eyewear have been successfully deleted.'
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error('Error occurred while deleting the eyewear entry: ' . $e->getMessage());
+    
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while attempting to delete the eyewear. Please try again later.'
+            ], 500);
+        }
     }
 }

@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toatr.css') }}">
+
     <!-- FontAwesome and Icons -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/icons/pe7/pe-icon-7.css') }}">
@@ -28,7 +31,6 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/footer.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
@@ -81,24 +83,28 @@
 
     @yield('scripts')
 
-<!-- jQuery and Bootstrap -->
-<script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- jQuery and Bootstrap -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- Additional JS -->
-<script src="{{ asset('assets/js/feather.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/bs-init.js') }}"></script>
-<script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <!-- Additional JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bs-init.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
-<!-- External Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-<script src="{{ asset('assets/js/moment.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-<script src="{{ asset("assets/js/showmodal.js")}}"></script>
+    <!-- External Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset("assets/js/showmodal.js")}}"></script>
+
+    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script src="{{ asset("assets/plugins/toastr/toastr.min.js")}}"></script>
+    <script src="{{ asset("assets/plugins/toastr/toastr.js")}}"></script>
 </body>
 </html>

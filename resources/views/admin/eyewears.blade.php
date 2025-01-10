@@ -231,12 +231,12 @@
                                             <label for="frame_type">Frame Type</label>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="number" id="quantity_available" placeholder="Enter Quantity Available" name="QuantityAvailable" required>
                                             <label for="quantity_available">Quantity Available</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -245,12 +245,12 @@
                                             <label for="model">Model</label>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" id="lens_material" placeholder="Enter Lens Material" name="LensMaterial">
                                             <label for="lens_material">Lens Material</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" id="frame_color" placeholder="Enter Frame Color" name="FrameColor">
@@ -328,12 +328,12 @@
                                             <label for="edit_frame_type">Frame Type</label>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="number" id="edit_quantity_available" placeholder="Enter Quantity Available" name="QuantityAvailable" value="{{ old('QuantityAvailable') }}">
                                             <label for="edit_quantity_available">Quantity Available</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="col-md-6">
@@ -343,12 +343,12 @@
                                             <label for="edit_model">Model</label>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" id="edit_lens_material" placeholder="Enter Lens Material" name="LensMaterial" value="{{ old('LensMaterial') }}">
                                             <label for="edit_lens_material">Lens Material</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" id="edit_frame_color" placeholder="Enter Frame Color" name="FrameColor" value="{{ old('FrameColor') }}">
@@ -388,60 +388,7 @@
             window.storeEyewearRoute = "{{ route('admin.eyewears.store') }}";
             window.uploadIconUrl = "{{ asset('assets/img/icons/upload.svg') }}";
         </script>
-        <!-- <script src="{{ asset('assets/js/admin/eyewear/delete.js') }}"></script> -->
-        <script>
-        // DELETE MODAL
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteButtons = document.querySelectorAll('.btn-delete');
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault(); 
-                    const id = this.getAttribute('data-id'); 
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: 'You won\'t be able to revert this!',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#ff9f43',
-                        cancelButtonColor: '#dc3545',
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'Cancel'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch(`/admin/eyewears/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}', 
-                                    'Accept': 'application/json',
-                                },
-                            })
-                            .then(response => {
-                                if (response.ok) {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Eyewear has been deleted.',
-                                        'success',
-                                    ).then(() => {
-                                        location.reload();
-                                    });
-                                } else {
-                                    Swal.fire(
-                                        'Error!',
-                                        'There was a problem deleting the eyewear.',
-                                        'error'
-                                    );
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+        <script src="{{ asset('assets/js/admin/eyewear/delete.js') }}"></script>
     @endsection
+    
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Chatbot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\LOG;
 
 class ChatbotController extends Controller
 {
@@ -17,7 +18,6 @@ class ChatbotController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate the request
             $validation = $request->validate([
                 'Question' => 'required|string',
                 'Response' => 'required|string',
@@ -27,12 +27,12 @@ class ChatbotController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Question and Response added successfully.',
+                'message' => 'The question and response have been successfully added.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add Question and Response. Please try again.',
+                'message' => 'An error occurred while processing your request. Please try again later.',
             ]);
         }
     }
@@ -59,20 +59,36 @@ class ChatbotController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Question and Response updated successfully.',
+                'message' => 'The question and response have been updated successfully.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to update Question and Response. Please try again.',
+                'message' => 'Unable to update the question and response. Please try again later.'
             ]);
         }
     }
     
     public function delete($id)
     {
-        $chatbot = Chatbot::findOrFail($id);
-        $chatbot->delete();
+        try {
+            $chatbot = Chatbot::findOrFail($id);
+            $chatbot->delete();
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The question and response have been successfully deleted.'
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error('Error occurred while deleting the chatbot entry: ' . $e->getMessage());
+    
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while attempting to delete the question and response. Please try again later.'
+            ], 500);
+        }
     }
+    
 }
 

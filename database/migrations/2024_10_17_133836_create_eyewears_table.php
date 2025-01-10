@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('FrameType', 50)->nullable();
             $table->string('FrameColor', 50)->nullable();
             $table->string('LensType', 50)->nullable();
-            $table->string('LensMaterial', 50)->nullable();
+            // $table->string('LensMaterial', 50)->nullable();
             $table->decimal('Price', 10, 2);
-            $table->integer('QuantityAvailable');
+            // $table->integer('QuantityAvailable');
             $table->string('image')->nullable(); 
             $table->timestamps();
         });

@@ -20,9 +20,9 @@ class Eyewear extends Model
         'FrameType',
         'FrameColor',
         'LensType',
-        'LensMaterial',
+        // 'LensMaterial',
         'Price',
-        'QuantityAvailable',
+        // 'QuantityAvailable',
         'image',
     ];
 }

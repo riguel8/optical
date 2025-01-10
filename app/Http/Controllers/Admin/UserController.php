@@ -31,27 +31,32 @@ class UserController extends Controller
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
                 'usertype' => ['required', 'string', 'max:255'],
             ]);
-
+    
             User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'usertype' => $validated['usertype'],
                 'password' => Hash::make($validated['password']),
             ]);
-
+    
             return response()->json([
                 'status' => 'success',
                 'message' => 'User created successfully!'
             ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'User creation failed',
+                'message' => 'Failed to add user. Please try again.',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
-
 
     // To view specific user
     public function view($id)
@@ -109,7 +114,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $id,
-                'usertype' => 'required|string|in:admin,client,staff,ophthal',
+                'usertype' => 'required|string|in:admin,client,staff,optometrist',
                 'password' => 'nullable|string|min:8|confirmed',
             ]);
     
@@ -126,13 +131,13 @@ class UserController extends Controller
     
             return response()->json([
                 'status' => 'success',
-                'message' => 'User updated successfully.',
+                'message' => "The user '{$user->name}' has been successfully updated.",
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to update User. Please try again.',
-            ]);
-        }
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "An error occurred while updating the user '{$user->name}'. Please try again later.",
+                ]);
+            }    
     }
 }

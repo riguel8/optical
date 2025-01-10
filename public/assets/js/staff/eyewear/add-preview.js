@@ -5,6 +5,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const imgElement = document.getElementById('imagePreview');
     const imageNameElement = document.getElementById('imageName');
 
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        positionClass: "toast-top-right", 
+        timeOut: 2000,
+        showMethod: "slideDown", 
+        hideMethod: "slideUp",   
+        showDuration: 300,     
+        hideDuration: 200,      
+        extendedTimeOut: 1000      
+    };
     addEyewearForm.onsubmit = function (event) {
         event.preventDefault();
         const formData = new FormData(this);
@@ -19,27 +30,20 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: data.message,
-                }).then(() => {
-                    location.reload();
-                });
+                toastr.success(data.message, 'Success!');
+                this.reset();
+                $('#addeyewear').modal('hide');
+                setTimeout(() => location.reload(), 2000);
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message,
-                });
+                toastr.error(data.message || 'An error occurred');
             }
+            })
+        .catch(error => {
+            console.error('Error:', error);
+            toastr.error('An unexpected error occurred');
         })
-        .catch(() => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An unexpected error occurred. Please try again.',
-            });
+        .finally(() => {
+            submitBtn.disabled = false;
         });
     };
 

@@ -8,6 +8,7 @@ use App\Models\PatientModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Notifications\SendEmailNotification;
+use Illuminate\Support\Facades\LOG;
 
 class AppointmentController extends Controller
 {
@@ -129,7 +130,7 @@ class AppointmentController extends Controller
     {
         $request->validate([
             'DateTime' => 'required|date',
-            'Status' => 'required|string|in:Pending,Confirm,Completed,Cancelled',  // Ensure valid status
+            'Status' => 'required|string|in:Pending,Confirmed,Completed,Cancelled',  // Ensure valid status
             'complete_name' => 'required|string',
             'age' => 'required|integer',
             'gender' => 'required|string',
@@ -221,7 +222,7 @@ class AppointmentController extends Controller
     public function updateStaffStatus(Request $request, $appointmentId)
     {
         $request->validate([
-            'status' => 'required|in:Confirm,Cancelled',
+            'status' => 'required|in:Confirmed,Cancelled',
             'note' => 'nullable|string|max:255',
         ]);
 
@@ -236,21 +237,43 @@ class AppointmentController extends Controller
                 $appointment->staff->notify(new SendEmailNotification($appointment, $request->input('status')));
             }
 
-            return response()->json(['success' => true]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Appointment status successfully updated, and a notification email has been sent.',
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update the appointment status. Please try again later.',
+            ]);
         }
     }
 
 
     public function delete($id)
     {
-        $appointment = AppointmentModel::findOrFail($id);
-        if ($appointment->patient) {
-            $appointment->patient->delete();
-        }
+        try {
+            $appointment = AppointmentModel::findOrFail($id);
+            
+            if ($appointment->patient) {
+                $appointment->patient->delete();
+            }
     
-        $appointment->delete();
-    }
+            $appointment->delete();
+    
+            return response()->json([
+                'status' => 'success',
+                'message' => 'The appointment has been successfully deleted.'
+            ]);
+    
+        } catch (\Exception $e) {
+            Log::error('Error occurred while deleting the appointment entry: ' . $e->getMessage());
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while processing your request. Please try again later or contact support if the issue persists.'
+            ], 500);
+        }
+    }    
     
 }

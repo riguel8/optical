@@ -41,7 +41,7 @@ $(document).ready(function () {
         },
         eventClick: function (info) {
             $.ajax({
-                url: '/ophthal/dashboard/get_appointment_details',
+                url: '/optometrist/dashboard/get_appointment_details',
                 method: 'GET',
                 data: { appointmentId: info.event.id },
                 dataType: 'json',

@@ -78,7 +78,7 @@ function getStatusColor(status) {
     switch (status) {
         case 'Pending':
             return '#f90';
-        case 'Confirm':
+        case 'Confirmed':
             return '#28c76f';
         case 'Completed':
             return '#0d6efd';
@@ -96,9 +96,9 @@ function getStatusBadge(status) {
     if (status === 'Pending') {
         badgeClass = 'bg-lightyellow badges';
         statusText = 'Pending';
-    } else if (status === 'Confirm') {
+    } else if (status === 'Confirmed') {
         badgeClass = 'bg-lightgreen badges';
-        statusText = 'Confirm';
+        statusText = 'Confirmed';
     } else if (status === 'Completed') {
         badgeClass = 'bg-primary badges';
         statusText = 'Completed';

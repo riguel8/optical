@@ -9,6 +9,7 @@ use App\Models\PrescriptionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\LOG;
 use App\Models\AmountModel;
 use App\Models\AppointmentModel;
 
@@ -46,7 +47,7 @@ class PatientController extends Controller
             if ($prescription && $prescription->AmountID) {
                 $payment = DB::table('amount')->where('AmountID', $prescription->AmountID)->first();
             } else {
-                \Log::error("No AmountID found for prescription linked to PatientID: $id");
+                Log::error("No AmountID found for prescription linked to PatientID: $id");
             }
 
             return response()->json([
@@ -77,7 +78,7 @@ class PatientController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            \Log::error("Error fetching data for PatientID: $id", ['exception' => $e->getMessage()]);
+            Log::error("Error fetching data for PatientID: $id", ['exception' => $e->getMessage()]);
             return response()->json(['error' => 'Data not found', 'exception' => $e->getMessage()], 404);
         }
     }
@@ -174,12 +175,12 @@ class PatientController extends Controller
             }
             return response()->json([
                 'status' => 'success',
-                'message' => 'Patient updated successfully!',
+                'message' => 'The patient details and prescriptions have been successfully updated.',
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to update patient.',
+                'message' => 'Unable to update patient details. Please try again later.',
             ]);
         }
     }
@@ -247,13 +248,13 @@ class PatientController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Patient and prescription details have been saved successfully!',
+                'message' => 'The patient and prescription details have been successfully saved.',
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to save patient data. Please try again later.',
+                'message' => 'An error occurred while saving the patient details. Please try again.',
             ]);
         }
     } 

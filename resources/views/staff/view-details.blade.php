@@ -21,7 +21,7 @@
 
         <div class="row">
             <div class="col-lg-8 col-sm-12">
-                <div class="card" style="height: 400px;"> 
+                <div class="card" style="height: 300px;"> 
                     <div class="card-body d-flex flex-column"> 
                         <div class="productdetails" style="overflow-y: auto;"> 
                             <ul class="product-bar">
@@ -45,14 +45,14 @@
                                     <h4><strong>Lens Type</strong></h4>
                                     <h6>{{ $eyewear->LensType }}</h6>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <h4><strong>Lens Material</strong></h4>
                                     <h6>{{ $eyewear->LensMaterial }}</h6>
                                 </li>
                                 <li>
                                     <h4><strong>Quantity</strong></h4>
                                     <h6>{{ $eyewear->QuantityAvailable }}</h6>
-                                </li>
+                                </li> -->
                                 <li>
                                     <h4><strong>Price</strong></h4>
                                     <h6>₱{{ number_format($eyewear->Price, 2) }}</h6>
@@ -63,10 +63,10 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">
-                <div class="card" style="height: 400px;"> 
+                <div class="card" style="height: 300px;"> 
                     <div class="card-body text-center" style="height: 100%;">
                         <div class="slider-product" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <h4 style="margin-top: 10px;"><strong>{{$eyewear->Brand}}</strong></h4>    
+                        <h4 style="margin-top: 5px;"><strong>{{$eyewear->Brand}}</strong></h4>    
                             <img src="{{ asset('storage/eyewears/' . $eyewear->image) }}" alt="img" style="height: 80%; width: auto; object-fit: contain;">
                             <button class="btn btn-md btn-success w-100 edit-eyewear"  data-id="{{ $eyewear->EyewearID }}" data-bs-toggle="modal" data-bs-target="#editEyewear">
                                 Edit
@@ -129,12 +129,12 @@
                                             <label for="edit_frame_type">Frame Type</label>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="number" id="edit_quantity_available" placeholder="Enter Quantity Available" name="QuantityAvailable" value="{{ old('QuantityAvailable') }}">
                                             <label for="edit_quantity_available">Quantity Available</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <div class="col-md-6">
@@ -144,12 +144,12 @@
                                             <label for="edit_model">Model</label>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" id="edit_lens_material" placeholder="Enter Lens Material" name="LensMaterial" value="{{ old('LensMaterial') }}">
                                             <label for="edit_lens_material">Lens Material</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="mb-3">
                                         <div class="form-floating">
                                             <input class="form-control" type="text" id="edit_frame_color" placeholder="Enter Frame Color" name="FrameColor" value="{{ old('FrameColor') }}">

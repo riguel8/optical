@@ -21,7 +21,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
+    
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toatr.css') }}">
 
     <!-- FontAwesome and Icons -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
@@ -106,9 +108,13 @@
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
-    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset("assets/js/showmodal.js")}}"></script>
+
+    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script src="{{ asset("assets/plugins/toastr/toastr.min.js")}}"></script>
+    <script src="{{ asset("assets/plugins/toastr/toastr.js")}}"></script>
 </body>
 </html>
